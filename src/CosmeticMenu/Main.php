@@ -43,29 +43,27 @@ use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\level\format\Chunk;
 
 Class Main extends PluginBase implements Listener{
-       //EnderPearl
-/**@var Item*/
+        /**@var Item*/
 	private $item;
 	/**@var int*/
 	protected $damage = 0;
 	
-     public function onEnable(){
+    public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getLogger()->info("§aCosmeticMenu loaded!");
-        }
-	  public function onJoin(PlayerJoinEvent $event) {
+    }
+    public function onJoin(PlayerJoinEvent $event) {
         $player = $event->getPlayer();
         $inv = $player->getInventory();
         $inv->clearAll();
         $item = Item::get(345, 0, 1);
         $inv->setItem(0, $item);
     }
-       public function playerSpawnEvent(PlayerRespawnEvent $ev) {
+    public function playerSpawnEvent(PlayerRespawnEvent $ev) {
        	$item = new Item(345,0,1);
        	$ev->getPlayer()->getInventory()->addItem($item);
-       }
-	
-	 public function onInteract(PlayerInteractEvent $event) {
+    }
+    public function onInteract(PlayerInteractEvent $event) {
         $player = $event->getPlayer();
         $name = $player->getName();
         if ($player instanceof Player) {
@@ -77,7 +75,7 @@ Class Main extends PluginBase implements Listener{
             $particle3 = new WaterParticle($pos, 12);
             $particle4 = new AngryVillagerParticle($pos, 5);
             $level = $player->getLevel();
-			if($item->getId() == Item::MAGMA_CREAM && $item->getDamage() == 0){ //ParticleBomb
+	if($item->getId() == Item::MAGMA_CREAM && $item->getDamage() == 0){ //ParticleBomb
             $level->addParticle($particle);
             $level->addParticle($particle2);
             $level->addParticle($particle3);
@@ -117,7 +115,7 @@ $player->sendPopup("§aUsed Leap!");
     if($item->getId() == Item::DYE) { // Dye
         switch($item->getDamage()) {
             case 4: // lapis: water
-				$particle = new BubbleParticle(new Vector3($player->x, $player->y + 2, $player->z));
+			$particle = new BubbleParticle(new Vector3($player->x, $player->y + 2, $player->z));
 			    $random = new Random((int) (microtime(true) * 1000) + mt_rand());
 					for($i = 0; $i < 90; ++$i){
 						$particle->setComponents(
@@ -129,7 +127,7 @@ $player->sendPopup("§aUsed Leap!");
 				  }
             break;
             case 14: // orange: fire
-				$particle = new EntityFlameParticle(new Vector3($player->x, $player->y + 2, $player->z));
+			$particle = new EntityFlameParticle(new Vector3($player->x, $player->y + 2, $player->z));
 			    $random = new Random((int) (microtime(true) * 1000) + mt_rand());
 					for($i = 0; $i <90; ++$i){
 						$particle->setComponents(
@@ -141,7 +139,7 @@ $player->sendPopup("§aUsed Leap!");
 				  }
             break;
             case 1: // red: heart
-				$particle = new HeartParticle(new Vector3($player->x, $player->y + 2, $player->z));
+			$particle = new HeartParticle(new Vector3($player->x, $player->y + 2, $player->z));
 			    $random = new Random((int) (microtime(true) * 1000) + mt_rand());
 					for($i = 0; $i < 90; ++$i){
 						$particle->setComponents(
@@ -153,7 +151,7 @@ $player->sendPopup("§aUsed Leap!");
 				  }
             break;
             case 15: // white: smoke
-				$particle = new HugeExplodeParticle(new Vector3($player->x, $player->y + 2, $player->z), 2);
+			$particle = new HugeExplodeParticle(new Vector3($player->x, $player->y + 2, $player->z), 2);
 			    $random = new Random((int) (microtime(true) * 1000) + mt_rand());
 					for($i = 0; $i < 90; ++$i){
 						$particle->setComponents(
@@ -198,43 +196,43 @@ $player->sendPopup("§aUsed Leap!");
       $player->getInventory()->removeItem(Item::get(ITEM::COMPASS));
       $player->getInventory()->addItem(Item::get(ITEM::MINECART));
       $player->getInventory()->addItem(Item::get(ITEM::GLOWSTONE_DUST));
-	  $player->getInventory()->addItem(Item::get(ITEM::SKULL,3,1));
-	  $player->getInventory()->addItem(Item::get(ITEM::REDSTONE));
+      $player->getInventory()->addItem(Item::get(ITEM::SKULL,3,1));
+      $player->getInventory()->addItem(Item::get(ITEM::REDSTONE));
 }
 //BackToCompass
    if($item->getId() == Item::REDSTONE && $item->getDamage() == 0){
-	  $player->getInventory()->removeItem(Item::get(ITEM::MINECART));
+      $player->getInventory()->removeItem(Item::get(ITEM::MINECART));
       $player->getInventory()->removeItem(Item::get(ITEM::GLOWSTONE_DUST));
-	  $player->getInventory()->removeItem(Item::get(ITEM::SKULL,3,1));
+      $player->getInventory()->removeItem(Item::get(ITEM::SKULL,3,1));
       $player->getInventory()->removeItem(Item::get(ITEM::REDSTONE));
-	  $player->getInventory()->addItem(Item::get(ITEM::COMPASS));
+      $player->getInventory()->addItem(Item::get(ITEM::COMPASS));
    }
 //Gadgets
    if($item->getid() == Item::MINECART && $item->getDamage() == 0){
       $player->getInventory()->removeItem(Item::get(ITEM::COMPASS));
       $player->getInventory()->removeItem(Item::get(ITEM::MINECART));
       $player->getInventory()->removeItem(Item::get(ITEM::GLOWSTONE_DUST));
-	  $player->getInventory()->removeItem(Item::get(ITEM::SKULL,3,1));
-	  $player->getInventory()->removeItem(Item::get(ITEM::REDSTONE)); 
+      $player->getInventory()->removeItem(Item::get(ITEM::SKULL,3,1));
+      $player->getInventory()->removeItem(Item::get(ITEM::REDSTONE)); 
       $player->getInventory()->addItem(Item::get(ITEM::BONE));
       $player->getInventory()->addItem(Item::get(ITEM::BLAZE_ROD));
       $player->getInventory()->addItem(Item::get(ITEM::MAGMA_CREAM));
       $player->getInventory()->addItem(Item::get(ITEM::FEATHER));          
-	  $player->getInventory()->addItem(Item::get(ITEM::BED)); 
+      $player->getInventory()->addItem(Item::get(ITEM::BED)); 
 }
 //Masks
    if($item->getid() == Item::SKULL && $item->getDamage() == 3){
       $player->getInventory()->removeItem(Item::get(ITEM::COMPASS));
       $player->getInventory()->removeItem(Item::get(ITEM::MINECART));
       $player->getInventory()->removeItem(Item::get(ITEM::GLOWSTONE_DUST));
-	  $player->getInventory()->removeItem(Item::get(ITEM::SKULL,3,1));
+      $player->getInventory()->removeItem(Item::get(ITEM::SKULL,3,1));
       $player->getInventory()->removeItem(Item::get(ITEM::REDSTONE));
       $player->getInventory()->addItem(Item::get(ITEM::SKULL));
       $player->getInventory()->addItem(Item::get(ITEM::SKULL,1,1));
       $player->getInventory()->addItem(Item::get(ITEM::SKULL,2,1));     
       $player->getInventory()->addItem(Item::get(ITEM::SKULL,4,1));     
       $player->getInventory()->addItem(Item::get(ITEM::SKULL,5,1));  
-	  $player->getInventory()->addItem(Item::get(ITEM::SPIDER_EYE));
+      $player->getInventory()->addItem(Item::get(ITEM::SPIDER_EYE));
       $player->getInventory()->addItem(Item::get(ITEM::BED)); 
 }
     //Skeleton
@@ -244,41 +242,41 @@ $player->sendPopup("§aUsed Leap!");
      } 
 	//Wither Skeleton
 	 if($item->getId() == Item::SKULL && $item->getDamage() == 1){
-		$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,1,1));     
-		$player->sendPopup("§l§aPlop!");  
+            $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,1,1));     
+	    $player->sendPopup("§l§aPlop!");  
 	}
 	//Zombie
 	 if($item->getId() == Item::SKULL && $item->getDamage() == 2){
-        $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,2,1));     
-        $player->sendPopup("§l§aPlop!");  
+            $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,2,1));     
+            $player->sendPopup("§l§aPlop!");  
 	}
 	//Creeper
 	 if($item->getId() == Item::SKULL && $item->getDamage() == 4){
-        $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,4,1));     
-        $player->sendPopup("§l§aPlop!");  
+            $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,4,1));     
+            $player->sendPopup("§l§aPlop!");  
 	}
 	//Dragon
 	 if($item->getId() == Item::SKULL && $item->getDamage() == 5){
-        $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,5,1));     
-        $player->sendPopup("§l§aPlop!");  
+            $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,5,1));     
+            $player->sendPopup("§l§aPlop!");  
 	}
 	//Remove Masks
 	 if($item->getId() == Item::SPIDER_EYE){
-		$player->getArmorInventory()->setHelmet(Item::get(ITEM::AIR));     
-        $player->sendPopup("§l§aRemoved!");  
+	    $player->getArmorInventory()->setHelmet(Item::get(ITEM::AIR));     
+            $player->sendPopup("§l§aRemoved!");  
 	}
 //Particle
    if($item->getid() == Item::GLOWSTONE_DUST && $item->getDamage() == 0){
       $player->getInventory()->removeItem(Item::get(ITEM::COMPASS));
       $player->getInventory()->removeItem(Item::get(ITEM::MINECART));
       $player->getInventory()->removeItem(Item::get(ITEM::GLOWSTONE_DUST));
-	  $player->getInventory()->removeItem(Item::get(ITEM::SKULL,3,1));
-	  $player->getInventory()->removeItem(Item::get(ITEM::REDSTONE));
+      $player->getInventory()->removeItem(Item::get(ITEM::SKULL,3,1));
+      $player->getInventory()->removeItem(Item::get(ITEM::REDSTONE));
       $player->getInventory()->addItem(Item::get(ITEM::DYE,4,1));
       $player->getInventory()->addItem(Item::get(ITEM::DYE,14,1));
       $player->getInventory()->addItem(Item::get(ITEM::DYE,1,1));
       $player->getInventory()->addItem(Item::get(ITEM::DYE,15,1));
-	  $player->getInventory()->addItem(Item::get(ITEM::BED));
+      $player->getInventory()->addItem(Item::get(ITEM::BED));
     } 
 //BackToMainMenu
    if($item->getId() == Item::BED && $item->getDamage() == 0){
@@ -291,16 +289,16 @@ $player->sendPopup("§aUsed Leap!");
       $player->getInventory()->removeItem(Item::get(ITEM::DYE,1,1));
       $player->getInventory()->removeItem(Item::get(ITEM::DYE,14,1));
       $player->getInventory()->removeItem(Item::get(ITEM::BONE));
-	  $player->getInventory()->removeItem(Item::get(ITEM::SKULL,0,1));
-	  $player->getInventory()->removeItem(Item::get(ITEM::SKULL,1,1));
+      $player->getInventory()->removeItem(Item::get(ITEM::SKULL,0,1));
+      $player->getInventory()->removeItem(Item::get(ITEM::SKULL,1,1));
       $player->getInventory()->removeItem(Item::get(ITEM::SKULL,2,1));     
       $player->getInventory()->removeItem(Item::get(ITEM::SKULL,4,1));     
       $player->getInventory()->removeItem(Item::get(ITEM::SKULL,5,1));  
-	  $player->getInventory()->removeItem(Item::get(ITEM::SPIDER_EYE));
+      $player->getInventory()->removeItem(Item::get(ITEM::SPIDER_EYE));
       $player->getInventory()->addItem(Item::get(ITEM::MINECART));
       $player->getInventory()->addItem(Item::get(ITEM::GLOWSTONE_DUST));
-	  $player->getInventory()->addItem(Item::get(ITEM::SKULL,3,1));
-	  $player->getInventory()->addItem(Item::get(ITEM::REDSTONE));
+      $player->getInventory()->addItem(Item::get(ITEM::SKULL,3,1));
+      $player->getInventory()->addItem(Item::get(ITEM::REDSTONE));
 	}
 	   }
 	   }
@@ -353,9 +351,9 @@ $player->sendPopup("§aUsed Leap!");
          $p->sendPopup("§l§6Smoke");
       }
 //Masks
-	 if($i->getid() == Item::SKULL && $i->getDamage() == 3){
-		$p->sendPopup("§l§2Masks");
-	 }
+      if($i->getid() == Item::SKULL && $i->getDamage() == 3){
+         $p->sendPopup("§l§2Masks");
+      }
 	  //Skeleton
 	  if($i->getid() == Item::SKULL && $i->getDamage() == 0){
 		 $p->sendPopup("§l§2Skeleton Mask");
@@ -384,10 +382,10 @@ $player->sendPopup("§aUsed Leap!");
      if($i->getId() == Item::BED){     
         $p->sendPopup("§l§7Back...");  
      } 
-	 //Back to compass
-	 if($i->getId() == Item::REDSTONE){
-	    $p->sendPopup("§l§7Back...");
-	 }
+     //Back to compass
+     if($i->getId() == Item::REDSTONE){
+        $p->sendPopup("§l§7Back...");
+     }
 	}
 /**
 * LightingStick
