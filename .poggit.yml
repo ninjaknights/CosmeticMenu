@@ -1,6 +1,7 @@
 --- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/ninjaknights/CosmeticMenu
 branches:
 - master
+- "1.0"
 projects:
   CosmeticMenu:
     path: ""
