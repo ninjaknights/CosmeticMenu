@@ -2,7 +2,7 @@
 name: CosmeticMenu
 main: CosmeticMenu\Main
 version: 1.0
-api: 3.9.1
+api: 3.9.8
 load: POSTWORLD
 author: TKGZ, BoxOfDevs(LittleBigMC, Ad5001)
 description: A CosmeticMenu plugin!
