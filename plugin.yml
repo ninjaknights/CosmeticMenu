@@ -1,6 +1,6 @@
 #name, main, version and api are required
 name: CosmeticMenu
-main: CosmeticMenu\Main
+main: NinjaKnights\CosmeticMenu\Main
 version: 1.0
 api: 3.9.8
 load: POSTWORLD
