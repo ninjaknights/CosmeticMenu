@@ -1,6 +1,6 @@
 <?php
 
-namespace CosmeticMenu;
+namespace NinjaKnights\CosmeticMenu;
 
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\plugin\PluginBase;
