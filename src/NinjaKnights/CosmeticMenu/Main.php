@@ -151,7 +151,7 @@ Class Main extends PluginBase implements Listener{
 				if($player->getGamemode() == 2 or $player->getGamemode() == 0) {
  					$event->setCancelled();
 				}
-			} elseif(!$player->hasPermission("lobby.build")) {
+			} elseif(!$player->hasPermission("cosmetic.build")) {
  				$event->setCancelled();
 			}
 		}
@@ -159,11 +159,11 @@ Class Main extends PluginBase implements Listener{
 	public function onBreak(BlockBreakEvent $event) {
 		$player = $event->getPlayer();
 		if($player->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-			if($player->hasPermission("lobby.build")) {
+			if($player->hasPermission("cosmetic.build")) {
 				if($player->getGamemode() == 2 or $player->getGamemode() == 0) {
  					$event->setCancelled();
 				}
-			} elseif(!$player->hasPermission("lobby.build")) {
+			} elseif(!$player->hasPermission("cosmetic.build")) {
  				$event->setCancelled();
 			}
 		}
@@ -189,21 +189,7 @@ Class Main extends PluginBase implements Listener{
 		
 		$armor = $player->getArmorInventory();
 		$armor->clearAll();
-	}
-/*	public function onLevelChange(EntityTeleportEvent $ev){
-		if($ev->getEntity() instanceof Player){
-			$player = $ev->getEntity();
-			$name = $player->getName();
-			if(!$player->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-				$this->getItems($player);
-			}
-			if(in_array($name, $this->shownone)) {
-				unset($this->shownone[array_search($name, $this->shownone)]);
-			} elseif(in_array($name, $this->showvips)) {
-				unset($this->showvips[array_search($name, $this->showvips)]);
-			}
-		}
-	}*/	
+	}	
 	public function onRespawn(PlayerRespawnEvent $event){
 
 		$player = $event->getPlayer();
@@ -416,24 +402,6 @@ Class Main extends PluginBase implements Listener{
 	//OnInteract
 	public function onInteract(PlayerInteractEvent $event) {
 		$cfg = new Config($this->getDataFolder() . "config.yml", Config::YAML);
-		$game1 = $cfg->get("Game-1-Name");
-		$game2 = $cfg->get("Game-2-Name");
-		$game3 = $cfg->get("Game-3-Name");
-		$game4 = $cfg->get("Game-4-Name");
-		$game1ip = $cfg->get("Game-1-IP");
-		$game2ip = $cfg->get("Game-2-IP");
-		$game3ip = $cfg->get("Game-3-IP");
-		$game4ip = $cfg->get("Game-4-IP");
-		$lobby1ip = $cfg->get("Lobby-1-IP");
-		$lobby2ip = $cfg->get("Lobby-2-IP");
-		$plobbyip = $cfg->get("PremiumLobby-IP");
-		$nick = $cfg->get("DefaultNickName");
-		$x1 = $cfg->get("Crate-1-X");
-		$y1 = $cfg->get("Crate-1-Y");
-		$z1 = $cfg->get("Crate-1-Z");
-		$x2 = $cfg->get("Crate-2-X");
-		$y2 = $cfg->get("Crate-2-Y");
-		$z2 = $cfg->get("Crate-2-Z");
 		$prefix = $cfg->get("Prefix");
 		$player = $event->getPlayer();
 		$name = $player->getName();
