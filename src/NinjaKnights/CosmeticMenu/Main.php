@@ -38,28 +38,52 @@ use pocketmine\entity\EffectInstance;;
 use pocketmine\item\Item;
 use pocketmine\item\ItemIds;
 use pocketmine\inventory\ArmorInventory;
-use pocketmine\entity\Item as ItemEntity;
+use pocketmine\entity\Item as ItemE;
 use pocketmine\math\Vector3;
 use pocketmine\math\Vector2;
 use pocketmine\scheduler\Task as PluginTask;
+use pocketmine\event\entity\ItemSpawnEvent;
+use pocketmine\entity\object\ItemEntity;
 
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\ListTag;
 
-use pocketmine\level\particle\DustParticle;
-use pocketmine\level\particle\FlameParticle;
-use pocketmine\level\particle\RedstoneParticle;
-use pocketmine\level\particle\LavaParticle;
-use pocketmine\level\particle\LavaDripParticle;
-use pocketmine\level\particle\WaterParticle;
-use pocketmine\level\particle\PortalParticle;
-use pocketmine\level\particle\HappyVillagerParticle;
-use pocketmine\level\particle\MobSpawnParticle;
+use pocketmine\level\particle\AngryVillagerParticle;
+use pocketmine\level\particle\BlockForceFieldParticle;
+use pocketmine\level\particle\BubbleParticle;//
+use pocketmine\level\particle\CriticalParticle;
+use pocketmine\level\particle\DestroyBlockParticle;//
+use pocketmine\level\particle\DustParticle;//
+use pocketmine\level\particle\EnchantParticle;
+use pocketmine\level\particle\EnchantmentTableParticle;
+use pocketmine\level\particle\EntityFlameParticle;
 use pocketmine\level\particle\ExplodeParticle;
-use pocketmine\level\particle\RainSplashParticle;
+use pocketmine\level\particle\FlameParticle;
+use pocketmine\level\particle\FloatingTextParticle;
+use pocketmine\level\particle\GenericParticle;
+use pocketmine\level\particle\HappyVillagerParticle;
 use pocketmine\level\particle\HeartParticle;
+use pocketmine\level\particle\HugeExplodeParticle;
+use pocketmine\level\particle\HugeExplodeSeedParticle;
+use pocketmine\level\particle\InkParticle;
+use pocketmine\level\particle\InstantEnchantParticle;
+use pocketmine\level\particle\ItemBreakParticle;
+use pocketmine\level\particle\LavaDripParticle;
+use pocketmine\level\particle\LavaParticle;
+use pocketmine\level\particle\MobSpawnParticle;
+use pocketmine\level\particle\Particle;
+use pocketmine\level\particle\PortalParticle;
+use pocketmine\level\particle\RainSplashParticle;
+use pocketmine\level\particle\RedstoneParticle;
+use pocketmine\level\particle\SmokeParticle;
+use pocketmine\level\particle\SnowballPoofParticle;
+use pocketmine\level\particle\SplashParticle;
+use pocketmine\level\particle\SporeParticle;
+use pocketmine\level\particle\TerrainParticle;
+use pocketmine\level\particle\WaterDripParticle;
+use pocketmine\level\particle\WaterParticle;
 
 /* Will be used later on
 use pocketmine\level\sound\PopSound;
@@ -79,33 +103,36 @@ Class Main extends PluginBase implements Listener{
 	/**@var int*/
 	protected $damage = 0;
 	
-	public $particle1 = array("RedCircleParticles");
-	public $particle2 = array("YellowCircleParticles");
-	public $particle3 = array("GreenCircleParticles");
-	public $particle4 = array("BlueCircleParticles");
-	public $particle5 = array("OringeCircleParticles");
-	public $particle6 = array("FireCircleParticles");
-	public $particle7 = array("WaterCircleParticles"); 
-	public $particle8 = array("DropsCircleParticles"); 
-	public $particle9 = array("EnderDropsCircleParticles");
-	public $particle10 = array("Rain Cloud");
-	public $particle11 = array("LavaParticles");
-	public $particle12 = array("FireWingParticles");
-	public $particle13 = array("RedstoneWingParticles");
-	public $particle14 = array("GreenWingParticles");
-	public $particle15 = array("LavaWalkingParticles");
-	public $particle16 = array("LavaWalkingParticles"); 
-	public $particle17 = array("LavaWalkingParticles"); 
-	public $particle18 = array("LavaWalkingParticles"); 
-	public $particle19 = array("LavaWalkingParticles"); 
-	public $particle20 = array("LavaWalkingParticles"); 
+	public $skeleton = array("SkeletonMask");
+	public $witherskeleton = array("WitherSkeletonMask");
+	public $crepper = array("CrepperMask");
+	public $zombie = array("ZombieMask");
+	public $dragon = array("DragonMask");
+	
+	public $tparticle1 = array("FlameTrailParticles");
+	public $tparticle2 = array(" ");
+	public $tparticle3 = array(" ");
+	public $tparticle4 = array(" ");
+	public $tparticle5 = array(" ");
+	public $tparticle6 = array(" ");
+	public $tparticle7 = array(" "); 
+	public $tparticle8 = array(" "); 
+	public $tparticle9 = array(" ");
+	public $particle1 = array("Rain Cloud");
+	public $particle2 = array("Diamond Rain");
+	public $particle3 = array("SnowAura");
+	public $particle4 = array(" ");
+	public $particle5 = array(" ");
+	public $particle6 = array(" "); 
+	public $particle7 = array(" "); 
+	public $particle8 = array(" "); 
+	public $particle9 = array(" "); 
 	
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->EconomyAPI = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");	
         $this->PurePerms = $this->getServer()->getPluginManager()->getPlugin('PurePerms');
-		$this->getScheduler()->scheduleRepeatingTask(new ItemsLoad($this), 5);
-		$this->getScheduler()->scheduleRepeatingTask(new SpawnParticles($this), 10);
+		$this->getScheduler()->scheduleRepeatingTask(new Particles($this), 5);
         $this->getLogger()->info("§aCosmeticMenu loaded!");
  @mkdir($this->getDataFolder());
         $this->config = new Config ($this->getDataFolder() . "config.yml" , Config::YAML, array("name" => "§aNinjaKnights"));
@@ -147,7 +174,7 @@ Class Main extends PluginBase implements Listener{
 	public function onPlace(BlockPlaceEvent $event) {
 		$player = $event->getPlayer();
 		if($player->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-			if($player->hasPermission("lobby.build")) {
+			if($player->hasPermission("cosmetic.build")) {
 				if($player->getGamemode() == 2 or $player->getGamemode() == 0) {
  					$event->setCancelled();
 				}
@@ -189,7 +216,22 @@ Class Main extends PluginBase implements Listener{
 		
 		$armor = $player->getArmorInventory();
 		$armor->clearAll();
-	}	
+	}
+/*	public function onLevelChange(EntityTeleportEvent $event) {
+		$player = $event->getEntity();
+		if($player instanceof Player) {
+			$inv = $player->getInventory();
+			if ($this->getServer()->getDefaultLevel()->getName() == $event->getFolderName()) {
+				$inv->clearAll();
+				$player->removeAllEffects();
+				$this->getItems($player);
+			}
+			elseif ($this->getServer()->getDefaultLevel()->getName() == $event->getFolderName()) {
+				$inv->clearAll();
+				$player->removeAllEffects();
+			}
+		}
+	}*/
 	public function onRespawn(PlayerRespawnEvent $event){
 
 		$player = $event->getPlayer();
@@ -293,11 +335,11 @@ Class Main extends PluginBase implements Listener{
 		$item1 = Item::get(351, 15, 1); //RainCloud
 		$item1->setCustomName("Rain Cloud");
 		
-		$item2 = Item::get(0, 0, 1);
-		$item2->setCustomName("");
+		$item2 = Item::get(351, 14, 1);
+		$item2->setCustomName("Diamond Rain");
 		
-		$item3 = Item::get(0, 0, 1);
-		$item3->setCustomName("");
+		$item3 = Item::get(351, 13, 1);
+		$item3->setCustomName("SnowAura");
 		
 		$item4 = Item::get(0, 0, 1);
 		$item4->setCustomName("");
@@ -319,26 +361,30 @@ Class Main extends PluginBase implements Listener{
 		$inv = $player->getInventory();
 		$inv->clearAll();
 		
-		$item1 = Item::get(0, 0, 1);
-		$item1->setCustomName("");
+		$item1 = Item::get(ITEM::SKULL,0,1);
+		$item1->setCustomName("Skeleton Mask");
 		
-		$item2 = Item::get(0, 0, 1);
-		$item2->setCustomName("");
+		$item2 = Item::get(ITEM::SKULL,1,1);
+		$item2->setCustomName("WitherSkeleton Mask");
 		
-		$item3 = Item::get(0, 0, 1);
-		$item3->setCustomName("");
+		$item3 = Item::get(ITEM::SKULL,4,1);
+		$item3->setCustomName("Crepper Mask");
 		
-		$item4 = Item::get(0, 0, 1);
-		$item4->setCustomName("");
+		$item4 = Item::get(ITEM::SKULL,2,1);
+		$item4->setCustomName("Zombie Mask");
 		
-		$item5 = Item::get(355, 1, 1);
-		$item5->setCustomName("BackToMenu");
+		$item5 = Item::get(ITEM::SKULL,5,1);
+		$item5->setCustomName("Dragon Mask");
+		
+		$item6 = Item::get(355, 1, 1);
+		$item6->setCustomName("BackToMenu");
 		
 		$inv->setItem(0, $item1);
 		$inv->setItem(1, $item2);
 		$inv->setItem(2, $item3);
 		$inv->setItem(3, $item4);
-		$inv->setItem(8, $item5);
+		$inv->setItem(4, $item5);
+		$inv->setItem(8, $item6);
 
 	}
 	//Pets
@@ -377,8 +423,8 @@ Class Main extends PluginBase implements Listener{
 		$inv = $player->getInventory();
 		$inv->clearAll();
 		
-		$item1 = Item::get(0, 0, 1);
-		$item1->setCustomName("");
+		$item1 = Item::get(377, 0, 1);
+		$item1->setCustomName("Flame Trail");
 		
 		$item2 = Item::get(0, 0, 1);
 		$item2->setCustomName("");
@@ -435,7 +481,7 @@ Class Main extends PluginBase implements Listener{
 		}
 		//Trails
 		if($iname == "Trails") {
-			$this->getTrails($player);
+	       $this->getTrails($player);
 		}
 		//Back
 		if($iname == "Back") {
@@ -478,21 +524,21 @@ Class Main extends PluginBase implements Listener{
 		
 		
 		   $f = 3.0;
-		   $tnt = Entity::createEntity("PrimedTNT", $player->getlevel(), $nbt, $player);
-		   $tnt->setMotion($tnt->getMotion()->multiply($f));
-		   $tnt->spawnToAll();
+		   $tntentity = Entity::createEntity("PrimedTNT", $player->getlevel(), $nbt, $player);
+		   $tntentity->setMotion($tnt->getMotion()->multiply($f));
+		   $tntentity->spawnToAll();
 		}
 		//LightningStick
 		if($iname == "LightningStick"){
 			$block = $event->getBlock();
-			$pk = new AddActorPacket();
-			$pk->entityRuntimeId = Entity::$entityCount++;
-			$pk->type = 93;
-			$pk->position = new Vector3($block->getX(), $block->getY(), $block->getZ());
-			$pk->motion = $player->getMotion();
-			$pk->metadata = [];
+			$lightningentity = new AddActorPacket();
+			$lightningentity->entityRuntimeId = Entity::$entityCount++;
+			$lightningentity->type = 93;
+			$lightningentity->position = new Vector3($block->getX(), $block->getY(), $block->getZ());
+			$lightningentity->motion = $player->getMotion();
+			$lightningentity->metadata = [];
 			foreach ($player->getLevel()->getPlayers() as $players) {
-				$players->dataPacket($pk);
+				$players->dataPacket($lightningentity);
 			}
 		}
         //Leaper
@@ -517,7 +563,7 @@ Class Main extends PluginBase implements Listener{
            } elseif (337.5 <= $yaw and $yaw < 360.0) {
                     $player->knockBack($player, 0, 0, 1, 1.5);
            }
-           $player->sendPopup("§aUsed Leap!");
+           $player->sendPopup("§aLeap!");
         }
 		//Bomb
 		if($iname == "Bomb"){
@@ -528,14 +574,12 @@ Class Main extends PluginBase implements Listener{
 		//RainCloud
 		if($iname == "Rain Cloud") {
 			
-			if(!in_array($name, $this->particle10)) {
+			if(!in_array($name, $this->particle1)) {
 				
-				$this->particle10[] = $name;
-				$player->sendMessage($prefix . TextFormat::GREEN . "You have enabled your " . TextFormat::AQUA . "Rain " . TextFormat::GREEN . " Particles");
+				$this->particle1[] = $name;
+				$player->sendMessage($prefix . "You have enabled your Rain Cloud Particle");
 				
-				if(in_array($name, $this->particle1)) {
-					unset($this->particle1[array_search($name, $this->particle1)]);
-				} elseif(in_array($name, $this->particle2)) {
+				if(in_array($name, $this->particle2)) {
 					unset($this->particle2[array_search($name, $this->particle2)]);
 				} elseif(in_array($name, $this->particle3)) {
 					unset($this->particle3[array_search($name, $this->particle3)]);
@@ -551,28 +595,14 @@ Class Main extends PluginBase implements Listener{
 					unset($this->particle8[array_search($name, $this->particle8)]);
 				} elseif(in_array($name, $this->particle9)) {
 					unset($this->particle9[array_search($name, $this->particle9)]);
-				} elseif(in_array($name, $this->particle11)) {
-					unset($this->particle11[array_search($name, $this->particle11)]);
-				} elseif(in_array($name, $this->particle12)) {
-					unset($this->particle12[array_search($name, $this->particle12)]);
-				} elseif(in_array($name, $this->particle13)) {
-					unset($this->particle13[array_search($name, $this->particle13)]);
-				} elseif(in_array($name, $this->particle14)) {
-					unset($this->particle14[array_search($name, $this->particle14)]);
-				} elseif(in_array($name, $this->particle15)) {
-					unset($this->particle15[array_search($name, $this->particle15)]);
 				}
-				
-				
 				
 			} else {
 				
-				unset($this->particle10[array_search($name, $this->particle10)]);
+				unset($this->particle1[array_search($name, $this->particle1)]);
+				$player->sendMessage($prefix . "You have disabled your Rain Cloud Particle");
 				
-				$player->sendMessage($prefix . TextFormat::RED . "You have disabled your " . TextFormat::AQUA . "Rain " . TextFormat::RED . " Particles");
-				if(in_array($name, $this->particle1)) {
-					unset($this->particle1[array_search($name, $this->particle1)]);
-				} elseif(in_array($name, $this->particle2)) {
+				if(in_array($name, $this->particle2)) {
 					unset($this->particle2[array_search($name, $this->particle2)]);
 				} elseif(in_array($name, $this->particle3)) {
 					unset($this->particle3[array_search($name, $this->particle3)]);
@@ -588,23 +618,374 @@ Class Main extends PluginBase implements Listener{
 					unset($this->particle8[array_search($name, $this->particle8)]);
 				} elseif(in_array($name, $this->particle9)) {
 					unset($this->particle9[array_search($name, $this->particle9)]);
-				} elseif(in_array($name, $this->particle11)) {
-					unset($this->particle11[array_search($name, $this->particle11)]);
-				} elseif(in_array($name, $this->particle12)) {
-					unset($this->particle12[array_search($name, $this->particle12)]);
-				} elseif(in_array($name, $this->particle13)) {
-					unset($this->particle13[array_search($name, $this->particle13)]);
-				} elseif(in_array($name, $this->particle14)) {
-					unset($this->particle14[array_search($name, $this->particle14)]);
-				} elseif(in_array($name, $this->particle15)) {
-					unset($this->particle15[array_search($name, $this->particle15)]);
+				}	
+			}	
+		}
+	    //Diamond Rain
+		if($iname == "Diamond Rain") {
+			
+			if(!in_array($name, $this->particle2)) {
+				
+				$this->particle2[] = $name;
+				$player->sendMessage($prefix . "You have enabled your Diamond Rain Particle");
+				
+				if(in_array($name, $this->particle1)) {
+					unset($this->particle1[array_search($name, $this->particle1)]);
+				} elseif(in_array($name, $this->particle3)) {
+					unset($this->particle3[array_search($name, $this->particle3)]);
+				} elseif(in_array($name, $this->particle4)) {
+					unset($this->particle4[array_search($name, $this->particle4)]);
+				} elseif(in_array($name, $this->particle5)) {
+					unset($this->particle5[array_search($name, $this->particle5)]);
+				} elseif(in_array($name, $this->particle6)) {
+					unset($this->particle6[array_search($name, $this->particle6)]);
+				} elseif(in_array($name, $this->particle7)) {
+					unset($this->particle7[array_search($name, $this->particle7)]);
+				} elseif(in_array($name, $this->particle8)) {
+					unset($this->particle8[array_search($name, $this->particle8)]);
+				} elseif(in_array($name, $this->particle9)) {
+					unset($this->particle9[array_search($name, $this->particle9)]);
+				}
+				
+			} else {
+				
+				unset($this->particle2[array_search($name, $this->particle2)]);
+				$player->sendMessage($prefix . "You have disabled your Diamond Rain Particle");
+				
+				if(in_array($name, $this->particle1)) {
+					unset($this->particle1[array_search($name, $this->particle1)]);
+				} elseif(in_array($name, $this->particle3)) {
+					unset($this->particle3[array_search($name, $this->particle3)]);
+				} elseif(in_array($name, $this->particle4)) {
+					unset($this->particle4[array_search($name, $this->particle4)]);
+				} elseif(in_array($name, $this->particle5)) {
+					unset($this->particle5[array_search($name, $this->particle5)]);
+				} elseif(in_array($name, $this->particle6)) {
+					unset($this->particle6[array_search($name, $this->particle6)]);
+				} elseif(in_array($name, $this->particle7)) {
+					unset($this->particle7[array_search($name, $this->particle7)]);
+				} elseif(in_array($name, $this->particle8)) {
+					unset($this->particle8[array_search($name, $this->particle8)]);
+				} elseif(in_array($name, $this->particle9)) {
+					unset($this->particle9[array_search($name, $this->particle9)]);
 				}	
 			}
-			
 		}
-	}
-	}
-class ItemsLoad extends PluginTask {
+	   	//SnowAura
+        if($iname == "SnowAura") {	
+		
+	        if(!in_array($name, $this->particle3)) {
+				
+				$this->particle3[] = $name;
+				$player->sendMessage($prefix . "You have enabled your SnowAura Particle");
+				
+				if(in_array($name, $this->particle1)) {
+					unset($this->particle1[array_search($name, $this->particle1)]);
+				} elseif(in_array($name, $this->particle2)) {
+					unset($this->particle2[array_search($name, $this->particle2)]);
+				} elseif(in_array($name, $this->particle4)) {
+					unset($this->particle4[array_search($name, $this->particle4)]);
+				} elseif(in_array($name, $this->particle5)) {
+					unset($this->particle5[array_search($name, $this->particle5)]);
+				} elseif(in_array($name, $this->particle6)) {
+					unset($this->particle6[array_search($name, $this->particle6)]);
+				} elseif(in_array($name, $this->particle7)) {
+					unset($this->particle7[array_search($name, $this->particle7)]);
+				} elseif(in_array($name, $this->particle8)) {
+					unset($this->particle8[array_search($name, $this->particle8)]);
+				} elseif(in_array($name, $this->particle9)) {
+					unset($this->particle9[array_search($name, $this->particle9)]);
+				}
+				
+			} else {
+				
+				unset($this->particle3[array_search($name, $this->particle3)]);
+				$player->sendMessage($prefix . "You have disabled your SnowAura Particle");
+				
+				if(in_array($name, $this->particle1)) {
+					unset($this->particle1[array_search($name, $this->particle1)]);
+				} elseif(in_array($name, $this->particle2)) {
+					unset($this->particle2[array_search($name, $this->particle2)]);
+				} elseif(in_array($name, $this->particle4)) {
+					unset($this->particle4[array_search($name, $this->particle4)]);
+				} elseif(in_array($name, $this->particle5)) {
+					unset($this->particle5[array_search($name, $this->particle5)]);
+				} elseif(in_array($name, $this->particle6)) {
+					unset($this->particle6[array_search($name, $this->particle6)]);
+				} elseif(in_array($name, $this->particle7)) {
+					unset($this->particle7[array_search($name, $this->particle7)]);
+				} elseif(in_array($name, $this->particle8)) {
+					unset($this->particle8[array_search($name, $this->particle8)]);
+				} elseif(in_array($name, $this->particle9)) {
+					unset($this->particle9[array_search($name, $this->particle9)]);
+				}	
+			}
+		}
+		//CupidsLove
+		
+	//Masks
+	    //Skeleton
+	    if($iname == "Skeleton Mask") {
+			
+			if(in_array($name, $this->skeleton)) {
+				
+				unset($this->skeleton[array_search($name, $this->skeleton)]);
+				$player->sendMessage($prefix . "You have no Mask on");
+				$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+				
+				if(in_array($name, $this->crepper)) {
+					unset($this->crepper[array_search($name, $this->crepper)]);
+				} elseif(in_array($name, $this->witherskeleton)) {
+					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+				} elseif(in_array($name, $this->zombie)) {
+					unset($this->zombie[array_search($name, $this->zombie)]);
+				} elseif(in_array($name, $this->dragon)) {
+					unset($this->dragon[array_search($name, $this->dragon)]);
+				}
+				
+			} else {
+				
+				$this->skeleton[] = $name;
+				$player->sendMessage($prefix . "You have The Skeleton Mask on!");
+				$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,0,1));
+				$player->sendPopup("§l§aPlop!");
+				
+				if(in_array($name, $this->crepper)) {
+					unset($this->crepper[array_search($name, $this->crepper)]);
+				} elseif(in_array($name, $this->witherskeleton)) {
+					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+				} elseif(in_array($name, $this->zombie)) {
+					unset($this->zombie[array_search($name, $this->zombie)]);
+				} elseif(in_array($name, $this->dragon)) {
+					unset($this->dragon[array_search($name, $this->dragon)]);
+				}				
+			}	
+		}
+		//WitherSkeleton
+		if($iname == "WitherSkeleton Mask") {
+			
+			if(in_array($name, $this->witherskeleton)) {
+				
+				unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+				$player->sendMessage($prefix . "You have no Mask on");
+				$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+				
+				if(in_array($name, $this->crepper)) {
+					unset($this->crepper[array_search($name, $this->crepper)]);
+				} elseif(in_array($name, $this->skeleton)) {
+					unset($this->skeleton[array_search($name, $this->skeleton)]);
+				} elseif(in_array($name, $this->zombie)) {
+					unset($this->zombie[array_search($name, $this->zombie)]);
+				} elseif(in_array($name, $this->dragon)) {
+					unset($this->dragon[array_search($name, $this->dragon)]);
+				}
+				
+			} else {
+				
+				$this->witherskeleton[] = $name;
+				$player->sendMessage($prefix . "You have The WitherSkeleton Mask on!");
+				$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,1,1));
+				$player->sendPopup("§l§aPlop!");
+				
+				if(in_array($name, $this->crepper)) {
+					unset($this->crepper[array_search($name, $this->crepper)]);
+				} elseif(in_array($name, $this->skeleton)) {
+					unset($this->skeleton[array_search($name, $this->skeleton)]);
+				} elseif(in_array($name, $this->zombie)) {
+					unset($this->zombie[array_search($name, $this->zombie)]);
+				} elseif(in_array($name, $this->dragon)) {
+					unset($this->dragon[array_search($name, $this->dragon)]);
+				}				
+			}	
+		}
+		//Zombie
+		if($iname == "Zombie Mask") {
+			
+			if(in_array($name, $this->zombie)) {
+				
+				unset($this->zombie[array_search($name, $this->zombie)]);
+				$player->sendMessage($prefix . "You have no Mask on");
+				$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+				
+				if(in_array($name, $this->crepper)) {
+					unset($this->crepper[array_search($name, $this->crepper)]);
+				} elseif(in_array($name, $this->witherskeleton)) {
+					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+				} elseif(in_array($name, $this->skeleton)) {
+					unset($this->skeleton[array_search($name, $this->skeleton)]);
+				} elseif(in_array($name, $this->dragon)) {
+					unset($this->dragon[array_search($name, $this->dragon)]);
+				}
+				
+			} else {
+				
+				$this->zombie[] = $name;
+				$player->sendMessage($prefix . "You have The Zombie Mask on!");
+				$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,2,1));
+				$player->sendPopup("§l§aPlop!");
+				
+				if(in_array($name, $this->crepper)) {
+					unset($this->crepper[array_search($name, $this->crepper)]);
+				} elseif(in_array($name, $this->witherskeleton)) {
+					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+				} elseif(in_array($name, $this->skeleton)) {
+					unset($this->skeleton[array_search($name, $this->skeleton)]);
+				} elseif(in_array($name, $this->dragon)) {
+					unset($this->dragon[array_search($name, $this->dragon)]);
+				}				
+			}	
+		}
+		//Crepper
+		if($iname == "Crepper Mask") {
+			
+			if(in_array($name, $this->crepper)) {
+				
+				unset($this->crepper[array_search($name, $this->crepper)]);
+				$player->sendMessage($prefix . "You have no Mask on");
+				$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+				
+				if(in_array($name, $this->skeleton)) {
+					unset($this->skeleton[array_search($name, $this->skeleton)]);
+				} elseif(in_array($name, $this->witherskeleton)) {
+					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+				} elseif(in_array($name, $this->zombie)) {
+					unset($this->zombie[array_search($name, $this->zombie)]);
+				} elseif(in_array($name, $this->dragon)) {
+					unset($this->dragon[array_search($name, $this->dragon)]);
+				}
+				
+			} else {
+				
+				$this->crepper[] = $name;
+				$player->sendMessage($prefix . "You have The Crepper Mask on!");
+				$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,4,1));
+				$player->sendPopup("§l§aPlop!");
+				
+				if(in_array($name, $this->skeleton)) {
+					unset($this->skeleton[array_search($name, $this->skeleton)]);
+				} elseif(in_array($name, $this->witherskeleton)) {
+					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+				} elseif(in_array($name, $this->zombie)) {
+					unset($this->zombie[array_search($name, $this->zombie)]);
+				} elseif(in_array($name, $this->dragon)) {
+					unset($this->dragon[array_search($name, $this->dragon)]);
+				}				
+			}	
+		}
+		//Dragon
+		if($iname == "Dragon Mask") {
+			
+			if(in_array($name, $this->dragon)) {
+				
+				unset($this->dragon[array_search($name, $this->dragon)]);
+				$player->sendMessage($prefix . "You have no Mask on");
+				$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+				
+				if(in_array($name, $this->crepper)) {
+					unset($this->crepper[array_search($name, $this->crepper)]);
+				} elseif(in_array($name, $this->witherskeleton)) {
+					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+				} elseif(in_array($name, $this->zombie)) {
+					unset($this->zombie[array_search($name, $this->zombie)]);
+				} elseif(in_array($name, $this->skeleton)) {
+					unset($this->skeleton[array_search($name, $this->skeleton)]);
+				}
+				
+			} else {
+				
+				$this->dragon[] = $name;
+				$player->sendMessage($prefix . "You have The Dragon Mask on!");
+				$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,5,1));
+				$player->sendPopup("§l§aPlop!");
+				
+				if(in_array($name, $this->crepper)) {
+					unset($this->crepper[array_search($name, $this->crepper)]);
+				} elseif(in_array($name, $this->witherskeleton)) {
+					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+				} elseif(in_array($name, $this->zombie)) {
+					unset($this->zombie[array_search($name, $this->zombie)]);
+				} elseif(in_array($name, $this->skeleton)) {
+					unset($this->skeleton[array_search($name, $this->skeleton)]);
+				}				
+			}	
+		}
+    //Trails
+	    //FlameTrail
+		if($iname == "Flame Trail") {
+		
+		if(!in_array($name, $this->tparticle1)) {
+				
+				$this->tparticle1[] = $name;
+				$player->sendMessage($prefix . "You have enabled your Flame Trail Particle");
+				
+				if(in_array($name, $this->tparticle2)) {
+					unset($this->tparticle2[array_search($name, $this->tparticle2)]);
+				} elseif(in_array($name, $this->tparticle3)) {
+					unset($this->tparticle3[array_search($name, $this->tparticle3)]);
+				} elseif(in_array($name, $this->tparticle4)) {
+					unset($this->tparticle4[array_search($name, $this->tparticle4)]);
+				} elseif(in_array($name, $this->tparticle5)) {
+					unset($this->tparticle5[array_search($name, $this->tparticle5)]);
+				} elseif(in_array($name, $this->tparticle6)) {
+					unset($this->tparticle6[array_search($name, $this->tparticle6)]);
+				} elseif(in_array($name, $this->tparticle7)) {
+					unset($this->tparticle7[array_search($name, $this->tparticle7)]);
+				} elseif(in_array($name, $this->tparticle8)) {
+					unset($this->tparticle8[array_search($name, $this->tparticle8)]);
+				} elseif(in_array($name, $this->tparticle9)) {
+					unset($this->tparticle9[array_search($name, $this->tparticle9)]);
+				}
+				
+			} else {
+				
+				unset($this->tparticle1[array_search($name, $this->tparticle1)]);
+				$player->sendMessage($prefix . "You have disabled your Flame Trail Particle");
+				
+				if(in_array($name, $this->tparticle2)) {
+					unset($this->tparticle2[array_search($name, $this->tparticle2)]);
+				} elseif(in_array($name, $this->tparticle3)) {
+					unset($this->tparticle3[array_search($name, $this->tparticle3)]);
+				} elseif(in_array($name, $this->tparticle4)) {
+					unset($this->tparticle4[array_search($name, $this->tparticle4)]);
+				} elseif(in_array($name, $this->tparticle5)) {
+					unset($this->tparticle5[array_search($name, $this->tparticle5)]);
+				} elseif(in_array($name, $this->tparticle6)) {
+					unset($this->tparticle6[array_search($name, $this->tparticle6)]);
+				} elseif(in_array($name, $this->tparticle7)) {
+					unset($this->tparticle7[array_search($name, $this->tparticle7)]);
+				} elseif(in_array($name, $this->tparticle8)) {
+					unset($this->tparticle8[array_search($name, $this->tparticle8)]);
+				} elseif(in_array($name, $this->tparticle9)) {
+					unset($this->tparticle9[array_search($name, $this->tparticle9)]);
+				}	
+			}
+		}
+		//
+	
+    }	
+	public function onItemSpawn(ItemSpawnEvent $event) {
+        $item = $event->getEntity();
+        $delay = 5;  
+        $this->getScheduler()->scheduleDelayedTask(new class($item) extends PluginTask
+        {
+            public $itemEntity;
+            
+            public function __construct(ItemEntity $itemEntity)
+            {
+                $this->itemEntity = $itemEntity;
+            }
+
+            public function onRun(int $currentTick)
+            {
+                if(!$this->itemEntity->isFlaggedForDespawn()) $this->itemEntity->flagForDespawn();
+            }
+            
+        }, 5*$delay);
+    }
+	
+}		
+
+class Particles extends PluginTask {
 	
 	public function __construct($plugin) {
 		$this->plugin = $plugin;
@@ -620,12 +1001,12 @@ class ItemsLoad extends PluginTask {
 			$level = $player->getLevel();
 			
 			$x = $player->getX();
-			$y = $player->getY() + 2;
+			$y = $player->getY();
 			$z = $player->getZ();
-		
+			
+		//Particles
 			//Rain Cloud
-			if(in_array($name, $this->plugin->particle10)) {
-				
+			if(in_array($name, $this->plugin->particle1)) {
 				$x = $player->getX();
 				$y = $player->getY();
 				$z = $player->getZ();
@@ -777,34 +1158,52 @@ class ItemsLoad extends PluginTask {
 				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.6, $y + 2.1, $z - 0.1)));
 				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.7, $y + 2.1, $z - 0.1)));				
 			}
-		}
-	}
+			//Diamond Rain
+            if(in_array($name, $this->plugin->particle2)) {
+	            $x = $player->getX();
+				$y = $player->getY();
+				$z = $player->getZ(); 
+			   
+			    $level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
+				$level->dropItem(new Vector3($x, $y + 2.7, $z), Item::get(ITEM::GOLDEN_APPLE)->setCustomName("GodAPPLE"));
+			}	
+			//SnowAura
+			if(in_array($name, $this->plugin->particle3)) {
+	            $x = $player->getX();
+				$y = $player->getY();
+			    $z = $player->getZ(); 
+				
+				$center = new Vector3($x, $y + 2, $z);
+				$particle = new SnowballPoofParticle($center, 1);
+				
+				for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
+					$x = -sin($yaw) + $center->x;
+					$z = cos($yaw) + $center->z;
+					$y = $center->y;
+					
+					$particle->setComponents($x, $y, $z);
+					$level->addParticle($particle);
+				}
+		 }	
+		//Trails
+		    //Flame Trail
+			if(in_array($name, $this->plugin->tparticle1)) {
+				
+				$x = $player->getX();
+				$y = $player->getY();
+				$z = $player->getZ();
+				
+				$level->addParticle(new FlameParticle(new Vector3($x, $y + 0.5, $z)));
+				$level->addParticle(new FlameParticle(new Vector3($x + 0.1, $y + 0.5, $z)));
+				$level->addParticle(new FlameParticle(new Vector3($x - 0.1, $y + 0.5, $z)));
+				$level->addParticle(new FlameParticle(new Vector3($x, $y + 0.5, $z + 0.1)));
+				$level->addParticle(new FlameParticle(new Vector3($x, $y + 0.5, $z - 0.1)));
+				$level->addParticle(new FlameParticle(new Vector3($x + 0.1, $y + 0.5, $z + 0.1)));
+				$level->addParticle(new FlameParticle(new Vector3($x - 0.1, $y + 0.5, $z - 0.1)));
+				$level->addParticle(new FlameParticle(new Vector3($x + 0.1, $y + 0.5, $z - 0.1)));
+				$level->addParticle(new FlameParticle(new Vector3($x - 0.1, $y + 0.5, $z + 0.1)));
+			}
+			//
+}
 }	
-		
-class SpawnParticles extends PluginTask{
-
-	public function __construct(Main $plugin) {
-		$this->plugin = $plugin;
-	}
-
-	public function onRun($tick){
-		$level = $this->plugin->getServer()->getDefaultLevel();
-		$spawn = $this->plugin->getServer()->getDefaultLevel()->getSafeSpawn();
-		$r = rand(1,300);
-		$g = rand(1,300);
-		$b = rand(1,300);
-		$x = $spawn->getX();
-		$y = $spawn->getY();
-		$z = $spawn->getZ();
-		$center = new Vector3($x + 0.5, $y + 0.5, $z + 0.5);
-		$radius = 0.5;
-		$count = 100;
-		$particle = new DustParticle($center, $r, $g, $b, 1);
-		for($yaw = 0, $y = $center->y; $y < $center->y + 4; $yaw += (M_PI * 2) / 20, $y += 1 / 20){
-			$x = -sin($yaw) + $center->x;
-			$z = cos($yaw) + $center->z;
-			$particle->setComponents($x, $y, $z);
-			$level->addParticle($particle);
-		}
-	}
-}		
+}
