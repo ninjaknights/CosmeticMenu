@@ -525,7 +525,7 @@ Class Main extends PluginBase implements Listener{
 		
 		   $f = 3.0;
 		   $tntentity = Entity::createEntity("PrimedTNT", $player->getlevel(), $nbt, $player);
-		   $tntentity->setMotion($tnt->getMotion()->multiply($f));
+		   $tntentity->setMotion($tntentity->getMotion()->multiply($f));
 		   $tntentity->spawnToAll();
 		}
 		//LightningStick
