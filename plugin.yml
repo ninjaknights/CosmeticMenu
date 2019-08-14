@@ -2,9 +2,9 @@
 name: CosmeticMenu
 main: NinjaKnights\CosmeticMenu\Main
 version: 1.0
-api: 3.9.8
+api: 3.9.3
 load: POSTWORLD
-author: TKGZ, BoxOfDevs(LittleBigMC, Ad5001)
+author: TKGZ
 description: A CosmeticMenu plugin!
 website: 
 
