@@ -130,24 +130,14 @@ class Main extends PluginBase implements Listener {
 	public $zombie = array("ZombieMask");
 	public $dragon = array("DragonMask");
 	
-	public $tparticle1 = array("FlameTrail");
-	public $tparticle2 = array("SnowTrail");
-	public $tparticle3 = array("HeartTrail");
-	public $tparticle4 = array(" ");
-	public $tparticle5 = array(" ");
-	public $tparticle6 = array(" ");
-	public $tparticle7 = array(" "); 
-	public $tparticle8 = array(" "); 
-	public $tparticle9 = array(" ");
+	public $trail1 = array("FlameTrail");
+	public $trail2 = array("SnowTrail");
+	public $trail3 = array("HeartTrail");
+	public $trail4 = array("SmokeTrail ");
 	public $particle1 = array("Rain Cloud");
 	public $particle2 = array("Diamond Rain");
 	public $particle3 = array("SnowAura");
 	public $particle4 = array("CupidsLove");
-	public $particle5 = array(" ");
-	public $particle6 = array(" "); 
-	public $particle7 = array(" "); 
-	public $particle8 = array(" "); 
-	public $particle9 = array(" "); 
 	
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -426,8 +416,8 @@ class Main extends PluginBase implements Listener {
 		$item3 = Item::get(351, 1, 1);
 		$item3->setCustomName("Heart Trail");
 		
-		$item4 = Item::get(0, 0, 1);
-		$item4->setCustomName("");
+		$item4 = Item::get(351, 15, 1);
+		$item4->setCustomName("Smoke Trail");
 		
 		$item5 = Item::get(355, 1, 1);
 		$item5->setCustomName("BackToMenu");
@@ -681,49 +671,33 @@ class Main extends PluginBase implements Listener {
 				
 				if(in_array($name, $this->particle2)) {
 					unset($this->particle2[array_search($name, $this->particle2)]);
-				} elseif(in_array($name, $this->particle3)) {
+				} 
+				elseif(in_array($name, $this->particle3)) {
 					unset($this->particle3[array_search($name, $this->particle3)]);
-				} elseif(in_array($name, $this->particle4)) {
+				} 
+				elseif(in_array($name, $this->particle4)) {
 					unset($this->particle4[array_search($name, $this->particle4)]);
-				} elseif(in_array($name, $this->particle5)) {
-					unset($this->particle5[array_search($name, $this->particle5)]);
-				} elseif(in_array($name, $this->particle6)) {
-					unset($this->particle6[array_search($name, $this->particle6)]);
-				} elseif(in_array($name, $this->particle7)) {
-					unset($this->particle7[array_search($name, $this->particle7)]);
-				} elseif(in_array($name, $this->particle8)) {
-					unset($this->particle8[array_search($name, $this->particle8)]);
-				} elseif(in_array($name, $this->particle9)) {
-					unset($this->particle9[array_search($name, $this->particle9)]);
-				}
+				} 
 				
-			} else {
+			} 
+			else {
 				
 				unset($this->particle1[array_search($name, $this->particle1)]);
 				$player->sendMessage($prefix . "You have disabled your Rain Cloud Particle");
 				
 				if(in_array($name, $this->particle2)) {
 					unset($this->particle2[array_search($name, $this->particle2)]);
-				} elseif(in_array($name, $this->particle3)) {
+				} 
+				elseif(in_array($name, $this->particle3)) {
 					unset($this->particle3[array_search($name, $this->particle3)]);
-				} elseif(in_array($name, $this->particle4)) {
+				} 
+				elseif(in_array($name, $this->particle4)) {
 					unset($this->particle4[array_search($name, $this->particle4)]);
-				} elseif(in_array($name, $this->particle5)) {
-					unset($this->particle5[array_search($name, $this->particle5)]);
-				} elseif(in_array($name, $this->particle6)) {
-					unset($this->particle6[array_search($name, $this->particle6)]);
-				} elseif(in_array($name, $this->particle7)) {
-					unset($this->particle7[array_search($name, $this->particle7)]);
-				} elseif(in_array($name, $this->particle8)) {
-					unset($this->particle8[array_search($name, $this->particle8)]);
-				} elseif(in_array($name, $this->particle9)) {
-					unset($this->particle9[array_search($name, $this->particle9)]);
-				}	
+				} 
 			}
-		    } else {
-				
-				$player->sendMessage("You don't have permission to use RainCloud!");
-				
+			} 
+			else {		
+				$player->sendMessage("You don't have permission to use RainCloud!");				
 			}			
 		}
 	    //Diamond Rain
@@ -737,49 +711,33 @@ class Main extends PluginBase implements Listener {
 				
 				if(in_array($name, $this->particle1)) {
 					unset($this->particle1[array_search($name, $this->particle1)]);
-				} elseif(in_array($name, $this->particle3)) {
+				} 
+				elseif(in_array($name, $this->particle3)) {
 					unset($this->particle3[array_search($name, $this->particle3)]);
-				} elseif(in_array($name, $this->particle4)) {
+				} 
+				elseif(in_array($name, $this->particle4)) {
 					unset($this->particle4[array_search($name, $this->particle4)]);
-				} elseif(in_array($name, $this->particle5)) {
-					unset($this->particle5[array_search($name, $this->particle5)]);
-				} elseif(in_array($name, $this->particle6)) {
-					unset($this->particle6[array_search($name, $this->particle6)]);
-				} elseif(in_array($name, $this->particle7)) {
-					unset($this->particle7[array_search($name, $this->particle7)]);
-				} elseif(in_array($name, $this->particle8)) {
-					unset($this->particle8[array_search($name, $this->particle8)]);
-				} elseif(in_array($name, $this->particle9)) {
-					unset($this->particle9[array_search($name, $this->particle9)]);
-				}
+				} 
 				
-			} else {
+			} 
+			else {
 				
 				unset($this->particle2[array_search($name, $this->particle2)]);
 				$player->sendMessage($prefix . "You have disabled your Diamond Rain Particle");
 				
 				if(in_array($name, $this->particle1)) {
 					unset($this->particle1[array_search($name, $this->particle1)]);
-				} elseif(in_array($name, $this->particle3)) {
+				} 
+				elseif(in_array($name, $this->particle3)) {
 					unset($this->particle3[array_search($name, $this->particle3)]);
-				} elseif(in_array($name, $this->particle4)) {
+				} 
+				elseif(in_array($name, $this->particle4)) {
 					unset($this->particle4[array_search($name, $this->particle4)]);
-				} elseif(in_array($name, $this->particle5)) {
-					unset($this->particle5[array_search($name, $this->particle5)]);
-				} elseif(in_array($name, $this->particle6)) {
-					unset($this->particle6[array_search($name, $this->particle6)]);
-				} elseif(in_array($name, $this->particle7)) {
-					unset($this->particle7[array_search($name, $this->particle7)]);
-				} elseif(in_array($name, $this->particle8)) {
-					unset($this->particle8[array_search($name, $this->particle8)]);
-				} elseif(in_array($name, $this->particle9)) {
-					unset($this->particle9[array_search($name, $this->particle9)]);
-				}	
+				} 
 			}
-		    } else {
-				
-				$player->sendMessage("You don't have permission to use DiamondRain!");
-				
+			} 
+			else {	
+				$player->sendMessage("You don't have permission to use DiamondRain!");		
 			}				
 		}
 	   	//SnowAura
@@ -793,49 +751,33 @@ class Main extends PluginBase implements Listener {
 				
 				if(in_array($name, $this->particle1)) {
 					unset($this->particle1[array_search($name, $this->particle1)]);
-				} elseif(in_array($name, $this->particle2)) {
+				} 
+				elseif(in_array($name, $this->particle2)) {
 					unset($this->particle2[array_search($name, $this->particle2)]);
-				} elseif(in_array($name, $this->particle4)) {
+				} 
+				elseif(in_array($name, $this->particle4)) {
 					unset($this->particle4[array_search($name, $this->particle4)]);
-				} elseif(in_array($name, $this->particle5)) {
-					unset($this->particle5[array_search($name, $this->particle5)]);
-				} elseif(in_array($name, $this->particle6)) {
-					unset($this->particle6[array_search($name, $this->particle6)]);
-				} elseif(in_array($name, $this->particle7)) {
-					unset($this->particle7[array_search($name, $this->particle7)]);
-				} elseif(in_array($name, $this->particle8)) {
-					unset($this->particle8[array_search($name, $this->particle8)]);
-				} elseif(in_array($name, $this->particle9)) {
-					unset($this->particle9[array_search($name, $this->particle9)]);
-				}
+				} 
 				
-			} else {
+			} 
+			else {
 				
 				unset($this->particle3[array_search($name, $this->particle3)]);
 				$player->sendMessage($prefix . "You have disabled your SnowAura Particle");
 				
 				if(in_array($name, $this->particle1)) {
 					unset($this->particle1[array_search($name, $this->particle1)]);
-				} elseif(in_array($name, $this->particle2)) {
+				} 
+				elseif(in_array($name, $this->particle2)) {
 					unset($this->particle2[array_search($name, $this->particle2)]);
-				} elseif(in_array($name, $this->particle4)) {
+				} 
+				elseif(in_array($name, $this->particle4)) {
 					unset($this->particle4[array_search($name, $this->particle4)]);
-				} elseif(in_array($name, $this->particle5)) {
-					unset($this->particle5[array_search($name, $this->particle5)]);
-				} elseif(in_array($name, $this->particle6)) {
-					unset($this->particle6[array_search($name, $this->particle6)]);
-				} elseif(in_array($name, $this->particle7)) {
-					unset($this->particle7[array_search($name, $this->particle7)]);
-				} elseif(in_array($name, $this->particle8)) {
-					unset($this->particle8[array_search($name, $this->particle8)]);
-				} elseif(in_array($name, $this->particle9)) {
-					unset($this->particle9[array_search($name, $this->particle9)]);
 				}	
 			}
-		    } else {
-				
-				$player->sendMessage("You don't have permission to use SnowAura!");
-				
+			} 
+			else {
+				$player->sendMessage("You don't have permission to use SnowAura!");			
 			}							
 		}
 		//CupidsLove
@@ -849,49 +791,33 @@ class Main extends PluginBase implements Listener {
 				
 				if(in_array($name, $this->particle1)) {
 					unset($this->particle1[array_search($name, $this->particle1)]);
-				} elseif(in_array($name, $this->particle2)) {
-					unset($this->particle2[array_search($name, $this->particle2)]);
-				} elseif(in_array($name, $this->particle3)) {
-					unset($this->particle3[array_search($name, $this->particle3)]);
-				} elseif(in_array($name, $this->particle5)) {
-					unset($this->particle5[array_search($name, $this->particle5)]);
-				} elseif(in_array($name, $this->particle6)) {
-					unset($this->particle6[array_search($name, $this->particle6)]);
-				} elseif(in_array($name, $this->particle7)) {
-					unset($this->particle7[array_search($name, $this->particle7)]);
-				} elseif(in_array($name, $this->particle8)) {
-					unset($this->particle8[array_search($name, $this->particle8)]);
-				} elseif(in_array($name, $this->particle9)) {
-					unset($this->particle9[array_search($name, $this->particle9)]);
 				}
+				elseif(in_array($name, $this->particle2)) {
+					unset($this->particle2[array_search($name, $this->particle2)]);
+				} 
+				elseif(in_array($name, $this->particle3)) {
+					unset($this->particle3[array_search($name, $this->particle3)]);
+				} 
 				
-			} else {
+			} 
+			else {
 				
 				unset($this->particle4[array_search($name, $this->particle4)]);
 				$player->sendMessage($prefix . "You have disabled your CupidsLove Particle");
 				
 				if(in_array($name, $this->particle1)) {
 					unset($this->particle1[array_search($name, $this->particle1)]);
-				} elseif(in_array($name, $this->particle2)) {
+				} 
+				elseif(in_array($name, $this->particle2)) {
 					unset($this->particle2[array_search($name, $this->particle2)]);
-				} elseif(in_array($name, $this->particle3)) {
+				} 
+				elseif(in_array($name, $this->particle3)) {
 					unset($this->particle3[array_search($name, $this->particle3)]);
-				} elseif(in_array($name, $this->particle5)) {
-					unset($this->particle5[array_search($name, $this->particle5)]);
-				} elseif(in_array($name, $this->particle6)) {
-					unset($this->particle6[array_search($name, $this->particle6)]);
-				} elseif(in_array($name, $this->particle7)) {
-					unset($this->particle7[array_search($name, $this->particle7)]);
-				} elseif(in_array($name, $this->particle8)) {
-					unset($this->particle8[array_search($name, $this->particle8)]);
-				} elseif(in_array($name, $this->particle9)) {
-					unset($this->particle9[array_search($name, $this->particle9)]);
-				}	
+				} 	
 			}
-		    } else {
-				
-				$player->sendMessage("You don't have permission to use CupidsLove!");
-				
+			} 
+			else {
+				$player->sendMessage("You don't have permission to use CupidsLove!");				
 			}							
 		}
 	//Masks
@@ -1115,53 +1041,39 @@ class Main extends PluginBase implements Listener {
 		if($iname == "Flame Trail") {
 		    if($player->hasPermission("cosmetic.trails.flame")) {
 				
-	    	if(!in_array($name, $this->tparticle1)) {
+	    	if(!in_array($name, $this->trail1)) {
 				
-				$this->tparticle1[] = $name;
+				$this->trail1[] = $name;
 				$player->sendMessage($prefix . "You have enabled your Flame Trail Particle");
 				
-				if(in_array($name, $this->tparticle2)) {
-					unset($this->tparticle2[array_search($name, $this->tparticle2)]);
-				} elseif(in_array($name, $this->tparticle3)) {
-					unset($this->tparticle3[array_search($name, $this->tparticle3)]);
-				} elseif(in_array($name, $this->tparticle4)) {
-					unset($this->tparticle4[array_search($name, $this->tparticle4)]);
-				} elseif(in_array($name, $this->tparticle5)) {
-					unset($this->tparticle5[array_search($name, $this->tparticle5)]);
-				} elseif(in_array($name, $this->tparticle6)) {
-					unset($this->tparticle6[array_search($name, $this->tparticle6)]);
-				} elseif(in_array($name, $this->tparticle7)) {
-					unset($this->tparticle7[array_search($name, $this->tparticle7)]);
-				} elseif(in_array($name, $this->tparticle8)) {
-					unset($this->tparticle8[array_search($name, $this->tparticle8)]);
-				} elseif(in_array($name, $this->tparticle9)) {
-					unset($this->tparticle9[array_search($name, $this->tparticle9)]);
+				if(in_array($name, $this->trail2)) {
+					unset($this->trail2[array_search($name, $this->trail2)]);
+				} 
+				elseif(in_array($name, $this->trail3)) {
+					unset($this->trail3[array_search($name, $this->trail3)]);
+				} 
+				elseif(in_array($name, $this->trail4)) {
+					unset($this->trail4[array_search($name, $this->trail4)]);
 				}
 				
-			} else {
+			} 
+			else {
 				
-				unset($this->tparticle1[array_search($name, $this->tparticle1)]);
+				unset($this->trail1[array_search($name, $this->trail1)]);
 				$player->sendMessage($prefix . "You have disabled your Flame Trail Particle");
 				
-				if(in_array($name, $this->tparticle2)) {
-					unset($this->tparticle2[array_search($name, $this->tparticle2)]);
-				} elseif(in_array($name, $this->tparticle3)) {
-					unset($this->tparticle3[array_search($name, $this->tparticle3)]);
-				} elseif(in_array($name, $this->tparticle4)) {
-					unset($this->tparticle4[array_search($name, $this->tparticle4)]);
-				} elseif(in_array($name, $this->tparticle5)) {
-					unset($this->tparticle5[array_search($name, $this->tparticle5)]);
-				} elseif(in_array($name, $this->tparticle6)) {
-					unset($this->tparticle6[array_search($name, $this->tparticle6)]);
-				} elseif(in_array($name, $this->tparticle7)) {
-					unset($this->tparticle7[array_search($name, $this->tparticle7)]);
-				} elseif(in_array($name, $this->tparticle8)) {
-					unset($this->tparticle8[array_search($name, $this->tparticle8)]);
-				} elseif(in_array($name, $this->tparticle9)) {
-					unset($this->tparticle9[array_search($name, $this->tparticle9)]);
+				if(in_array($name, $this->trail2)) {
+					unset($this->trail2[array_search($name, $this->trail2)]);
+				} 
+				elseif(in_array($name, $this->trail3)) {
+					unset($this->trail3[array_search($name, $this->trail3)]);
+				} 
+				elseif(in_array($name, $this->trail4)) {
+					unset($this->trail4[array_search($name, $this->trail4)]);
 				}	
 			}
-		    } else {
+			} 
+			else {
 				
 				$player->sendMessage("You don't have permission to use Flame Trail!");
 				
@@ -1171,53 +1083,39 @@ class Main extends PluginBase implements Listener {
 	    if($iname == "Snow Trail") {
 		    if($player->hasPermission("cosmetic.trails.snow")) {
 				
-		    if(!in_array($name, $this->tparticle2)) {
+		    if(!in_array($name, $this->trail2)) {
 				
-				$this->tparticle2[] = $name;
+				$this->trail2[] = $name;
 				$player->sendMessage($prefix . "You have enabled your Snow Trail Particle");
 				
-				if(in_array($name, $this->tparticle1)) {
-					unset($this->tparticle1[array_search($name, $this->tparticle1)]);
-				} elseif(in_array($name, $this->tparticle3)) {
-					unset($this->tparticle3[array_search($name, $this->tparticle3)]);
-				} elseif(in_array($name, $this->tparticle4)) {
-					unset($this->tparticle4[array_search($name, $this->tparticle4)]);
-				} elseif(in_array($name, $this->tparticle5)) {
-					unset($this->tparticle5[array_search($name, $this->tparticle5)]);
-				} elseif(in_array($name, $this->tparticle6)) {
-					unset($this->tparticle6[array_search($name, $this->tparticle6)]);
-				} elseif(in_array($name, $this->tparticle7)) {
-					unset($this->tparticle7[array_search($name, $this->tparticle7)]);
-				} elseif(in_array($name, $this->tparticle8)) {
-					unset($this->tparticle8[array_search($name, $this->tparticle8)]);
-				} elseif(in_array($name, $this->tparticle9)) {
-					unset($this->tparticle9[array_search($name, $this->tparticle9)]);
+				if(in_array($name, $this->trail1)) {
+					unset($this->trail1[array_search($name, $this->trail1)]);
+				} 
+				elseif(in_array($name, $this->trail3)) {
+					unset($this->trail3[array_search($name, $this->trail3)]);
+				} 
+				elseif(in_array($name, $this->trail4)) {
+					unset($this->trail4[array_search($name, $this->trail4)]);
 				}
 				
-			} else {
+			} 
+			else {
 				
-				unset($this->tparticle2[array_search($name, $this->tparticle2)]);
+				unset($this->trail2[array_search($name, $this->trail2)]);
 				$player->sendMessage($prefix . "You have disabled your Snow Trail Particle");
 				
-				if(in_array($name, $this->tparticle1)) {
-					unset($this->tparticle1[array_search($name, $this->tparticle1)]);
-				} elseif(in_array($name, $this->tparticle3)) {
-					unset($this->tparticle3[array_search($name, $this->tparticle3)]);
-				} elseif(in_array($name, $this->tparticle4)) {
-					unset($this->tparticle4[array_search($name, $this->tparticle4)]);
-				} elseif(in_array($name, $this->tparticle5)) {
-					unset($this->tparticle5[array_search($name, $this->tparticle5)]);
-				} elseif(in_array($name, $this->tparticle6)) {
-					unset($this->tparticle6[array_search($name, $this->tparticle6)]);
-				} elseif(in_array($name, $this->tparticle7)) {
-					unset($this->tparticle7[array_search($name, $this->tparticle7)]);
-				} elseif(in_array($name, $this->tparticle8)) {
-					unset($this->tparticle8[array_search($name, $this->tparticle8)]);
-				} elseif(in_array($name, $this->tparticle9)) {
-					unset($this->tparticle9[array_search($name, $this->tparticle9)]);
-				}	
+				if(in_array($name, $this->trail1)) {
+					unset($this->trail1[array_search($name, $this->trail1)]);
+				} 
+				elseif(in_array($name, $this->trail3)) {
+					unset($this->trail3[array_search($name, $this->trail3)]);
+				} 
+				elseif(in_array($name, $this->trail4)) {
+					unset($this->trail4[array_search($name, $this->trail4)]);
+				} 	
 			}
-		    } else {
+			} 
+			else {
 				
 				$player->sendMessage("You don't have permission to use Snow Trail!");
 				
@@ -1227,55 +1125,83 @@ class Main extends PluginBase implements Listener {
 		if($iname == "Heart Trail") {
 		    if($player->hasPermission("cosmetic.trails.heart")) {
 				
-		    if(!in_array($name, $this->tparticle3)) {
+		    if(!in_array($name, $this->trail3)) {
 				
-				$this->tparticle3[] = $name;
+				$this->trail3[] = $name;
 				$player->sendMessage($prefix . "You have enabled your Heart Trail Particle");
 				
-				if(in_array($name, $this->tparticle1)) {
-					unset($this->tparticle1[array_search($name, $this->tparticle1)]);
-				} elseif(in_array($name, $this->tparticle2)) {
-					unset($this->tparticle2[array_search($name, $this->tparticle2)]);
-				} elseif(in_array($name, $this->tparticle4)) {
-					unset($this->tparticle4[array_search($name, $this->tparticle4)]);
-				} elseif(in_array($name, $this->tparticle5)) {
-					unset($this->tparticle5[array_search($name, $this->tparticle5)]);
-				} elseif(in_array($name, $this->tparticle6)) {
-					unset($this->tparticle6[array_search($name, $this->tparticle6)]);
-				} elseif(in_array($name, $this->tparticle7)) {
-					unset($this->tparticle7[array_search($name, $this->tparticle7)]);
-				} elseif(in_array($name, $this->tparticle8)) {
-					unset($this->tparticle8[array_search($name, $this->tparticle8)]);
-				} elseif(in_array($name, $this->tparticle9)) {
-					unset($this->tparticle9[array_search($name, $this->tparticle9)]);
+				if(in_array($name, $this->trail1)) {
+					unset($this->trail1[array_search($name, $this->trail1)]);
+				}
+				elseif(in_array($name, $this->trail2)) {
+					unset($this->trail2[array_search($name, $this->trail2)]);
+				} 
+				elseif(in_array($name, $this->trail4)) {
+					unset($this->trail4[array_search($name, $this->trail4)]);
 				}
 				
-			} else {
+			} 
+			else {
 				
-				unset($this->tparticle3[array_search($name, $this->tparticle3)]);
+				unset($this->trail3[array_search($name, $this->trail3)]);
 				$player->sendMessage($prefix . "You have disabled your Heart Trail Particle");
 				
-				if(in_array($name, $this->tparticle1)) {
-					unset($this->tparticle1[array_search($name, $this->tparticle1)]);
-				} elseif(in_array($name, $this->tparticle2)) {
-					unset($this->tparticle2[array_search($name, $this->tparticle2)]);
-				} elseif(in_array($name, $this->tparticle4)) {
-					unset($this->tparticle4[array_search($name, $this->tparticle4)]);
-				} elseif(in_array($name, $this->tparticle5)) {
-					unset($this->tparticle5[array_search($name, $this->tparticle5)]);
-				} elseif(in_array($name, $this->tparticle6)) {
-					unset($this->tparticle6[array_search($name, $this->tparticle6)]);
-				} elseif(in_array($name, $this->tparticle7)) {
-					unset($this->tparticle7[array_search($name, $this->tparticle7)]);
-				} elseif(in_array($name, $this->tparticle8)) {
-					unset($this->tparticle8[array_search($name, $this->tparticle8)]);
-				} elseif(in_array($name, $this->tparticle9)) {
-					unset($this->tparticle9[array_search($name, $this->tparticle9)]);
-				}	
+				if(in_array($name, $this->trail1)) {
+					unset($this->trail1[array_search($name, $this->trail1)]);
+				} 
+				elseif(in_array($name, $this->trail2)) {
+					unset($this->trail2[array_search($name, $this->trail2)]);
+				} 
+				elseif(in_array($name, $this->trail4)) {
+					unset($this->trail4[array_search($name, $this->trail4)]);
+				} 	
 			}
-		    } else {
+			} 
+			else {
 				
 				$player->sendMessage("You don't have permission to use Heart Trail!");
+				
+			}				
+		}
+		//Smoke Trail
+		if($iname == "Smoke Trail") {
+		    if($player->hasPermission("cosmetic.trails.heart")) {
+				
+		    if(!in_array($name, $this->trail4)) {
+				
+				$this->trail4[] = $name;
+				$player->sendMessage($prefix . "You have enabled your Smoke Trail Particle");
+				
+				if(in_array($name, $this->trail1)) {
+					unset($this->trail1[array_search($name, $this->trail1)]);
+				}
+				elseif(in_array($name, $this->trail2)) {
+					unset($this->trail2[array_search($name, $this->trail2)]);
+				} 
+				elseif(in_array($name, $this->trail3)) {
+					unset($this->trail3[array_search($name, $this->trail3)]);
+				}
+				
+			} 
+			else {
+				
+				unset($this->trail4[array_search($name, $this->trail4)]);
+				$player->sendMessage($prefix . "You have disabled your Smoke Trail Particle");
+				
+				if(in_array($name, $this->trail1)) {
+					unset($this->trail1[array_search($name, $this->trail1)]);
+				} 
+				elseif(in_array($name, $this->trail2)) {
+					unset($this->trail2[array_search($name, $this->trail2)]);
+				} 
+				elseif(in_array($name, $this->trail3)) {
+					unset($this->trail3[array_search($name, $this->trail3)]);
+				} 	
+			}
+			} 
+			else {
+				
+				$player->sendMessage("You don't have permission to use Smoke Trail!");
 				
 			}				
 		}

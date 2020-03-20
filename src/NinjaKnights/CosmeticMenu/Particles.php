@@ -229,7 +229,7 @@ class Particles extends PluginTask {
 			}
 		//Trails
 		    //Flame Trail
-			if(in_array($name, $this->plugin->tparticle1)) {
+			if(in_array($name, $this->plugin->trail1)) {
 				
 				$x = $player->getX();
 				$y = $player->getY();
@@ -246,7 +246,7 @@ class Particles extends PluginTask {
 				$level->addParticle(new FlameParticle(new Vector3($x - 0.1, $y + 0.3, $z + 0.1)));
 			}
 			//Snow Trail
-			if(in_array($name, $this->plugin->tparticle2)) {
+			if(in_array($name, $this->plugin->trail2)) {
 				
 				$x = $player->getX();
 				$y = $player->getY();
@@ -263,7 +263,7 @@ class Particles extends PluginTask {
 				$level->addParticle(new SnowballPoofParticle(new Vector3($x - 0.1, $y + 0.3, $z + 0.1)));
 			}
 			//Heart Trail
-			if(in_array($name, $this->plugin->tparticle3)) {
+			if(in_array($name, $this->plugin->trail3)) {
 				
 				$x = $player->getX();
 				$y = $player->getY();
@@ -271,6 +271,16 @@ class Particles extends PluginTask {
 			
                 $level->addParticle(new HeartParticle(new Vector3($x, $y + 0.3, $z)));
 			}
+			//Smoke Trail
+			if(in_array($name, $this->plugin->trail4)) {
+				
+				$x = $player->getX();
+				$y = $player->getY();
+				$z = $player->getZ();
+			
+                $level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 0.3, $z)));
+			}
+
 }
 }
 }		
