@@ -46,11 +46,13 @@ use pocketmine\math\Vector2;
 use pocketmine\scheduler\Task as PluginTask;
 use pocketmine\event\entity\ItemSpawnEvent;
 use pocketmine\entity\object\ItemEntity;
+use pocketmine\block\Lava;
 
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\FloatTag;;
+use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\EnumTag;
 
 use pocketmine\level\particle\AngryVillagerParticle;
 use pocketmine\level\particle\BlockForceFieldParticle;//
@@ -99,8 +101,9 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 
 use NinjaKnights\CosmeticMenu\Particles;
+use NinjaKnights\CosmeticMenu\Cooldown;
 
-Class Main extends PluginBase implements Listener {
+class Main extends PluginBase implements Listener {
        
     /**@var Item*/
 	private $item;
@@ -109,6 +112,14 @@ Class Main extends PluginBase implements Listener {
 	
 	public $inv = [];
     public $inventories;
+
+    public $tntCooldown = [ ];
+	public $tntCooldownTime = [ ];
+	public $lsCooldownTime = [ ];
+	public $lsCooldown = [ ];
+	public $sbCooldown = [ ];
+	public $sbCooldownTime = [ ];
+
     /**
      * @param EntityLevelChangeEvent $event
      */
@@ -120,8 +131,8 @@ Class Main extends PluginBase implements Listener {
 	public $dragon = array("DragonMask");
 	
 	public $tparticle1 = array("FlameTrail");
-	public $tparticle2 = array("SnowTrail ");
-	public $tparticle3 = array(" ");
+	public $tparticle2 = array("SnowTrail");
+	public $tparticle3 = array("HeartTrail");
 	public $tparticle4 = array(" ");
 	public $tparticle5 = array(" ");
 	public $tparticle6 = array(" ");
@@ -143,7 +154,8 @@ Class Main extends PluginBase implements Listener {
 		$this->EconomyAPI = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");	
         $this->PurePerms = $this->getServer()->getPluginManager()->getPlugin('PurePerms');
 		$this->getScheduler()->scheduleRepeatingTask(new Particles($this), 5);
- @mkdir($this->getDataFolder());
+		$this->getScheduler()->scheduleRepeatingTask(new Cooldown($this), 20);
+        @mkdir($this->getDataFolder());
 	    $this->config = new Config ($this->getDataFolder() . "config.yml" , Config::YAML, array("name" => "§aNinjaKnights"));
         $this->saveResource("config.yml");
     }
@@ -219,12 +231,11 @@ Class Main extends PluginBase implements Listener {
 		$y = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getY();
 		$z = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getZ();
 		
-		$player->teleport(new Vector3($x + 0.5, $y + 0.5, $z + 0.5));
+		$player->teleport(new Vector3($x, $y, $z));
 		
 		$armor = $player->getArmorInventory();
 		$armor->clearAll();
 	}
-	
 	public function onRespawn(PlayerRespawnEvent $event){
 
 		$player = $event->getPlayer();
@@ -235,12 +246,6 @@ Class Main extends PluginBase implements Listener {
 		$player = $event->getPlayer();
 		if($player->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
 			$event->setCancelled();
-		}
-	}	
-	public function onProjectileHit(ProjectileHitEvent $event){
-		if($event->getEntity()->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-			$explosion = new Explosion(new Position($event->getEntity()->getX(), $event->getEntity()->getY(), $event->getEntity()->getZ(), $event->getEntity()->getLevel()), 1, null);
-			$explosion->explodeB();
 		}
 	}	
 	public function ExplosionPrimeEvent(ExplosionPrimeEvent $event){
@@ -306,7 +311,7 @@ Class Main extends PluginBase implements Listener {
 		$item3->setCustomName("LightningStick");
 		
 		$item4 = Item::get(385, 0, 1);
-		$item4->setCustomName("Bomb");
+		$item4->setCustomName("SmokeBox");
 		
 		$item5 = Item::get(355, 1, 1);
 		$item5->setCustomName("BackToMenu");
@@ -324,13 +329,13 @@ Class Main extends PluginBase implements Listener {
 		$inv = $player->getInventory();
 		$inv->clearAll();
 		
-		$item1 = Item::get(351, 15, 1); //RainCloud
+		$item1 = Item::get(470, 0, 1);
 		$item1->setCustomName("Rain Cloud");
 		
 		$item2 = Item::get(264, 0, 1);
 		$item2->setCustomName("Diamond Rain");
 		
-		$item3 = Item::get(351, 7, 1);
+		$item3 = Item::get(370, 0, 1);
 		$item3->setCustomName("SnowAura");
 		
 		$item4 = Item::get(351, 1, 1);
@@ -412,14 +417,14 @@ Class Main extends PluginBase implements Listener {
 		$inv = $player->getInventory();
 		$inv->clearAll();
 		
-		$item1 = Item::get(377, 0, 1);
+		$item1 = Item::get(351, 14, 1);
 		$item1->setCustomName("Flame Trail");
 		
-		$item2 = Item::get(370, 0, 1);
+		$item2 = Item::get(351, 7, 1);
 		$item2->setCustomName("Snow Trail");
 		
-		$item3 = Item::get(0, 0, 1);
-		$item3->setCustomName("");
+		$item3 = Item::get(351, 1, 1);
+		$item3->setCustomName("Heart Trail");
 		
 		$item4 = Item::get(0, 0, 1);
 		$item4->setCustomName("");
@@ -534,52 +539,60 @@ Class Main extends PluginBase implements Listener {
 	//Gadgets
 		//TNT-Launcher
 		if($iname == "TNT-Launcher"){
-			if($player->hasPermission("cosmetic.gadgets.tnt-launcher")) {
-			
-		    $nbt = new CompoundTag( "", [ 
-				"Pos" => new ListTag( 
-				"Pos", [ 
-					new DoubleTag("", $player->x),
-					new DoubleTag("", $player->y+$player->getEyeHeight()),
-					new DoubleTag("", $player->z) 
-				]),
-				"Motion" => new ListTag("Motion", [ 
-						new DoubleTag("", -\sin ($player->yaw / 180 * M_PI) *\cos ($player->pitch / 180 * M_PI)),
-						new DoubleTag ("", -\sin ($player->pitch / 180 * M_PI)),
-						new DoubleTag("",\cos ($player->yaw / 180 * M_PI) *\cos ( $player->pitch / 180 * M_PI)) 
-				] ),
-				"Rotation" => new ListTag("Rotation", [ 
-						new FloatTag("", $player->yaw),
-						new FloatTag("", $player->pitch) 
-				] ) 
-		    ] );
-		
-		
-		   $f = 3.0;
-		   $tntentity = Entity::createEntity("PrimedTNT", $player->getlevel(), $nbt, $player);
-		   $tntentity->setMotion($tntentity->getMotion()->multiply($f));
-		   $tntentity->spawnToAll();
-		   
-		    } else {
+			if($player->hasPermission("cosmetic.gadgets.tntlauncher")) {
+			if(!isset($this->tntCooldown[$player->getName()])){
+               $nbt = new CompoundTag("", [
+                    "Pos" => new ListTag("Pos", [
+                        new DoubleTag("", $player->x),
+                        new DoubleTag("", $player->y + $player->getEyeHeight()),
+                        new DoubleTag("", $player->z)
+                    ]),
+                    "Motion" => new ListTag("Motion", [
+                        new DoubleTag("", -sin($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI)),
+                        new DoubleTag("", -sin($player->pitch / 180 * M_PI)),
+                        new DoubleTag("", cos($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI))
+                    ]),
+                    "Rotation" => new ListTag("Rotation", [
+                        new FloatTag("", $player->yaw),
+                        new FloatTag("", $player->pitch)
+                    ]),
+                ]);
+                $tnt = Entity::createEntity("PrimedTNT", $player->getLevel(), $nbt, null);
+                $tnt->setMotion($tnt->getMotion()->multiply(2));
+                $tnt->spawnTo($player);
+                $this->tntCooldown[$player->getName()] = $player->getName();
+                $time = "60";
+                $this->tntCooldownTime[$player->getName()] = $time;
+
+            }else{
+                $player->sendPopup("§cYou can't use the TNT-Launcher for another ".$this->tntCooldownTime[$player->getName()]." seconds.");
+            }
+            } else {
 				
 				$player->sendMessage("You don't have permission to use TNT-Launcher!");
 				
-		    }
-		}
+			}
+        }
 		//LightningStick
 		if($iname == "LightningStick"){
             if($player->hasPermission("cosmetic.gadgets.lightningstick")) {
-				
+			if(!isset($this->lsCooldown[$player->getName()])){				
 			$block = $event->getBlock();
-			$lightningentity = new AddActorPacket();
-			$lightningentity->entityRuntimeId = Entity::$entityCount++;
-			$lightningentity->type = 93;
-			$lightningentity->position = new Vector3($block->getX(), $block->getY(), $block->getZ());
-			$lightningentity->motion = $player->getMotion();
-			$lightningentity->metadata = [];
+			$lightning = new AddActorPacket();
+			$lightning->entityRuntimeId = Entity::$entityCount++;
+			$lightning->type = 93;
+			$lightning->position = new Vector3($block->getX(), $block->getY(), $block->getZ());
+			$lightning->motion = $player->getMotion();
+			$lightning->metadata = [];
 			foreach ($player->getLevel()->getPlayers() as $players) {
-			$players->dataPacket($lightningentity);
+			$players->dataPacket($lightning);
+			$this->lsCooldown[$player->getName()] = $player->getName();
+            $time = "60";
+            $this->lsCooldownTime[$player->getName()] = $time;
 			}
+			}else{
+                $player->sendPopup("§cYou can't use the LightningStick for another ".$this->lsCooldownTime[$player->getName()]." seconds.");
+            }
 			} else {
 				
 				$player->sendMessage("You don't have permission to use LightningStick!");
@@ -618,11 +631,44 @@ Class Main extends PluginBase implements Listener {
 				
 			}
         }
-		//Bomb
-		if($iname == "Bomb"){
-		
-		
-		}
+		//SmokeBomb
+		if($iname == "SmokeBox"){
+			if($player->hasPermission("cosmetic.gadgets.smokebox")) {
+			if(!isset($this->sbCooldown[$player->getName()])){
+		       $nbt = new CompoundTag ("", [
+					"Pos" => new ListTag ("Pos", [
+					    new DoubleTag ("", $player->x),
+						new DoubleTag ("", $player->y + $player->getEyeHeight()),
+						new DoubleTag ("", $player->z)
+					]),
+					"Motion" => new ListTag ("Motion", [
+						new DoubleTag ("", -\sin($player->yaw / 180 * M_PI) * \cos($player->pitch / 180 * M_PI)),
+						new DoubleTag ("", -\sin($player->pitch / 180 * M_PI)),
+						new DoubleTag ("", \cos($player->yaw / 180 * M_PI) * \cos($player->pitch / 180 * M_PI))
+					]),
+					"Rotation" => new ListTag ("Rotation", [
+						new FloatTag ("", $player->yaw),
+						new FloatTag ("", $player->pitch)
+					])
+				]);
+				$f = 1.5;
+				$snowball = Entity::createEntity("Snowball", $player->getLevel(), $nbt, $player);
+				$snowball->setMotion($snowball->getMotion()->multiply($f));
+				$snowball->spawnToAll();
+				$this->sbCooldown[$player->getName()] = $player->getName();
+                $time = "60";
+                $this->sbCooldownTime[$player->getName()] = $time;
+
+            }else{
+                $player->sendPopup("§cYou can't use the SmokeBox for another ".$this->sbCooldownTime[$player->getName()]." seconds.");
+            }
+            } else {
+				
+				$player->sendMessage("You don't have permission to use SmokeBox!");
+				
+			}
+	    }
+
 	//Particles	
 		//RainCloud
 		if($iname == "Rain Cloud") {
@@ -1177,8 +1223,64 @@ Class Main extends PluginBase implements Listener {
 				
 			}				
 		}
-   
-    }	
+		//Heart Trail
+		if($iname == "Heart Trail") {
+		    if($player->hasPermission("cosmetic.trails.heart")) {
+				
+		    if(!in_array($name, $this->tparticle3)) {
+				
+				$this->tparticle3[] = $name;
+				$player->sendMessage($prefix . "You have enabled your Heart Trail Particle");
+				
+				if(in_array($name, $this->tparticle1)) {
+					unset($this->tparticle1[array_search($name, $this->tparticle1)]);
+				} elseif(in_array($name, $this->tparticle2)) {
+					unset($this->tparticle2[array_search($name, $this->tparticle2)]);
+				} elseif(in_array($name, $this->tparticle4)) {
+					unset($this->tparticle4[array_search($name, $this->tparticle4)]);
+				} elseif(in_array($name, $this->tparticle5)) {
+					unset($this->tparticle5[array_search($name, $this->tparticle5)]);
+				} elseif(in_array($name, $this->tparticle6)) {
+					unset($this->tparticle6[array_search($name, $this->tparticle6)]);
+				} elseif(in_array($name, $this->tparticle7)) {
+					unset($this->tparticle7[array_search($name, $this->tparticle7)]);
+				} elseif(in_array($name, $this->tparticle8)) {
+					unset($this->tparticle8[array_search($name, $this->tparticle8)]);
+				} elseif(in_array($name, $this->tparticle9)) {
+					unset($this->tparticle9[array_search($name, $this->tparticle9)]);
+				}
+				
+			} else {
+				
+				unset($this->tparticle3[array_search($name, $this->tparticle3)]);
+				$player->sendMessage($prefix . "You have disabled your Heart Trail Particle");
+				
+				if(in_array($name, $this->tparticle1)) {
+					unset($this->tparticle1[array_search($name, $this->tparticle1)]);
+				} elseif(in_array($name, $this->tparticle2)) {
+					unset($this->tparticle2[array_search($name, $this->tparticle2)]);
+				} elseif(in_array($name, $this->tparticle4)) {
+					unset($this->tparticle4[array_search($name, $this->tparticle4)]);
+				} elseif(in_array($name, $this->tparticle5)) {
+					unset($this->tparticle5[array_search($name, $this->tparticle5)]);
+				} elseif(in_array($name, $this->tparticle6)) {
+					unset($this->tparticle6[array_search($name, $this->tparticle6)]);
+				} elseif(in_array($name, $this->tparticle7)) {
+					unset($this->tparticle7[array_search($name, $this->tparticle7)]);
+				} elseif(in_array($name, $this->tparticle8)) {
+					unset($this->tparticle8[array_search($name, $this->tparticle8)]);
+				} elseif(in_array($name, $this->tparticle9)) {
+					unset($this->tparticle9[array_search($name, $this->tparticle9)]);
+				}	
+			}
+		    } else {
+				
+				$player->sendMessage("You don't have permission to use Heart Trail!");
+				
+			}				
+		}
+    }
+
 	public function onItemSpawn(ItemSpawnEvent $event) {
         $item = $event->getEntity();
         $delay = 5;  
@@ -1198,5 +1300,36 @@ Class Main extends PluginBase implements Listener {
             
         }, 5*$delay);
     }
+
+    public function onSnowballDown(EntityDespawnEvent $event) {
+       if($event->getType() === 81){
+          $entity = $event->getEntity();
+          $shooter = $entity->getOwningEntity();
+          $x = $entity->getX();
+          $y = $entity->getY();
+          $z = $entity->getZ();
+          $level = $entity->getLevel();
+          for ($i = 1; $i < 4; $i++) {
+               $v0 = new Vector3($x + 1, $y + $i, $z + 1);
+               $v1 = new Vector3($x - 1, $y + $i, $z - 1);
+          	   $v2 = new Vector3($x + 1, $y + $i, $z - 1);
+               $v3 = new Vector3($x - 1, $y + $i, $z + 1);
+               $v4 = new Vector3($x + 1, $y + $i, $z);
+               $v5 = new Vector3($x - 1, $y + $i, $z);
+               $v6 = new Vector3($x, $y + $i, $z + 1);
+               $v7 = new Vector3($x, $y + $i, $z - 1);
+               $v8 = new Vector3($x, $y + $i, $z);
+               $level->addParticle(new MobSpawnParticle($v0));
+               $level->addParticle(new MobSpawnParticle($v1));
+               $level->addParticle(new MobSpawnParticle($v2));
+               $level->addParticle(new MobSpawnParticle($v3));
+               $level->addParticle(new MobSpawnParticle($v4));
+               $level->addParticle(new MobSpawnParticle($v5));
+               $level->addParticle(new MobSpawnParticle($v6));
+               $level->addParticle(new MobSpawnParticle($v7));
+               $level->addParticle(new MobSpawnParticle($v8));
+            }        
+        }
+    }     
 	
 }		

@@ -125,151 +125,66 @@ class Particles extends PluginTask {
 				$z = $player->getZ();
 				
 				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x + 0.5, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x + 1, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x - 0.5, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x - 1, $y + 3, $z)));
-
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z + 0.5)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z + 1)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z - 0.5)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z - 1)));
-				
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x + 0.5, $y + 3, $z + 0.5)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
+            	$level->addParticle(new MobSpawnParticle(new Vector3($x + 0.5, $y + 3, $z + 0.5)));
 				$level->addParticle(new MobSpawnParticle(new Vector3($x - 0.5, $y + 3, $z - 0.5)));
-
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x + 0.5, $y + 3, $z - 0.5)));	
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
+				$level->addParticle(new MobSpawnParticle(new Vector3($x + 0.5, $y + 3, $z - 0.5)));
 				$level->addParticle(new MobSpawnParticle(new Vector3($x - 0.5, $y + 3, $z + 0.5)));
-				
-				
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.3, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.3, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.3, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.3, 1))); 
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.3, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.1, $y + 2.3, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.2, $y + 2.3, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2.3, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2.3, $z + 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.3, $z + 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.6, $y + 2.3, $z + 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.3, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.1, $y + 2.3, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.3, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.3, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.3, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.3, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.3, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.3, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.3, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.7, $y + 2.3, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.3, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.3, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.3, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.3, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.3, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.7, $y + 2.3, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.3, $z + 0.1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.6, $y + 2.3, $z + 0.1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.7, $y + 2.3, $z + 0.1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.3, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.3, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.3, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.3, $z -1))); 
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.3, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.1, $y + 2.3, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.2, $y + 2.3, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2.3, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2.3, $z - 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.3, $z - 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.6, $y + 2.3, $z - 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.3, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.1, $y + 2.3, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.3, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.3, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.3, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.3, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.3, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.3, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.3, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.7, $y + 2.3, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.3, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.3, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.3, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.3, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.3, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.7, $y + 2.3, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.3, $z - 0.1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.6, $y + 2.3, $z - 0.1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.7, $y + 2.3, $z - 0.1)));
+				$level->addParticle(new MobSpawnParticle(new Vector3($x + 0.5, $y + 3, $z)));
+				$level->addParticle(new MobSpawnParticle(new Vector3($x - 0.5, $y + 3, $z)));
+				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z + 0.5)));
+				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z - 0.5)));
 
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.1, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.1, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.1, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.1, 1))); 
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.1, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.1, $y + 2.1, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.2, $y + 2.1, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2.1, 1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2.1, $z + 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.1, $z + 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.6, $y + 2.1, $z + 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.1, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.1, $y + 2.1, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.1, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.1, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.1, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.1, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.1, $z + 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.1, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.1, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.7, $y + 2.1, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.1, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.1, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.1, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.1, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.1, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.7, $y + 2.1, $z + 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.1, $z + 0.1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.6, $y + 2.1, $z + 0.1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.7, $y + 2.1, $z + 0.1)));				
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.1, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.1, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.1, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.1, $z -1))); 
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.1, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.1, $y + 2.1, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.2, $y + 2.1, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2.1, $z -1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2.1, $z - 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.1, $z - 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.6, $y + 2.1, $z - 0.7)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.1, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.1, $y + 2.1, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.1, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.1, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.1, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.1, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.1, $z - 0.8)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.1, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.1, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.7, $y + 2.1, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.2, $y + 2.1, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.1, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.1, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.1, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.6, $y + 2.1, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.7, $y + 2.1, $z - 0.2)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.1, $z - 0.1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.6, $y + 2.1, $z - 0.1)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.7, $y + 2.1, $z - 0.1)));				
+                $level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2, $z + 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2, $z - 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2, $z - 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2, $z + 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z + 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z - 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2, $z + 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2, $z - 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2, $z - 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2, $z + 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z + 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z - 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2, $z + 0.5)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2, $z - 0.5)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2, $z - 0.5)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2, $z + 0.5)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z + 0.5)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z - 0.5)));
+
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.5, $z + 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2.5, $z - 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.5, $z - 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2.5, $z + 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.5, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2.5, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z + 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z - 0.3)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.5, $z + 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2.5, $z - 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.5, $z - 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2.5, $z + 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.5, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2.5, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z + 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z - 0.4)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.5, $z + 0.5)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.5, $z - 0.5)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.5, $z - 0.5)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.5, $z + 0.5)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.5, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.5, $z)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z + 0.5)));
+				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z - 0.5)));				
 			}
 			//Diamond Rain
             if(in_array($name, $this->plugin->particle2)) {
@@ -345,8 +260,17 @@ class Particles extends PluginTask {
 				$level->addParticle(new SnowballPoofParticle(new Vector3($x + 0.1, $y + 0.3, $z + 0.1)));
 				$level->addParticle(new SnowballPoofParticle(new Vector3($x - 0.1, $y + 0.3, $z - 0.1)));
 				$level->addParticle(new SnowballPoofParticle(new Vector3($x + 0.1, $y + 0.3, $z - 0.1)));
-				$level->addParticle(new SnowballPoofParticle(new Vector3($x - 0.1, $y + 0.3, $z + 0.1)));;
+				$level->addParticle(new SnowballPoofParticle(new Vector3($x - 0.1, $y + 0.3, $z + 0.1)));
+			}
+			//Heart Trail
+			if(in_array($name, $this->plugin->tparticle3)) {
+				
+				$x = $player->getX();
+				$y = $player->getY();
+				$z = $player->getZ();
+			
+                $level->addParticle(new HeartParticle(new Vector3($x, $y + 0.3, $z)));
 			}
 }
-}	
 }
+}		

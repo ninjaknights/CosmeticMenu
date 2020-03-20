@@ -1,10 +1,8 @@
-#name, main, version and api are required
 name: CosmeticMenu
 main: NinjaKnights\CosmeticMenu\Main
 version: 1.0
 api: 3.9.3
 load: POSTWORLD
-author: TKGZ
+author: TKGZ(TheKnightGamerZ)
 description: A CosmeticMenu plugin!
-website: 
 
