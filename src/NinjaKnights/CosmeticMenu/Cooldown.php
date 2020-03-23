@@ -104,32 +104,35 @@ class Cooldown extends PluginTask{
   //  public $cooldownTime = [ ];
 
 
-    public function __construct($plugin){
+    public function __construct($plugin) {
         $this->plugin = $plugin;
     }
   
-    public function onRun($tick){
-        foreach($this->plugin->tntCooldown as $player){
-	    if($this->plugin->tntCooldownTime[$player] <= 0){
+    public function onRun($tick) {
+        foreach($this->plugin->tntCooldown as $player) {
+	    if($this->plugin->tntCooldownTime[$player] <= 0) {
 	        unset($this->plugin->tntCooldown[$player]);
 	        unset($this->plugin->tntCooldownTime[$player]);
-	    }else{
+        }
+        else {
 	        $this->plugin->tntCooldownTime[$player]--;
 	    }
         }  
-        foreach($this->plugin->lsCooldown as $player){     
-        if($this->plugin->lsCooldownTime[$player] <= 0){
+        foreach($this->plugin->lsCooldown as $player) {     
+        if($this->plugin->lsCooldownTime[$player] <= 0) {
             unset($this->plugin->lsCooldown[$player]);
             unset($this->plugin->lsCooldownTime[$player]);
-        }else{
+        }
+        else {
             $this->plugin->lsCooldownTime[$player]--;
         }
         }
-        foreach($this->plugin->sbCooldown as $player){     
-        if($this->plugin->sbCooldownTime[$player] <= 0){
+        foreach($this->plugin->sbCooldown as $player) {     
+        if($this->plugin->sbCooldownTime[$player] <= 0) {
             unset($this->plugin->sbCooldown[$player]);
             unset($this->plugin->sbCooldownTime[$player]);
-        }else{
+        }
+        else {
             $this->plugin->sbCooldownTime[$player]--;
         }
         }

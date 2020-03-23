@@ -526,6 +526,7 @@ class Main extends PluginBase implements Listener {
 			
 			$this->getMenu($player);	
 		}
+
 	//Gadgets
 		//TNT-Launcher
 		if($iname == "TNT-Launcher"){
@@ -820,6 +821,7 @@ class Main extends PluginBase implements Listener {
 				$player->sendMessage("You don't have permission to use CupidsLove!");				
 			}							
 		}
+
 	//Masks
 	    //Skeleton
 	    if($iname == "Skeleton Mask") {
@@ -1036,6 +1038,7 @@ class Main extends PluginBase implements Listener {
 				
 			}							
 		}
+		
     //Trails
 	    //FlameTrail
 		if($iname == "Flame Trail") {
@@ -1207,11 +1210,10 @@ class Main extends PluginBase implements Listener {
 		}
     }
 
-	public function onItemSpawn(ItemSpawnEvent $event) {
+	/*public function onItemSpawn(ItemSpawnEvent $event) {
         $item = $event->getEntity();
         $delay = 5;  
-        $this->getScheduler()->scheduleDelayedTask(new class($item) extends PluginTask
-        {
+        $this->getScheduler()->scheduleDelayedTask(new class($item) extends PluginTask {
             public $itemEntity;
             
             public function __construct(ItemEntity $itemEntity)
@@ -1225,7 +1227,7 @@ class Main extends PluginBase implements Listener {
             }
             
         }, 5*$delay);
-    }
+    }*/
 
     public function onSnowballDown(EntityDespawnEvent $event) {
        if($event->getType() === 81){
