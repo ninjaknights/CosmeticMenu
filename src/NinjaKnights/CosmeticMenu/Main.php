@@ -301,7 +301,7 @@ class Main extends PluginBase implements Listener {
 		$item3->setCustomName("LightningStick");
 		
 		$item4 = Item::get(385, 0, 1);
-		$item4->setCustomName("SmokeBox");
+		$item4->setCustomName("SmokeBomb");
 		
 		$item5 = Item::get(355, 1, 1);
 		$item5->setCustomName("BackToMenu");
@@ -416,7 +416,7 @@ class Main extends PluginBase implements Listener {
 		$item3 = Item::get(351, 1, 1);
 		$item3->setCustomName("Heart Trail");
 		
-		$item4 = Item::get(351, 15, 1);
+		$item4 = Item::get(351, 8, 1);
 		$item4->setCustomName("Smoke Trail");
 		
 		$item5 = Item::get(355, 1, 1);
@@ -438,7 +438,6 @@ class Main extends PluginBase implements Listener {
 		$inv = $player->getInventory();
 		$armor = $player->getArmorInventory();
 		$inventory = $player->getInventory();
-		$blockid = $event->getBlock()->getID();
 		$block = $player->getLevel()->getBlock($player->floor()->subtract(0, 1));
 		$config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
 		
@@ -555,7 +554,7 @@ class Main extends PluginBase implements Listener {
                 $time = "60";
                 $this->tntCooldownTime[$player->getName()] = $time;
 
-            }else{
+            } else {
                 $player->sendPopup("§cYou can't use the TNT-Launcher for another ".$this->tntCooldownTime[$player->getName()]." seconds.");
             }
             } else {
@@ -566,28 +565,26 @@ class Main extends PluginBase implements Listener {
         }
 		//LightningStick
 		if($iname == "LightningStick"){
-            if($player->hasPermission("cosmetic.gadgets.lightningstick")) {
-			if(!isset($this->lsCooldown[$player->getName()])){				
-			$block = $event->getBlock();
-			$lightning = new AddActorPacket();
-			$lightning->entityRuntimeId = Entity::$entityCount++;
-			$lightning->type = 93;
-			$lightning->position = new Vector3($block->getX(), $block->getY(), $block->getZ());
-			$lightning->motion = $player->getMotion();
-			$lightning->metadata = [];
-			foreach ($player->getLevel()->getPlayers() as $players) {
-			$players->dataPacket($lightning);
-			$this->lsCooldown[$player->getName()] = $player->getName();
-            $time = "60";
-            $this->lsCooldownTime[$player->getName()] = $time;
-			}
-			}else{
+        	if($player->hasPermission("cosmetic.gadgets.lightningstick")) {
+				if(!isset($this->lsCooldown[$player->getName()])) {				
+				$block = $event->getBlock();
+				$lightning = new AddActorPacket();
+				$lightning->entityRuntimeId = Entity::$entityCount++;
+				$lightning->type = 93;
+				$lightning->position = new Vector3($block->getX(), $block->getY(), $block->getZ());
+				$lightning->motion = $player->getMotion();
+				$lightning->metadata = [];
+				foreach ($player->getLevel()->getPlayers() as $players) {
+				$players->dataPacket($lightning);
+				$this->lsCooldown[$player->getName()] = $player->getName();
+            	$time = "60";
+            	$this->lsCooldownTime[$player->getName()] = $time;
+				}
+				} else {
                 $player->sendPopup("§cYou can't use the LightningStick for another ".$this->lsCooldownTime[$player->getName()]." seconds.");
-            }
+            	}
 			} else {
-				
 				$player->sendMessage("You don't have permission to use LightningStick!");
-				
 			}
 		}
         //Leaper
@@ -623,8 +620,8 @@ class Main extends PluginBase implements Listener {
 			}
         }
 		//SmokeBomb
-		if($iname == "SmokeBox"){
-			if($player->hasPermission("cosmetic.gadgets.smokebox")) {
+		if($iname == "SmokeBomb"){
+			if($player->hasPermission("cosmetic.gadgets.smokebomb")) {
 			if(!isset($this->sbCooldown[$player->getName()])){
 		       $nbt = new CompoundTag ("", [
 					"Pos" => new ListTag ("Pos", [
@@ -647,15 +644,15 @@ class Main extends PluginBase implements Listener {
 				$snowball->setMotion($snowball->getMotion()->multiply($f));
 				$snowball->spawnToAll();
 				$this->sbCooldown[$player->getName()] = $player->getName();
-                $time = "60";
+                $time = "30";
                 $this->sbCooldownTime[$player->getName()] = $time;
 
             }else{
-                $player->sendPopup("§cYou can't use the SmokeBox for another ".$this->sbCooldownTime[$player->getName()]." seconds.");
+                $player->sendPopup("§cYou can't use the SmokeBomb for another ".$this->sbCooldownTime[$player->getName()]." seconds.");
             }
             } else {
 				
-				$player->sendMessage("You don't have permission to use SmokeBox!");
+				$player->sendMessage("You don't have permission to use SmokeBomb!");
 				
 			}
 	    }
@@ -1038,7 +1035,7 @@ class Main extends PluginBase implements Listener {
 				
 			}							
 		}
-		
+
     //Trails
 	    //FlameTrail
 		if($iname == "Flame Trail") {
@@ -1210,7 +1207,7 @@ class Main extends PluginBase implements Listener {
 		}
     }
 
-	/*public function onItemSpawn(ItemSpawnEvent $event) {
+	public function onItemSpawn(ItemSpawnEvent $event) {
         $item = $event->getEntity();
         $delay = 5;  
         $this->getScheduler()->scheduleDelayedTask(new class($item) extends PluginTask {
@@ -1227,7 +1224,7 @@ class Main extends PluginBase implements Listener {
             }
             
         }, 5*$delay);
-    }*/
+    }
 
     public function onSnowballDown(EntityDespawnEvent $event) {
        if($event->getType() === 81){
