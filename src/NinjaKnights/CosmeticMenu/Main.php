@@ -518,7 +518,7 @@ class Main extends PluginBase implements Listener {
 					if(in_array($name, $this->zombie)) {
 				
 						unset($this->zombie[array_search($name, $this->zombie)]);
-						$player->sendMessage("You have no Mask on");
+						$player->sendPopup("You have no Mask on");
 						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
 						
 						if(in_array($name, $this->creeper)) {
@@ -534,7 +534,7 @@ class Main extends PluginBase implements Listener {
 					} else {
 						
 						$this->zombie[] = $name;
-						$player->sendMessage("You have The Zombie Mask on!");
+						$player->sendPopup("You have The Zombie Mask on!");
 						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,2,1));
 						$player->sendPopup("§l§aPlop!");
 										
@@ -548,7 +548,7 @@ class Main extends PluginBase implements Listener {
 					if(in_array($name, $this->skeleton)) {
 				
 						unset($this->skeleton[array_search($name, $this->skeleton)]);
-						$player->sendMessage("You have no Mask on");
+						$player->sendPopup("You have no Mask on");
 						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
 						
 						if(in_array($name, $this->creeper)) {
@@ -564,7 +564,7 @@ class Main extends PluginBase implements Listener {
 					} else {
 						
 						$this->skeleton[] = $name;
-						$player->sendMessage("You have The Skeleton Mask on!");
+						$player->sendPopup("You have The Skeleton Mask on!");
 						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,0,1));
 						$player->sendPopup("§l§aPlop!");
 									
@@ -578,7 +578,7 @@ class Main extends PluginBase implements Listener {
 					if(in_array($name, $this->creeper)) {
 				
 						unset($this->creeper[array_search($name, $this->creeper)]);
-						$player->sendMessage("You have no Mask on");
+						$player->sendPopup("You have no Mask on");
 						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
 						
 						if(in_array($name, $this->skeleton)) {
@@ -594,7 +594,7 @@ class Main extends PluginBase implements Listener {
 					} else {
 						
 						$this->creeper[] = $name;
-						$player->sendMessage("You have The Creeper Mask on!");
+						$player->sendPopup("You have The Creeper Mask on!");
 						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,4,1));
 						$player->sendPopup("§l§aPlop!");
 									
@@ -608,7 +608,7 @@ class Main extends PluginBase implements Listener {
 					if(in_array($name, $this->witherskeleton)) {
 				
 						unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-						$player->sendMessage("You have no Mask on");
+						$player->sendPopup("You have no Mask on");
 						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
 						
 						if(in_array($name, $this->creeper)) {
@@ -624,7 +624,7 @@ class Main extends PluginBase implements Listener {
 					} else {
 						
 						$this->witherskeleton[] = $name;
-						$player->sendMessage("You have The WitherSkeleton Mask on!");
+						$player->sendPopup("You have The WitherSkeleton Mask on!");
 						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,1,1));
 						$player->sendPopup("§l§aPlop!");
 										
@@ -638,7 +638,7 @@ class Main extends PluginBase implements Listener {
 					if(in_array($name, $this->dragon)) {
 				
 						unset($this->dragon[array_search($name, $this->dragon)]);
-						$player->sendMessage("You have no Mask on");
+						$player->sendPopup("You have no Mask on");
 						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
 						
 						if(in_array($name, $this->creeper)) {
@@ -654,7 +654,7 @@ class Main extends PluginBase implements Listener {
 					} else {
 						
 						$this->dragon[] = $name;
-						$player->sendMessage("You have The Dragon Mask on!");
+						$player->sendPopup("You have The Dragon Mask on!");
 						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,5,1));
 						$player->sendPopup("§l§aPlop!");
 										
@@ -663,7 +663,7 @@ class Main extends PluginBase implements Listener {
 				break;
 				
 				case 5:
-					$player->sendMessage("You have no Mask on");
+					$player->sendPopup("You have no Mask on");
 					$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
 				break;
 				
