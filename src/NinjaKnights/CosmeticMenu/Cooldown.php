@@ -98,7 +98,7 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 
-class Cooldown extends PluginTask{
+class Cooldown extends PluginTask {
 
   //  public $cooldown = [ ];
   //  public $cooldownTime = [ ];
