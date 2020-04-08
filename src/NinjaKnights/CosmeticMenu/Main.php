@@ -245,7 +245,7 @@ class Main extends PluginBase implements Listener {
                 break;
 
                 case 2:
-                    //$this->openMasks($player);
+                    $this->openMasks($player);
                 break;
 
                 case 3:
@@ -500,6 +500,198 @@ class Main extends PluginBase implements Listener {
         }
         $form->addButton("Clear");
         $form->addButton("Back");
+        $form->sendToPlayer($player);
+        return $form;
+	}
+	
+	public function openMasks($player) {
+        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+        $form = $api->createSimpleForm(function (Player $player, int $data = null) {
+        $result = $data;
+            if($result === null) {
+                return true;
+            }
+            switch($result) {
+				case 0:
+					$name = $player->getName();
+                    
+					if(in_array($name, $this->zombie)) {
+				
+						unset($this->zombie[array_search($name, $this->zombie)]);
+						$player->sendMessage("You have no Mask on");
+						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+						
+						if(in_array($name, $this->creeper)) {
+							unset($this->creeper[array_search($name, $this->creeper)]);
+						} elseif(in_array($name, $this->witherskeleton)) {
+							unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+						} elseif(in_array($name, $this->skeleton)) {
+							unset($this->skeleton[array_search($name, $this->skeleton)]);
+						} elseif(in_array($name, $this->dragon)) {
+							unset($this->dragon[array_search($name, $this->dragon)]);
+						}
+						
+					} else {
+						
+						$this->zombie[] = $name;
+						$player->sendMessage("You have The Zombie Mask on!");
+						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,2,1));
+						$player->sendPopup("§l§aPlop!");
+										
+					}
+
+                break;
+
+                case 1:
+					$name = $player->getName();
+
+					if(in_array($name, $this->skeleton)) {
+				
+						unset($this->skeleton[array_search($name, $this->skeleton)]);
+						$player->sendMessage("You have no Mask on");
+						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+						
+						if(in_array($name, $this->creeper)) {
+							unset($this->creeper[array_search($name, $this->creeper)]);
+						} elseif(in_array($name, $this->witherskeleton)) {
+							unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+						} elseif(in_array($name, $this->zombie)) {
+							unset($this->zombie[array_search($name, $this->zombie)]);
+						} elseif(in_array($name, $this->dragon)) {
+							unset($this->dragon[array_search($name, $this->dragon)]);
+						}
+						
+					} else {
+						
+						$this->skeleton[] = $name;
+						$player->sendMessage("You have The Skeleton Mask on!");
+						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,0,1));
+						$player->sendPopup("§l§aPlop!");
+									
+					}
+
+                break;
+
+                case 2:
+					$name = $player->getName();
+					
+					if(in_array($name, $this->creeper)) {
+				
+						unset($this->creeper[array_search($name, $this->creeper)]);
+						$player->sendMessage("You have no Mask on");
+						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+						
+						if(in_array($name, $this->skeleton)) {
+							unset($this->skeleton[array_search($name, $this->skeleton)]);
+						} elseif(in_array($name, $this->witherskeleton)) {
+							unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+						} elseif(in_array($name, $this->zombie)) {
+							unset($this->zombie[array_search($name, $this->zombie)]);
+						} elseif(in_array($name, $this->dragon)) {
+							unset($this->dragon[array_search($name, $this->dragon)]);
+						}
+						
+					} else {
+						
+						$this->creeper[] = $name;
+						$player->sendMessage("You have The Creeper Mask on!");
+						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,4,1));
+						$player->sendPopup("§l§aPlop!");
+									
+					}
+
+                break;
+
+                case 3:
+					$name = $player->getName();
+					
+					if(in_array($name, $this->witherskeleton)) {
+				
+						unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+						$player->sendMessage("You have no Mask on");
+						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+						
+						if(in_array($name, $this->creeper)) {
+							unset($this->creeper[array_search($name, $this->creeper)]);
+						} elseif(in_array($name, $this->skeleton)) {
+							unset($this->skeleton[array_search($name, $this->skeleton)]);
+						} elseif(in_array($name, $this->zombie)) {
+							unset($this->zombie[array_search($name, $this->zombie)]);
+						} elseif(in_array($name, $this->dragon)) {
+							unset($this->dragon[array_search($name, $this->dragon)]);
+						}
+						
+					} else {
+						
+						$this->witherskeleton[] = $name;
+						$player->sendMessage("You have The WitherSkeleton Mask on!");
+						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,1,1));
+						$player->sendPopup("§l§aPlop!");
+										
+					}
+
+				break;
+				
+				case 4:
+					$name = $player->getName();
+					
+					if(in_array($name, $this->dragon)) {
+				
+						unset($this->dragon[array_search($name, $this->dragon)]);
+						$player->sendMessage("You have no Mask on");
+						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+						
+						if(in_array($name, $this->creeper)) {
+							unset($this->creeper[array_search($name, $this->creeper)]);
+						} elseif(in_array($name, $this->witherskeleton)) {
+							unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+						} elseif(in_array($name, $this->zombie)) {
+							unset($this->zombie[array_search($name, $this->zombie)]);
+						} elseif(in_array($name, $this->skeleton)) {
+							unset($this->skeleton[array_search($name, $this->skeleton)]);
+						}
+						
+					} else {
+						
+						$this->dragon[] = $name;
+						$player->sendMessage("You have The Dragon Mask on!");
+						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,5,1));
+						$player->sendPopup("§l§aPlop!");
+										
+					}
+
+				break;
+				
+				case 5:
+					$player->sendMessage("You have no Mask on");
+					$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+				break;
+				
+				case 6:
+                    $this->openMenu($player);
+                break;
+            }
+        });
+           
+        $form->setTitle("Masks");
+        $form->setContent("Pick One");
+        if($player->hasPermission("cosmetic.masks.zombie")){
+            $form->addButton("Zombie Mask");
+        }
+        if($player->hasPermission("cosmetic.masks.skeleton")){
+            $form->addButton("Skeleton Mask");
+        }
+        if($player->hasPermission("cosmetic.masks.creeper")){
+            $form->addButton("Creeper Mask");
+        }
+        if($player->hasPermission("cosmetic.masks.witherskeleton")){
+            $form->addButton("WitherSkeleton Mask");
+		}
+		if($player->hasPermission("cosmetic.masks.dragon")){
+            $form->addButton("Dragon Mask");
+		}
+		$form->addButton("Clear");
+		$form->addButton("Back");
         $form->sendToPlayer($player);
         return $form;
     }
