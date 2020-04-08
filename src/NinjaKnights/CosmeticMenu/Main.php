@@ -104,8 +104,8 @@ use NinjaKnights\CosmeticMenu\Particles;
 use NinjaKnights\CosmeticMenu\Cooldown;
 
 class Main extends PluginBase implements Listener {
-       
-    /**@var Item*/
+
+     /**@var Item*/
 	private $item;
 	/**@var int*/
 	protected $damage = 0;
@@ -113,7 +113,7 @@ class Main extends PluginBase implements Listener {
 	public $inv = [];
     public $inventories;
 
-    public $tntCooldown = [ ];
+	public $tntCooldown = [ ];
 	public $tntCooldownTime = [ ];
 	public $lsCooldownTime = [ ];
 	public $lsCooldown = [ ];
@@ -138,75 +138,15 @@ class Main extends PluginBase implements Listener {
 	public $particle2 = array("Diamond Rain");
 	public $particle3 = array("SnowAura");
 	public $particle4 = array("CupidsLove");
-	
-    public function onEnable(){
+
+
+    public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-		$this->EconomyAPI = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");	
-        $this->PurePerms = $this->getServer()->getPluginManager()->getPlugin('PurePerms');
-		$this->getScheduler()->scheduleRepeatingTask(new Particles($this), 5);
+        $this->getScheduler()->scheduleRepeatingTask(new Particles($this), 5);
 		$this->getScheduler()->scheduleRepeatingTask(new Cooldown($this), 20);
-        @mkdir($this->getDataFolder());
-	    $this->config = new Config ($this->getDataFolder() . "config.yml" , Config::YAML, array("name" => "§aNinjaKnights"));
-        $this->saveResource("config.yml");
     }
-	public function onPickup(InventoryPickupItemEvent $event){
-		$player = $event->getInventory()->getHolder();
-		if($player->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-			$event->setCancelled();
-		}
-	}
-	public function onDrop(PlayerDropItemEvent $event){
-		$player = $event->getPlayer();
-		if($player->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-			$event->setCancelled();
-		}
-	}
-	public function onHit(EntityDamageEvent $event){
-		$entity = $event->getEntity();
-		if ($entity instanceof Player) {
-			if ($event instanceof EntityDamageByEntityEvent) {
-				$damager = $event->getDamager();
-				if($damager instanceof Player) {
-					if($entity->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-						$event->setCancelled();
-					}
-				}
-			}
-		} 
-	}
-	public function onDamage(EntityDamageEvent $event) {
-		$player = $event->getEntity();
-		if($player->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-			if($player instanceof Player) {
-				$event->setCancelled();	
-			}
-		}
-	}
-	public function onPlace(BlockPlaceEvent $event) {
-		$player = $event->getPlayer();
-		if($player->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-			if($player->hasPermission("cosmetic.build")) {
-				if($player->getGamemode() == 2 or $player->getGamemode() == 0) {
- 					$event->setCancelled();
-				}
-			} elseif(!$player->hasPermission("cosmetic.build")) {
- 				$event->setCancelled();
-			}
-		}
-	}
-	public function onBreak(BlockBreakEvent $event) {
-		$player = $event->getPlayer();
-		if($player->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-			if($player->hasPermission("cosmetic.build")) {
-				if($player->getGamemode() == 2 or $player->getGamemode() == 0) {
- 					$event->setCancelled();
-				}
-			} elseif(!$player->hasPermission("cosmetic.build")) {
- 				$event->setCancelled();
-			}
-		}
-	}	
-	public function onJoin(PlayerJoinEvent $event) {
+
+    public function onJoin(PlayerJoinEvent $event) {
 		
 		$player = $event->getPlayer();
 		$name = $player->getName();
@@ -215,318 +155,373 @@ class Main extends PluginBase implements Listener {
 		
 		$player->setGamemode(2);
 		
-		$this->getItems($player);
+		$this->getCosmetic($player);
 		
 		$x = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getX();
 		$y = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getY();
 		$z = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getZ();
 		
 		$player->teleport(new Vector3($x, $y, $z));
-		
-		$armor = $player->getArmorInventory();
-		$armor->clearAll();
 	}
-	public function onRespawn(PlayerRespawnEvent $event){
-
-		$player = $event->getPlayer();
-		$this->getItems($player);
-		$player->setGamemode(2);
-	}	
-	public function onHunger(PlayerExhaustEvent $event) {
-		$player = $event->getPlayer();
-		if($player->getLevel()->getFolderName() == $this->getServer()->getDefaultLevel()->getFolderName()) {
-			$event->setCancelled();
-		}
-	}	
+	//This is for the TNT-Launcher
 	public function ExplosionPrimeEvent(ExplosionPrimeEvent $event){
 		$event->setBlockBreaking(false);
 	}
-	//Items
-    public function getItems(Player $player) {
+	//This is for Diamond Rain Particle
+	public function onItemSpawn(ItemSpawnEvent $event) {
+        $item = $event->getEntity();
+        $delay = 5;  
+        $this->getScheduler()->scheduleDelayedTask(new class($item) extends PluginTask {
+            public $itemEntity;
+            
+            public function __construct(ItemEntity $itemEntity)
+            {
+                $this->itemEntity = $itemEntity;
+            }
+
+            public function onRun(int $currentTick)
+            {
+                if(!$this->itemEntity->isFlaggedForDespawn()) $this->itemEntity->flagForDespawn();
+            }
+            
+        }, 5*$delay);
+    }
+	//This is for SmokeBomb
+    public function onEggDown(EntityDespawnEvent $event) {
+       if($event->getType() === 82){
+          $entity = $event->getEntity();
+          $shooter = $entity->getOwningEntity();
+          $x = $entity->getX();
+          $y = $entity->getY();
+          $z = $entity->getZ();
+          $level = $entity->getLevel();
+          for ($i = 1; $i < 4; $i++) {
+               $v0 = new Vector3($x + 1, $y + $i, $z + 1);
+               $v1 = new Vector3($x - 1, $y + $i, $z - 1);
+          	   $v2 = new Vector3($x + 1, $y + $i, $z - 1);
+               $v3 = new Vector3($x - 1, $y + $i, $z + 1);
+               $v4 = new Vector3($x + 1, $y + $i, $z);
+               $v5 = new Vector3($x - 1, $y + $i, $z);
+               $v6 = new Vector3($x, $y + $i, $z + 1);
+               $v7 = new Vector3($x, $y + $i, $z - 1);
+               $v8 = new Vector3($x, $y + $i, $z);
+               $level->addParticle(new MobSpawnParticle($v0));
+               $level->addParticle(new MobSpawnParticle($v1));
+               $level->addParticle(new MobSpawnParticle($v2));
+               $level->addParticle(new MobSpawnParticle($v3));
+               $level->addParticle(new MobSpawnParticle($v4));
+               $level->addParticle(new MobSpawnParticle($v5));
+               $level->addParticle(new MobSpawnParticle($v6));
+               $level->addParticle(new MobSpawnParticle($v7));
+               $level->addParticle(new MobSpawnParticle($v8));
+            }        
+        }
+    } 
+    
+    public function getCosmetic(Player $player) {
 		$name = $player->getName();
 		$item = $player->getInventory()->getItemInHand();
 		$inv = $player->getInventory();
-		$inv->clearAll();
 		
 		$item1 = Item::get(345, 0, 1);
-		$item1->setCustomName("§l§dCosmetic§eMenu");
-		$inv->setItem(4, $item1);
-    }  
-	//MainMenu
-    public function getMenu(Player $player) {
-		$name = $player->getName();
-		$item = $player->getInventory()->getItemInHand();
-		$inv = $player->getInventory();
-		$inv->clearAll();
-		
-		$item1 = Item::get(342, 0, 1);
-		$item1->setCustomName("Gadgets");
-		
-		$item2 = Item::get(348, 0, 1);
-		$item2->setCustomName("Particles");
-		
-		$item3 = Item::get(397, 3, 1);
-		$item3->setCustomName("Masks");
-		
-		$item4 = Item::get(331, 0, 1);
-		$item4->setCustomName("Trails");
-		
-		$item5 = Item::get(383, 13, 1);
-		$item5->setCustomName("Pets");
-		
-		$item6 = Item::get(355, 0, 1);
-		$item6->setCustomName("Back");
-		
+		$item1->setCustomName("CosmeticMenu");
 		$inv->setItem(0, $item1);
-		$inv->setItem(1, $item2);
-		$inv->setItem(2, $item3);
-		$inv->setItem(3, $item4);
-		$inv->setItem(4, $item5);
-		$inv->setItem(8, $item6);
-	}
-	//Gadgets
-	public function getGadgets(Player $player) {
-		$name = $player->getName();
-		$item = $player->getInventory()->getItemInHand();
-		$inv = $player->getInventory();
-		$inv->clearAll();
+	} 
+	
+	public function openMenu($player) {
+        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+        $form = $api->createSimpleForm(function (Player $player, int $data = null) {
+        $result = $data;
+            if($result === null) {
+                return true;
+            }
+            switch($result) {
+                case 0:
+                    $this->openGadgets($player);
+                break;
+
+                case 1:
+                    $this->openParticles($player);
+                break;
+
+                case 2:
+                    //$this->openMasks($player);
+                break;
+
+                case 3:
+                    //$this->openTrails($player);
+                break;
+            }
+        });
+           
+        $form->setTitle("CosmeticMenu");
+        $form->setContent("Pick One");
+        if($player->hasPermission("cosmetic.gadgets")){
+            $form->addButton("Gadgets");
+        }
+        if($player->hasPermission("cosmetic.particles")){
+            $form->addButton("Particles");
+        }
+        if($player->hasPermission("cosmetic.masks")){
+            $form->addButton("Masks");
+        }
+        if($player->hasPermission("cosmetic.trails")){
+            $form->addButton("Trails");
+        }
+        $form->sendToPlayer($player);
+        return $form;
+    }
+
+    public function openGadgets($player) {
+        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+        $form = $api->createSimpleForm(function (Player $player, int $data = null) {
+        $result = $data;
+            if($result === null) {
+                return true;
+            }
+            switch($result) {
+                case 0:
+		            $inv = $player->getInventory();
 		
-		$item1 = Item::get(352, 0, 1);
-		$item1->setCustomName("TNT-Launcher");
+		            $item = Item::get(352, 0, 1);
+                    $item->setCustomName("TNT-Launcher");
+                    
+		            $inv->setItem(1, $item);
+                break;
+
+                case 1:
+                    $inv = $player->getInventory();
 		
-		$item2 = Item::get(288, 0, 1);
-		$item2->setCustomName("Leaper");
+		            $item = Item::get(369, 0, 1);
+		            $item->setCustomName("LightningStick");
+                    
+		            $inv->setItem(1, $item);
+                break;
+
+                case 2:
+                    $inv = $player->getInventory();
 		
-		$item3 = Item::get(369, 0, 1);
-		$item3->setCustomName("LightningStick");
+		            $item = Item::get(288, 0, 1);
+		            $item->setCustomName("Leaper");
+                    
+		            $inv->setItem(1, $item);
+                break;
+
+                case 3:
+                    $inv = $player->getInventory();
 		
-		$item4 = Item::get(385, 0, 1);
-		$item4->setCustomName("SmokeBomb");
-		
-		$item5 = Item::get(355, 1, 1);
-		$item5->setCustomName("BackToMenu");
-		
-		$inv->setItem(0, $item1);
-		$inv->setItem(1, $item2);
-		$inv->setItem(2, $item3);
-		$inv->setItem(3, $item4);
-		$inv->setItem(8, $item5);
-	}
-	//Particles
-	public function getParticles(Player $player) {
-		$name = $player->getName();
-		$item = $player->getInventory()->getItemInHand();
-		$inv = $player->getInventory();
-		$inv->clearAll();
-		
-		$item1 = Item::get(470, 0, 1);
-		$item1->setCustomName("Rain Cloud");
-		
-		$item2 = Item::get(264, 0, 1);
-		$item2->setCustomName("Diamond Rain");
-		
-		$item3 = Item::get(370, 0, 1);
-		$item3->setCustomName("SnowAura");
-		
-		$item4 = Item::get(351, 1, 1);
-		$item4->setCustomName("CupidsLove");
-		
-		$item5 = Item::get(355, 1, 1);
-		$item5->setCustomName("BackToMenu");
-		
-		$inv->setItem(0, $item1);
-		$inv->setItem(1, $item2);
-		$inv->setItem(2, $item3);
-		$inv->setItem(3, $item4);
-		$inv->setItem(8, $item5);
-	}
-	//Masks
-	public function getMasks(Player $player) {
-		$name = $player->getName();
-		$item = $player->getInventory()->getItemInHand();
-		$inv = $player->getInventory();
-		$inv->clearAll();
-		
-		$item1 = Item::get(ITEM::SKULL,0,1);
-		$item1->setCustomName("Skeleton Mask");
-		
-		$item2 = Item::get(ITEM::SKULL,1,1);
-		$item2->setCustomName("WitherSkeleton Mask");
-		
-		$item3 = Item::get(ITEM::SKULL,4,1);
-		$item3->setCustomName("Creeper Mask");
-		
-		$item4 = Item::get(ITEM::SKULL,2,1);
-		$item4->setCustomName("Zombie Mask");
-		
-		$item5 = Item::get(ITEM::SKULL,5,1);
-		$item5->setCustomName("Dragon Mask");
-		
-		$item6 = Item::get(355, 1, 1);
-		$item6->setCustomName("BackToMenu");
-		
-		$inv->setItem(0, $item1);
-		$inv->setItem(1, $item2);
-		$inv->setItem(2, $item3);
-		$inv->setItem(3, $item4);
-		$inv->setItem(4, $item5);
-		$inv->setItem(8, $item6);
-	}
-	//Pets
-	public function getPets(Player $player) {
-		$name = $player->getName();
-		$item = $player->getInventory()->getItemInHand();
-		$inv = $player->getInventory();
-		$inv->clearAll();
-		
-		$item1 = Item::get(0, 0, 1);
-		$item1->setCustomName("");
-		
-		$item2 = Item::get(0, 0, 1);
-		$item2->setCustomName("");
-		
-		$item3 = Item::get(0, 0, 1);
-		$item3->setCustomName("");
-		
-		$item4 = Item::get(0, 0, 1);
-		$item4->setCustomName("");
-		
-		$item5 = Item::get(355, 1, 1);
-		$item5->setCustomName("BackToMenu");
-		
-		$inv->setItem(0, $item1);
-		$inv->setItem(1, $item2);
-		$inv->setItem(2, $item3);
-		$inv->setItem(3, $item4);
-		$inv->setItem(8, $item5);
-	}
-	//Trails
-	public function getTrails(Player $player) {
-		$name = $player->getName();
-		$item = $player->getInventory()->getItemInHand();
-		$inv = $player->getInventory();
-		$inv->clearAll();
-		
-		$item1 = Item::get(351, 14, 1);
-		$item1->setCustomName("Flame Trail");
-		
-		$item2 = Item::get(351, 7, 1);
-		$item2->setCustomName("Snow Trail");
-		
-		$item3 = Item::get(351, 1, 1);
-		$item3->setCustomName("Heart Trail");
-		
-		$item4 = Item::get(351, 8, 1);
-		$item4->setCustomName("Smoke Trail");
-		
-		$item5 = Item::get(355, 1, 1);
-		$item5->setCustomName("BackToMenu");
-		
-		$inv->setItem(0, $item1);
-		$inv->setItem(1, $item2);
-		$inv->setItem(2, $item3);
-		$inv->setItem(3, $item4);
-		$inv->setItem(8, $item5);
-	}
-	//OnInteract
-	public function onInteract(PlayerInteractEvent $event) {
-		$cfg = new Config($this->getDataFolder() . "config.yml", Config::YAML);
-		$prefix = $cfg->get("Prefix");
-		$player = $event->getPlayer();
+		            $item = Item::get(385, 0, 1);
+		            $item->setCustomName("SmokeBomb");
+                    
+		            $inv->setItem(1, $item);
+                break;
+
+                case 4:
+                    $inv = $player->getInventory();
+                    $item1 = Item::get(0, 0, 1);  
+		            $inv->setItem(1, $item1);
+                break;
+
+                case 5:
+                    $this->openMenu($player);
+                break;
+            }
+        });
+           
+        $form->setTitle("Gadgets");
+        $form->setContent("Pick One");
+        if($player->hasPermission("cosmetic.gadgets.tntlauncher")){
+            $form->addButton("TNT-Launcher");
+        }
+        if($player->hasPermission("cosmetic.gadgets.lightningstick")){
+            $form->addButton("LightningStick");
+        }
+        if($player->hasPermission("cosmetic.gadgets.leaper")){
+            $form->addButton("Leaper");
+        }
+        if($player->hasPermission("cosmetic.gadgets.smokebomb")){
+            $form->addButton("SmokeBomb");
+        }
+        $form->addButton("Clear");
+        $form->addButton("Back");
+        $form->sendToPlayer($player);
+        return $form;
+    }
+
+    public function openParticles($player) {
+        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+        $form = $api->createSimpleForm(function (Player $player, int $data = null) {
+        $result = $data;
+            if($result === null) {
+                return true;
+            }
+            switch($result) {
+                case 0:
+                    $name = $player->getName();
+                    
+                    if(!in_array($name, $this->particle1)) {
+				
+                        $this->particle1[] = $name;
+                        $player->sendPopup("You have enabled your Rain Cloud Particle");
+                        
+                        if(in_array($name, $this->particle2)) {
+                            unset($this->particle2[array_search($name, $this->particle2)]);
+                        } 
+                        elseif(in_array($name, $this->particle3)) {
+                            unset($this->particle3[array_search($name, $this->particle3)]);
+                        } 
+                        elseif(in_array($name, $this->particle4)) {
+                            unset($this->particle4[array_search($name, $this->particle4)]);
+                        } 
+                        
+                    } else {
+                        
+                        unset($this->particle1[array_search($name, $this->particle1)]);
+                        $player->sendPopup("You have disabled your Rain Cloud Particle");
+                        
+                    }
+                break;
+
+                case 1:
+                    $name = $player->getName();
+
+                    if(!in_array($name, $this->particle2)) {
+				
+                        $this->particle2[] = $name;
+                        $player->sendPopup("You have enabled your Diamond Rain Particle");
+                        
+                        if(in_array($name, $this->particle1)) {
+                            unset($this->particle1[array_search($name, $this->particle1)]);
+                        } 
+                        elseif(in_array($name, $this->particle3)) {
+                            unset($this->particle3[array_search($name, $this->particle3)]);
+                        } 
+                        elseif(in_array($name, $this->particle4)) {
+                            unset($this->particle4[array_search($name, $this->particle4)]);
+                        } 
+                        
+                    } else {
+                        
+                        unset($this->particle2[array_search($name, $this->particle2)]);
+                        $player->sendPopup("You have disabled your Diamond Rain Particle");
+                        
+                    }
+                break;
+
+                case 2:
+                    $name = $player->getName();
+
+                    if(!in_array($name, $this->particle3)) {
+				
+                        $this->particle3[] = $name;
+                        $player->sendPopup("You have enabled your SnowAura Particle");
+                        
+                        if(in_array($name, $this->particle1)) {
+                            unset($this->particle1[array_search($name, $this->particle1)]);
+                        } 
+                        elseif(in_array($name, $this->particle2)) {
+                            unset($this->particle2[array_search($name, $this->particle2)]);
+                        } 
+                        elseif(in_array($name, $this->particle4)) {
+                            unset($this->particle4[array_search($name, $this->particle4)]);
+                        } 
+                        
+                    } else {
+                        
+                        unset($this->particle3[array_search($name, $this->particle3)]);
+                        $player->sendPopup("You have disabled your SnowAura Particle");
+                       
+                    }
+                break;
+
+                case 3:
+                    $name = $player->getName();
+
+                    if(!in_array($name, $this->particle4)) {
+				
+                        $this->particle4[] = $name;
+                        $player->sendPopup("You have enabled your CupidsLove Particle");
+                        
+                        if(in_array($name, $this->particle1)) {
+                            unset($this->particle1[array_search($name, $this->particle1)]);
+                        }
+                        elseif(in_array($name, $this->particle2)) {
+                            unset($this->particle2[array_search($name, $this->particle2)]);
+                        } 
+                        elseif(in_array($name, $this->particle3)) {
+                            unset($this->particle3[array_search($name, $this->particle3)]);
+                        } 
+                        
+                    } else {
+                        
+                        unset($this->particle4[array_search($name, $this->particle4)]);
+                        $player->sendPopup("You have disabled your CupidsLove Particle");
+                         	
+                    }
+                break;
+
+                case 4:
+                    $name = $player->getName();
+
+                    if(in_array($name, $this->particle1)) {
+                        unset($this->particle1[array_search($name, $this->particle1)]);
+                    }
+                    elseif(in_array($name, $this->particle2)) {
+                        unset($this->particle2[array_search($name, $this->particle2)]);
+                    } 
+                    elseif(in_array($name, $this->particle3)) {
+                        unset($this->particle3[array_search($name, $this->particle3)]);
+                    } 
+                    elseif(in_array($name, $this->particle4)) {
+                        unset($this->particle4[array_search($name, $this->particle4)]);
+                    }
+
+                break;
+
+                case 5:
+                    $this->openMenu($player);
+                break;
+            }
+        });
+           
+        $form->setTitle("Particles");
+        $form->setContent("Pick One");
+        if($player->hasPermission("cosmetic.particles.raincloud")){
+            $form->addButton("Rain Cloud");
+        }
+        if($player->hasPermission("cosmetic.particles.diamondrain")){
+            $form->addButton("Diamond Rain");
+        }
+        if($player->hasPermission("cosmetic.particles.snowaura")){
+            $form->addButton("Snow Aura");
+        }
+        if($player->hasPermission("cosmetic.particles.cupidslove")){
+            $form->addButton("CupidsLove");
+        }
+        $form->addButton("Clear");
+        $form->addButton("Back");
+        $form->sendToPlayer($player);
+        return $form;
+    }
+
+    public function onInteract(PlayerInteractEvent $event) {
+        $player = $event->getPlayer();
+        $item = $event->getItem();
 		$name = $player->getName();
 		$iname = $event->getPlayer()->getInventory()->getItemInHand()->getCustomName();//Item Name
 		$inv = $player->getInventory();
-		$armor = $player->getArmorInventory();
-		$inventory = $player->getInventory();
 		$block = $player->getLevel()->getBlock($player->floor()->subtract(0, 1));
-		$config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
-		
-		if ($block->getId() === 0) {
-              $player->sendPopup("§cPlease wait");
-              return true;
-        }
-		
-		if($iname == "§l§dCosmetic§eMenu") {
-			$this->getMenu($player);
-		}
-		//Gadgets
-		if($iname == "Gadgets") {
-			if($player->hasPermission("cosmetic.gadgets")) {
-				
-				$this->getGadgets($player);
-				
-			} else {
-				
-				$player->sendMessage("You don't have permission to use Gadgets!");
-				
-			}
-		}
-		//Particles
-		if($iname == "Particles") {
-			if($player->hasPermission("cosmetic.particles")) {
-				
-				$this->getParticles($player);
-				
-			} else {
-				
-				$player->sendMessage("You don't have permission to use Particles!");
-				
-			}
-		}
-		//Pets
-		if($iname == "Pets") {
-			if($player->hasPermission("cosmetic.pets")) {
-				
-				$this->getPets($player);
-				
-			} else {
-				
-				$player->sendMessage("You don't have permission to use Pets!");
-				
-			}
-		}
-		//Masks
-		if($iname == "Masks") {
-			if($player->hasPermission("cosmetic.masks")) {
-				
-				$this->getMasks($player);
-				
-			} else {
-				
-				$player->sendMessage("You don't have permission to use Masks!");
-				
-			}
-		}
-		//Trails
-		if($iname == "Trails") {
-			if($player->hasPermission("cosmetic.Trails")) {
-				
-				$this->getTrails($player);
-				
-			} else {
-				
-				$player->sendMessage("You don't have permission to use Trails!");
-				
-			}
-		}
-		//Back
-		if($iname == "Back") {
-			
-			$inv = $player->getInventory();
-			$inv->clearAll();
-			
-			$this->getItems($player);	
-		}
-		//BackToMenu
-		if($iname == "BackToMenu") {
-			
-			$inv = $player->getInventory();
-			$inv->clearAll();
-			
-			$this->getMenu($player);	
-		}
 
-	//Gadgets
+        if ($block->getId() === 0) {
+            $player->sendPopup("§cPlease wait");
+            return true;
+        }
+
+        if($iname == "CosmeticMenu") {
+            $this->openMenu($player);
+        }
+
+    //Gadgets
 		//TNT-Launcher
 		if($iname == "TNT-Launcher"){
 			if($player->hasPermission("cosmetic.gadgets.tntlauncher")) {
@@ -640,9 +635,9 @@ class Main extends PluginBase implements Listener {
 					])
 				]);
 				$f = 1.5;
-				$snowball = Entity::createEntity("Snowball", $player->getLevel(), $nbt, $player);
-				$snowball->setMotion($snowball->getMotion()->multiply($f));
-				$snowball->spawnToAll();
+				$egg = Entity::createEntity("Egg", $player->getLevel(), $nbt, $player);
+				$egg->setMotion($egg->getMotion()->multiply($f));
+				$egg->spawnToAll();
 				$this->sbCooldown[$player->getName()] = $player->getName();
                 $time = "30";
                 $this->sbCooldownTime[$player->getName()] = $time;
@@ -655,606 +650,12 @@ class Main extends PluginBase implements Listener {
 				$player->sendMessage("You don't have permission to use SmokeBomb!");
 				
 			}
-	    }
-
-	//Particles	
-		//RainCloud
-		if($iname == "Rain Cloud") {
-			if($player->hasPermission("cosmetic.particles.raincloud")) {
-				
-			if(!in_array($name, $this->particle1)) {
-				
-				$this->particle1[] = $name;
-				$player->sendMessage($prefix . "You have enabled your Rain Cloud Particle");
-				
-				if(in_array($name, $this->particle2)) {
-					unset($this->particle2[array_search($name, $this->particle2)]);
-				} 
-				elseif(in_array($name, $this->particle3)) {
-					unset($this->particle3[array_search($name, $this->particle3)]);
-				} 
-				elseif(in_array($name, $this->particle4)) {
-					unset($this->particle4[array_search($name, $this->particle4)]);
-				} 
-				
-			} 
-			else {
-				
-				unset($this->particle1[array_search($name, $this->particle1)]);
-				$player->sendMessage($prefix . "You have disabled your Rain Cloud Particle");
-				
-				if(in_array($name, $this->particle2)) {
-					unset($this->particle2[array_search($name, $this->particle2)]);
-				} 
-				elseif(in_array($name, $this->particle3)) {
-					unset($this->particle3[array_search($name, $this->particle3)]);
-				} 
-				elseif(in_array($name, $this->particle4)) {
-					unset($this->particle4[array_search($name, $this->particle4)]);
-				} 
-			}
-			} 
-			else {		
-				$player->sendMessage("You don't have permission to use RainCloud!");				
-			}			
-		}
-	    //Diamond Rain
-		if($iname == "Diamond Rain") {
-			if($player->hasPermission("cosmetic.particles.diamondrain")) {
-				
-			if(!in_array($name, $this->particle2)) {
-				
-				$this->particle2[] = $name;
-				$player->sendMessage($prefix . "You have enabled your Diamond Rain Particle");
-				
-				if(in_array($name, $this->particle1)) {
-					unset($this->particle1[array_search($name, $this->particle1)]);
-				} 
-				elseif(in_array($name, $this->particle3)) {
-					unset($this->particle3[array_search($name, $this->particle3)]);
-				} 
-				elseif(in_array($name, $this->particle4)) {
-					unset($this->particle4[array_search($name, $this->particle4)]);
-				} 
-				
-			} 
-			else {
-				
-				unset($this->particle2[array_search($name, $this->particle2)]);
-				$player->sendMessage($prefix . "You have disabled your Diamond Rain Particle");
-				
-				if(in_array($name, $this->particle1)) {
-					unset($this->particle1[array_search($name, $this->particle1)]);
-				} 
-				elseif(in_array($name, $this->particle3)) {
-					unset($this->particle3[array_search($name, $this->particle3)]);
-				} 
-				elseif(in_array($name, $this->particle4)) {
-					unset($this->particle4[array_search($name, $this->particle4)]);
-				} 
-			}
-			} 
-			else {	
-				$player->sendMessage("You don't have permission to use DiamondRain!");		
-			}				
-		}
-	   	//SnowAura
-        if($iname == "SnowAura") {	
-		    if($player->hasPermission("cosmetic.particles.snowaura")) {
-				
-	        if(!in_array($name, $this->particle3)) {
-				
-				$this->particle3[] = $name;
-				$player->sendMessage($prefix . "You have enabled your SnowAura Particle");
-				
-				if(in_array($name, $this->particle1)) {
-					unset($this->particle1[array_search($name, $this->particle1)]);
-				} 
-				elseif(in_array($name, $this->particle2)) {
-					unset($this->particle2[array_search($name, $this->particle2)]);
-				} 
-				elseif(in_array($name, $this->particle4)) {
-					unset($this->particle4[array_search($name, $this->particle4)]);
-				} 
-				
-			} 
-			else {
-				
-				unset($this->particle3[array_search($name, $this->particle3)]);
-				$player->sendMessage($prefix . "You have disabled your SnowAura Particle");
-				
-				if(in_array($name, $this->particle1)) {
-					unset($this->particle1[array_search($name, $this->particle1)]);
-				} 
-				elseif(in_array($name, $this->particle2)) {
-					unset($this->particle2[array_search($name, $this->particle2)]);
-				} 
-				elseif(in_array($name, $this->particle4)) {
-					unset($this->particle4[array_search($name, $this->particle4)]);
-				}	
-			}
-			} 
-			else {
-				$player->sendMessage("You don't have permission to use SnowAura!");			
-			}							
-		}
-		//CupidsLove
-		if($iname == "CupidsLove") {	
-		    if($player->hasPermission("cosmetic.particles.cupidslove")) {
-				
-	        if(!in_array($name, $this->particle4)) {
-				
-				$this->particle4[] = $name;
-				$player->sendMessage($prefix . "You have enabled your CupidsLove Particle");
-				
-				if(in_array($name, $this->particle1)) {
-					unset($this->particle1[array_search($name, $this->particle1)]);
-				}
-				elseif(in_array($name, $this->particle2)) {
-					unset($this->particle2[array_search($name, $this->particle2)]);
-				} 
-				elseif(in_array($name, $this->particle3)) {
-					unset($this->particle3[array_search($name, $this->particle3)]);
-				} 
-				
-			} 
-			else {
-				
-				unset($this->particle4[array_search($name, $this->particle4)]);
-				$player->sendMessage($prefix . "You have disabled your CupidsLove Particle");
-				
-				if(in_array($name, $this->particle1)) {
-					unset($this->particle1[array_search($name, $this->particle1)]);
-				} 
-				elseif(in_array($name, $this->particle2)) {
-					unset($this->particle2[array_search($name, $this->particle2)]);
-				} 
-				elseif(in_array($name, $this->particle3)) {
-					unset($this->particle3[array_search($name, $this->particle3)]);
-				} 	
-			}
-			} 
-			else {
-				$player->sendMessage("You don't have permission to use CupidsLove!");				
-			}							
 		}
 
-	//Masks
-	    //Skeleton
-	    if($iname == "Skeleton Mask") {
-			if($player->hasPermission("cosmetic.masks.skeleton")) {
-				
-			if(in_array($name, $this->skeleton)) {
-				
-				unset($this->skeleton[array_search($name, $this->skeleton)]);
-				$player->sendMessage($prefix . "You have no Mask on");
-				$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
-				
-				if(in_array($name, $this->creeper)) {
-					unset($this->creeper[array_search($name, $this->creeper)]);
-				} elseif(in_array($name, $this->witherskeleton)) {
-					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-				} elseif(in_array($name, $this->zombie)) {
-					unset($this->zombie[array_search($name, $this->zombie)]);
-				} elseif(in_array($name, $this->dragon)) {
-					unset($this->dragon[array_search($name, $this->dragon)]);
-				}
-				
-			} else {
-				
-				$this->skeleton[] = $name;
-				$player->sendMessage($prefix . "You have The Skeleton Mask on!");
-				$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,0,1));
-				$player->sendPopup("§l§aPlop!");
-				
-				if(in_array($name, $this->creeper)) {
-					unset($this->creeper[array_search($name, $this->creeper)]);
-				} elseif(in_array($name, $this->witherskeleton)) {
-					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-				} elseif(in_array($name, $this->zombie)) {
-					unset($this->zombie[array_search($name, $this->zombie)]);
-				} elseif(in_array($name, $this->dragon)) {
-					unset($this->dragon[array_search($name, $this->dragon)]);
-				}				
-			}
-		    } else {
-				
-				$player->sendMessage("You don't have permission to use Skeleton Mask!");
-				
-			}							
-		}
-		//WitherSkeleton
-		if($iname == "WitherSkeleton Mask") {
-			if($player->hasPermission("cosmetic.masks.witherskeleton")) {
-				
-			if(in_array($name, $this->witherskeleton)) {
-				
-				unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-				$player->sendMessage($prefix . "You have no Mask on");
-				$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
-				
-				if(in_array($name, $this->creeper)) {
-					unset($this->creeper[array_search($name, $this->creeper)]);
-				} elseif(in_array($name, $this->skeleton)) {
-					unset($this->skeleton[array_search($name, $this->skeleton)]);
-				} elseif(in_array($name, $this->zombie)) {
-					unset($this->zombie[array_search($name, $this->zombie)]);
-				} elseif(in_array($name, $this->dragon)) {
-					unset($this->dragon[array_search($name, $this->dragon)]);
-				}
-				
-			} else {
-				
-				$this->witherskeleton[] = $name;
-				$player->sendMessage($prefix . "You have The WitherSkeleton Mask on!");
-				$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,1,1));
-				$player->sendPopup("§l§aPlop!");
-				
-				if(in_array($name, $this->creeper)) {
-					unset($this->creeper[array_search($name, $this->creeper)]);
-				} elseif(in_array($name, $this->skeleton)) {
-					unset($this->skeleton[array_search($name, $this->skeleton)]);
-				} elseif(in_array($name, $this->zombie)) {
-					unset($this->zombie[array_search($name, $this->zombie)]);
-				} elseif(in_array($name, $this->dragon)) {
-					unset($this->dragon[array_search($name, $this->dragon)]);
-				}				
-			}
-		    } else {
-				
-				$player->sendMessage("You don't have permission to use WitherSkeleton Mask!");
-				
-			}							
-		}
-		//Zombie
-		if($iname == "Zombie Mask") {
-			if($player->hasPermission("cosmetic.masks.zombie")) {
-				
-			if(in_array($name, $this->zombie)) {
-				
-				unset($this->zombie[array_search($name, $this->zombie)]);
-				$player->sendMessage($prefix . "You have no Mask on");
-				$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
-				
-				if(in_array($name, $this->creeper)) {
-					unset($this->creeper[array_search($name, $this->creeper)]);
-				} elseif(in_array($name, $this->witherskeleton)) {
-					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-				} elseif(in_array($name, $this->skeleton)) {
-					unset($this->skeleton[array_search($name, $this->skeleton)]);
-				} elseif(in_array($name, $this->dragon)) {
-					unset($this->dragon[array_search($name, $this->dragon)]);
-				}
-				
-			} else {
-				
-				$this->zombie[] = $name;
-				$player->sendMessage($prefix . "You have The Zombie Mask on!");
-				$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,2,1));
-				$player->sendPopup("§l§aPlop!");
-				
-				if(in_array($name, $this->creeper)) {
-					unset($this->creeper[array_search($name, $this->creeper)]);
-				} elseif(in_array($name, $this->witherskeleton)) {
-					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-				} elseif(in_array($name, $this->skeleton)) {
-					unset($this->skeleton[array_search($name, $this->skeleton)]);
-				} elseif(in_array($name, $this->dragon)) {
-					unset($this->dragon[array_search($name, $this->dragon)]);
-				}				
-			}	
-		    } else {
-				
-				$player->sendMessage("You don't have permission to use Zombie Mask!");
-				
-			}				
-		}
-		//Creeper
-		if($iname == "Creeper Mask") {
-			if($player->hasPermission("cosmetic.masks.creeper")) {
-				
-			if(in_array($name, $this->creeper)) {
-				
-				unset($this->creeper[array_search($name, $this->creeper)]);
-				$player->sendMessage($prefix . "You have no Mask on");
-				$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
-				
-				if(in_array($name, $this->skeleton)) {
-					unset($this->skeleton[array_search($name, $this->skeleton)]);
-				} elseif(in_array($name, $this->witherskeleton)) {
-					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-				} elseif(in_array($name, $this->zombie)) {
-					unset($this->zombie[array_search($name, $this->zombie)]);
-				} elseif(in_array($name, $this->dragon)) {
-					unset($this->dragon[array_search($name, $this->dragon)]);
-				}
-				
-			} else {
-				
-				$this->creeper[] = $name;
-				$player->sendMessage($prefix . "You have The Creeper Mask on!");
-				$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,4,1));
-				$player->sendPopup("§l§aPlop!");
-				
-				if(in_array($name, $this->skeleton)) {
-					unset($this->skeleton[array_search($name, $this->skeleton)]);
-				} elseif(in_array($name, $this->witherskeleton)) {
-					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-				} elseif(in_array($name, $this->zombie)) {
-					unset($this->zombie[array_search($name, $this->zombie)]);
-				} elseif(in_array($name, $this->dragon)) {
-					unset($this->dragon[array_search($name, $this->dragon)]);
-				}				
-			}
-		    } else {
-				
-				$player->sendMessage("You don't have permission to use Creeper Mask!");
-				
-			}							
-		}
-		//Dragon
-		if($iname == "Dragon Mask") {
-			if($player->hasPermission("cosmetic.masks.dragon")) {
-				
-			if(in_array($name, $this->dragon)) {
-				
-				unset($this->dragon[array_search($name, $this->dragon)]);
-				$player->sendMessage($prefix . "You have no Mask on");
-				$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
-				
-				if(in_array($name, $this->creeper)) {
-					unset($this->creeper[array_search($name, $this->creeper)]);
-				} elseif(in_array($name, $this->witherskeleton)) {
-					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-				} elseif(in_array($name, $this->zombie)) {
-					unset($this->zombie[array_search($name, $this->zombie)]);
-				} elseif(in_array($name, $this->skeleton)) {
-					unset($this->skeleton[array_search($name, $this->skeleton)]);
-				}
-				
-			} else {
-				
-				$this->dragon[] = $name;
-				$player->sendMessage($prefix . "You have The Dragon Mask on!");
-				$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,5,1));
-				$player->sendPopup("§l§aPlop!");
-				
-				if(in_array($name, $this->creeper)) {
-					unset($this->creeper[array_search($name, $this->creeper)]);
-				} elseif(in_array($name, $this->witherskeleton)) {
-					unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-				} elseif(in_array($name, $this->zombie)) {
-					unset($this->zombie[array_search($name, $this->zombie)]);
-				} elseif(in_array($name, $this->skeleton)) {
-					unset($this->skeleton[array_search($name, $this->skeleton)]);
-				}				
-			}
-		    } else {
-				
-				$player->sendMessage("You don't have permission to use Dragon Mask!");
-				
-			}							
-		}
 
-    //Trails
-	    //FlameTrail
-		if($iname == "Flame Trail") {
-		    if($player->hasPermission("cosmetic.trails.flame")) {
-				
-	    	if(!in_array($name, $this->trail1)) {
-				
-				$this->trail1[] = $name;
-				$player->sendMessage($prefix . "You have enabled your Flame Trail Particle");
-				
-				if(in_array($name, $this->trail2)) {
-					unset($this->trail2[array_search($name, $this->trail2)]);
-				} 
-				elseif(in_array($name, $this->trail3)) {
-					unset($this->trail3[array_search($name, $this->trail3)]);
-				} 
-				elseif(in_array($name, $this->trail4)) {
-					unset($this->trail4[array_search($name, $this->trail4)]);
-				}
-				
-			} 
-			else {
-				
-				unset($this->trail1[array_search($name, $this->trail1)]);
-				$player->sendMessage($prefix . "You have disabled your Flame Trail Particle");
-				
-				if(in_array($name, $this->trail2)) {
-					unset($this->trail2[array_search($name, $this->trail2)]);
-				} 
-				elseif(in_array($name, $this->trail3)) {
-					unset($this->trail3[array_search($name, $this->trail3)]);
-				} 
-				elseif(in_array($name, $this->trail4)) {
-					unset($this->trail4[array_search($name, $this->trail4)]);
-				}	
-			}
-			} 
-			else {
-				
-				$player->sendMessage("You don't have permission to use Flame Trail!");
-				
-			}				
-		}
-		//Snow Trail
-	    if($iname == "Snow Trail") {
-		    if($player->hasPermission("cosmetic.trails.snow")) {
-				
-		    if(!in_array($name, $this->trail2)) {
-				
-				$this->trail2[] = $name;
-				$player->sendMessage($prefix . "You have enabled your Snow Trail Particle");
-				
-				if(in_array($name, $this->trail1)) {
-					unset($this->trail1[array_search($name, $this->trail1)]);
-				} 
-				elseif(in_array($name, $this->trail3)) {
-					unset($this->trail3[array_search($name, $this->trail3)]);
-				} 
-				elseif(in_array($name, $this->trail4)) {
-					unset($this->trail4[array_search($name, $this->trail4)]);
-				}
-				
-			} 
-			else {
-				
-				unset($this->trail2[array_search($name, $this->trail2)]);
-				$player->sendMessage($prefix . "You have disabled your Snow Trail Particle");
-				
-				if(in_array($name, $this->trail1)) {
-					unset($this->trail1[array_search($name, $this->trail1)]);
-				} 
-				elseif(in_array($name, $this->trail3)) {
-					unset($this->trail3[array_search($name, $this->trail3)]);
-				} 
-				elseif(in_array($name, $this->trail4)) {
-					unset($this->trail4[array_search($name, $this->trail4)]);
-				} 	
-			}
-			} 
-			else {
-				
-				$player->sendMessage("You don't have permission to use Snow Trail!");
-				
-			}				
-		}
-		//Heart Trail
-		if($iname == "Heart Trail") {
-		    if($player->hasPermission("cosmetic.trails.heart")) {
-				
-		    if(!in_array($name, $this->trail3)) {
-				
-				$this->trail3[] = $name;
-				$player->sendMessage($prefix . "You have enabled your Heart Trail Particle");
-				
-				if(in_array($name, $this->trail1)) {
-					unset($this->trail1[array_search($name, $this->trail1)]);
-				}
-				elseif(in_array($name, $this->trail2)) {
-					unset($this->trail2[array_search($name, $this->trail2)]);
-				} 
-				elseif(in_array($name, $this->trail4)) {
-					unset($this->trail4[array_search($name, $this->trail4)]);
-				}
-				
-			} 
-			else {
-				
-				unset($this->trail3[array_search($name, $this->trail3)]);
-				$player->sendMessage($prefix . "You have disabled your Heart Trail Particle");
-				
-				if(in_array($name, $this->trail1)) {
-					unset($this->trail1[array_search($name, $this->trail1)]);
-				} 
-				elseif(in_array($name, $this->trail2)) {
-					unset($this->trail2[array_search($name, $this->trail2)]);
-				} 
-				elseif(in_array($name, $this->trail4)) {
-					unset($this->trail4[array_search($name, $this->trail4)]);
-				} 	
-			}
-			} 
-			else {
-				
-				$player->sendMessage("You don't have permission to use Heart Trail!");
-				
-			}				
-		}
-		//Smoke Trail
-		if($iname == "Smoke Trail") {
-		    if($player->hasPermission("cosmetic.trails.heart")) {
-				
-		    if(!in_array($name, $this->trail4)) {
-				
-				$this->trail4[] = $name;
-				$player->sendMessage($prefix . "You have enabled your Smoke Trail Particle");
-				
-				if(in_array($name, $this->trail1)) {
-					unset($this->trail1[array_search($name, $this->trail1)]);
-				}
-				elseif(in_array($name, $this->trail2)) {
-					unset($this->trail2[array_search($name, $this->trail2)]);
-				} 
-				elseif(in_array($name, $this->trail3)) {
-					unset($this->trail3[array_search($name, $this->trail3)]);
-				}
-				
-			} 
-			else {
-				
-				unset($this->trail4[array_search($name, $this->trail4)]);
-				$player->sendMessage($prefix . "You have disabled your Smoke Trail Particle");
-				
-				if(in_array($name, $this->trail1)) {
-					unset($this->trail1[array_search($name, $this->trail1)]);
-				} 
-				elseif(in_array($name, $this->trail2)) {
-					unset($this->trail2[array_search($name, $this->trail2)]);
-				} 
-				elseif(in_array($name, $this->trail3)) {
-					unset($this->trail3[array_search($name, $this->trail3)]);
-				} 	
-			}
-			} 
-			else {
-				
-				$player->sendMessage("You don't have permission to use Smoke Trail!");
-				
-			}				
-		}
     }
 
-	public function onItemSpawn(ItemSpawnEvent $event) {
-        $item = $event->getEntity();
-        $delay = 5;  
-        $this->getScheduler()->scheduleDelayedTask(new class($item) extends PluginTask {
-            public $itemEntity;
-            
-            public function __construct(ItemEntity $itemEntity)
-            {
-                $this->itemEntity = $itemEntity;
-            }
 
-            public function onRun(int $currentTick)
-            {
-                if(!$this->itemEntity->isFlaggedForDespawn()) $this->itemEntity->flagForDespawn();
-            }
-            
-        }, 5*$delay);
-    }
 
-    public function onSnowballDown(EntityDespawnEvent $event) {
-       if($event->getType() === 81){
-          $entity = $event->getEntity();
-          $shooter = $entity->getOwningEntity();
-          $x = $entity->getX();
-          $y = $entity->getY();
-          $z = $entity->getZ();
-          $level = $entity->getLevel();
-          for ($i = 1; $i < 4; $i++) {
-               $v0 = new Vector3($x + 1, $y + $i, $z + 1);
-               $v1 = new Vector3($x - 1, $y + $i, $z - 1);
-          	   $v2 = new Vector3($x + 1, $y + $i, $z - 1);
-               $v3 = new Vector3($x - 1, $y + $i, $z + 1);
-               $v4 = new Vector3($x + 1, $y + $i, $z);
-               $v5 = new Vector3($x - 1, $y + $i, $z);
-               $v6 = new Vector3($x, $y + $i, $z + 1);
-               $v7 = new Vector3($x, $y + $i, $z - 1);
-               $v8 = new Vector3($x, $y + $i, $z);
-               $level->addParticle(new MobSpawnParticle($v0));
-               $level->addParticle(new MobSpawnParticle($v1));
-               $level->addParticle(new MobSpawnParticle($v2));
-               $level->addParticle(new MobSpawnParticle($v3));
-               $level->addParticle(new MobSpawnParticle($v4));
-               $level->addParticle(new MobSpawnParticle($v5));
-               $level->addParticle(new MobSpawnParticle($v6));
-               $level->addParticle(new MobSpawnParticle($v7));
-               $level->addParticle(new MobSpawnParticle($v8));
-            }        
-        }
-    }     
-	
-}		
+
+}
