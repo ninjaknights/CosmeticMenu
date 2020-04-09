@@ -40,7 +40,7 @@ use pocketmine\item\Item;
 use pocketmine\item\ItemIds;
 use pocketmine\inventory\ArmorInventory;
 use pocketmine\inventory\PlayerInventory;
-use pocketmine\entity\Item;
+use pocketmine\entity\Item as ItemE;
 use pocketmine\math\Vector3;
 use pocketmine\math\Vector2;
 use pocketmine\scheduler\Task;
