@@ -20,7 +20,7 @@ Fun in the lobby (PMMP-Plugin)
 | `Skeleton` | `cosmetic.masks.skeleton` |
 | `Creeper` | `cosmetic.masks.creeper` |
 | `WhitherSkeleton` | `cosmetic.masks.witherskeleton` |
-| `Dragon` | `cosmetic.masks.dragon"` |
+| `Dragon` | `cosmetic.masks.dragon` |
 | `Trails` | `cosmetic.trails` |
 | `Flame Trail` | `cosmetic.trails.flame` |
 | `Snow Trail` | `cosmetic.trails.snow` |
