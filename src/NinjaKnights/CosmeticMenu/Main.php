@@ -100,8 +100,11 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 
-use NinjaKnights\CosmeticMenu\Particles;
+use NinjaKnights\CosmeticMenu\Gadgets\Gadgets;
 use NinjaKnights\CosmeticMenu\Cooldown;
+use NinjaKnights\CosmeticMenu\Particles\Particles;
+use NinjaKnights\CosmeticMenu\Trails\Trails;
+
 
 class Main extends PluginBase implements Listener {
 
@@ -113,23 +116,25 @@ class Main extends PluginBase implements Listener {
 	public $inv = [];
     public $inventories;
 
-	public $tntCooldown = [ ];
+    /**
+     * @param EntityLevelChangeEvent $event
+     */
+
+    public $tntCooldown = [ ];
 	public $tntCooldownTime = [ ];
 	public $lsCooldownTime = [ ];
 	public $lsCooldown = [ ];
 	public $sbCooldown = [ ];
 	public $sbCooldownTime = [ ];
-
-    /**
-     * @param EntityLevelChangeEvent $event
-     */
 	
 	public $skeleton = array("SkeletonMask");
 	public $witherskeleton = array("WitherSkeletonMask");
 	public $creeper = array("CreeperMask");
 	public $zombie = array("ZombieMask");
 	public $dragon = array("DragonMask");
-	
+    
+    public $pet1 = array("Zombie Pet");
+
 	public $trail1 = array("FlameTrail");
 	public $trail2 = array("SnowTrail");
 	public $trail3 = array("HeartTrail");
@@ -142,8 +147,12 @@ class Main extends PluginBase implements Listener {
 
     public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
+        $this->getServer()->getPluginManager()->registerEvents(new Gadgets($this), $this);
         $this->getScheduler()->scheduleRepeatingTask(new Particles($this), 5);
-		$this->getScheduler()->scheduleRepeatingTask(new Cooldown($this), 20);
+        $this->getScheduler()->scheduleRepeatingTask(new Trails($this), 5);
+        $this->getScheduler()->scheduleRepeatingTask(new Cooldown($this), 20);
+
+
     }
 
     public function onJoin(PlayerJoinEvent $event) {
@@ -162,10 +171,6 @@ class Main extends PluginBase implements Listener {
 		$z = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getZ();
 		
 		$player->teleport(new Vector3($x, $y, $z));
-	}
-	//This is for the TNT-Launcher
-	public function ExplosionPrimeEvent(ExplosionPrimeEvent $event){
-		$event->setBlockBreaking(false);
 	}
 	//This is for Diamond Rain Particle
 	public function onItemSpawn(ItemSpawnEvent $event) {
@@ -251,6 +256,10 @@ class Main extends PluginBase implements Listener {
                 case 3:
                     $this->openTrails($player);
                 break;
+
+                case 4:
+                    $this->openPets($player);
+                break;
             }
         });
            
@@ -267,6 +276,9 @@ class Main extends PluginBase implements Listener {
         }
         if($player->hasPermission("cosmetic.trails")){
             $form->addButton("Trails");
+        }
+        if($player->hasPermission("cosmetic.pets")){
+            $form->addButton("Pets");
         }
         $form->sendToPlayer($player);
         return $form;
@@ -286,16 +298,19 @@ class Main extends PluginBase implements Listener {
 		            $item = Item::get(352, 0, 1);
                     $item->setCustomName("TNT-Launcher");
                     
-		            $inv->setItem(1, $item);
+		            $inv->setItem(0, $item);
                 break;
 
                 case 1:
                     $inv = $player->getInventory();
 		
-		            $item = Item::get(369, 0, 1);
-		            $item->setCustomName("LightningStick");
-                    
-		            $inv->setItem(1, $item);
+                    $item = Item::get(369, 0, 1);
+                    $item->setCustomName("LightningStick");
+                    $inv->setItem(0, $item);
+
+                    $item1 = Item::get(355, 0 , 1);
+                    $item1->setCustomName("Back")
+                    $inv->setItem(8, $item1);
                 break;
 
                 case 2:
@@ -303,26 +318,26 @@ class Main extends PluginBase implements Listener {
 		
 		            $item = Item::get(288, 0, 1);
 		            $item->setCustomName("Leaper");
+                    $inv->setItem(0, $item);
                     
-		            $inv->setItem(1, $item);
+                    $item1 = Item::get(355, 0 , 1);
+                    $item1->setCustomName("Back")
+                    $inv->setItem(8, $item1);
                 break;
 
                 case 3:
                     $inv = $player->getInventory();
 		
 		            $item = Item::get(385, 0, 1);
-		            $item->setCustomName("SmokeBomb");
+		            $item->setCustomName("SmokeBomb");   
+                    $inv->setItem(0, $item);
                     
-		            $inv->setItem(1, $item);
+                    $item1 = Item::get(355, 0 , 1);
+                    $item1->setCustomName("Back")
+                    $inv->setItem(8, $item1);
                 break;
 
                 case 4:
-                    $inv = $player->getInventory();
-                    $item1 = Item::get(0, 0, 1);  
-		            $inv->setItem(1, $item1);
-                break;
-
-                case 5:
                     $this->openMenu($player);
                 break;
             }
@@ -342,7 +357,6 @@ class Main extends PluginBase implements Listener {
         if($player->hasPermission("cosmetic.gadgets.smokebomb")){
             $form->addButton("SmokeBomb");
         }
-        $form->addButton("Clear");
         $form->addButton("Back");
         $form->sendToPlayer($player);
         return $form;
@@ -868,9 +882,9 @@ class Main extends PluginBase implements Listener {
             $this->openMenu($player);
         }
 
-    //Gadgets
+        //Gadgets
 		//TNT-Launcher
-		if($iname == "TNT-Launcher"){
+		if($iname == "TNT-Launcher") {
 			if($player->hasPermission("cosmetic.gadgets.tntlauncher")) {
 			if(!isset($this->tntCooldown[$player->getName()])){
                $nbt = new CompoundTag("", [
@@ -906,7 +920,7 @@ class Main extends PluginBase implements Listener {
 			}
         }
 		//LightningStick
-		if($iname == "LightningStick"){
+		if($iname == "LightningStick") {
         	if($player->hasPermission("cosmetic.gadgets.lightningstick")) {
 				if(!isset($this->lsCooldown[$player->getName()])) {				
 				$block = $event->getBlock();
@@ -930,7 +944,7 @@ class Main extends PluginBase implements Listener {
 			}
 		}
         //Leaper
-        if($iname == "Leaper"){
+        if($iname == "Leaper") {
 			if($player->hasPermission("cosmetic.gadgets.leaper")) {
 				
            $yaw = $player->yaw;
@@ -962,7 +976,7 @@ class Main extends PluginBase implements Listener {
 			}
         }
 		//SmokeBomb
-		if($iname == "SmokeBomb"){
+		if($iname == "SmokeBomb") {
 			if($player->hasPermission("cosmetic.gadgets.smokebomb")) {
 			if(!isset($this->sbCooldown[$player->getName()])){
 		       $nbt = new CompoundTag ("", [
@@ -989,7 +1003,7 @@ class Main extends PluginBase implements Listener {
                 $time = "30";
                 $this->sbCooldownTime[$player->getName()] = $time;
 
-            }else{
+            } else {
                 $player->sendPopup("§cYou can't use the SmokeBomb for another ".$this->sbCooldownTime[$player->getName()]." seconds.");
             }
             } else {
@@ -997,12 +1011,19 @@ class Main extends PluginBase implements Listener {
 				$player->sendMessage("You don't have permission to use SmokeBomb!");
 				
 			}
-		}
+        }
+        //Back
+        if($iname == "Back") {
 
+            $item1 = Item::get(345, 0, 1);
+            $item1->setCustomName("CosmeticMenu");
+            $inv->setItem(0, $item1);  
+            
+            $item1 = Item::get(0, 0 , 1);
+            $inv->setItem(8, $item1);
+
+        }
 
     }
-
-
-
 
 }
