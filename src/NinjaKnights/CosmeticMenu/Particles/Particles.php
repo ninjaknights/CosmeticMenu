@@ -105,6 +105,7 @@ class Particles extends PluginTask {
 			
 			$players = $player->getLevel()->getPlayers();
 			$level = $player->getLevel();
+			$location = $player->getLocation();
 			
 			$x = $player->getX();
 			$y = $player->getY();
@@ -179,14 +180,23 @@ class Particles extends PluginTask {
 				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z + 0.5)));
 				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z - 0.5)));				
 			}
-			//Diamond Rain
+			//Flaming Ring
             if(in_array($name, $this->plugin->particle2)) {
-	            $x = $player->getX();
-				$y = $player->getY();
-				$z = $player->getZ(); 
-			   
-			    $level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
-				$level->dropItem(new Vector3($x, $y + 2.7, $z), Item::get(ITEM::GOLDEN_APPLE)->setCustomName("GodAPPLE"));
+				$radio = 5;
+				for($i = 5; $i > 0; $i-=0.1){
+					$radio = $i/3;
+					$x = $radio*cos(3*$i);
+					$y = 5-$i;
+					$z = $radio*sin(3*$i);
+					$level->addParticle(new FlameParticle($location->add($x, $y, $z)));
+				}
+				for($i = 5; $i > 0; $i-=0.1){
+					$radio = $i/3;
+					$x = -$radio*cos(3*$i);
+					$y = 5-$i;
+					$z = -$radio*sin(3*$i);
+					$level->addParticle(new FlameParticle($location->add($x, $y, $z)));
+				}
 			}	
 			//SnowAura
 			if(in_array($name, $this->plugin->particle3)) {

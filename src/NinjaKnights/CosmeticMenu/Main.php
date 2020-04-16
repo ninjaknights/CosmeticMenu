@@ -137,7 +137,7 @@ class Main extends PluginBase implements Listener {
 	public $trail3 = array("HeartTrail");
 	public $trail4 = array("SmokeTrail ");
 	public $particle1 = array("Rain Cloud");
-	public $particle2 = array("Diamond Rain");
+	public $particle2 = array("Flaming Ring");
 	public $particle3 = array("SnowAura");
 	public $particle4 = array("CupidsLove");
 
@@ -384,7 +384,7 @@ class Main extends PluginBase implements Listener {
                     if(!in_array($name, $this->particle2)) {
 				
                         $this->particle2[] = $name;
-                        $player->sendPopup("You have enabled your Diamond Rain Particle");
+                        $player->sendPopup("You have enabled your Flaming Ring Particle");
                         
                         if(in_array($name, $this->particle1)) {
                             unset($this->particle1[array_search($name, $this->particle1)]);
@@ -397,7 +397,7 @@ class Main extends PluginBase implements Listener {
                     } else {
                         
                         unset($this->particle2[array_search($name, $this->particle2)]);
-                        $player->sendPopup("You have disabled your Diamond Rain Particle");
+                        $player->sendPopup("You have disabled your Flaming Ring Particle");
                         
                         if(in_array($name, $this->particle1)) {
                             unset($this->particle1[array_search($name, $this->particle1)]);
@@ -497,8 +497,8 @@ class Main extends PluginBase implements Listener {
         if($player->hasPermission("cosmetic.particles.raincloud")){
             $form->addButton("Rain Cloud");
         }
-        if($player->hasPermission("cosmetic.particles.diamondrain")){
-            $form->addButton("Diamond Rain");
+        if($player->hasPermission("cosmetic.particles.flamingring")){
+            $form->addButton("Flaming Ring");
         }
         if($player->hasPermission("cosmetic.particles.snowaura")){
             $form->addButton("Snow Aura");
@@ -1076,7 +1076,7 @@ class Main extends PluginBase implements Listener {
 
     }
 
-    //This is for Diamond Rain Particle
+/*   //This is for Diamond Rain Particle
 	public function onItemSpawn(ItemSpawnEvent $event) {
         $item = $event->getEntity();
         $delay = 5;  
@@ -1094,6 +1094,6 @@ class Main extends PluginBase implements Listener {
             }
             
         }, 5*$delay);
-    }
+    }*/
 
 }
