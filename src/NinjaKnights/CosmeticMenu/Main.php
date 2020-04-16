@@ -297,8 +297,11 @@ class Main extends PluginBase implements Listener {
 		
 		            $item = Item::get(352, 0, 1);
                     $item->setCustomName("TNT-Launcher");
+                    $inv->setItem(0, $item);
                     
-		            $inv->setItem(0, $item);
+                    $item1 = Item::get(355, 0 , 1);
+                    $item1->setCustomName("Back");
+                    $inv->setItem(8, $item1);
                 break;
 
                 case 1:
@@ -309,7 +312,7 @@ class Main extends PluginBase implements Listener {
                     $inv->setItem(0, $item);
 
                     $item1 = Item::get(355, 0 , 1);
-                    $item1->setCustomName("Back")
+                    $item1->setCustomName("Back");
                     $inv->setItem(8, $item1);
                 break;
 
@@ -321,7 +324,7 @@ class Main extends PluginBase implements Listener {
                     $inv->setItem(0, $item);
                     
                     $item1 = Item::get(355, 0 , 1);
-                    $item1->setCustomName("Back")
+                    $item1->setCustomName("Back");
                     $inv->setItem(8, $item1);
                 break;
 
@@ -333,7 +336,7 @@ class Main extends PluginBase implements Listener {
                     $inv->setItem(0, $item);
                     
                     $item1 = Item::get(355, 0 , 1);
-                    $item1->setCustomName("Back")
+                    $item1->setCustomName("Back");
                     $inv->setItem(8, $item1);
                 break;
 
