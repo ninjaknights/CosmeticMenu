@@ -2,6 +2,7 @@
 
 namespace NinjaKnights\CosmeticMenu;
 
+use pocketmine\Server;
 use pocketmine\level\Location;
 use pocketmine\level\Position;
 use pocketmine\event\entity\ProjectileLaunchEvent;
@@ -105,7 +106,6 @@ use NinjaKnights\CosmeticMenu\Cooldown;
 use NinjaKnights\CosmeticMenu\Particles\Particles;
 use NinjaKnights\CosmeticMenu\Trails\Trails;
 
-
 class Main extends PluginBase implements Listener {
 
      /**@var Item*/
@@ -132,9 +132,6 @@ class Main extends PluginBase implements Listener {
 	public $creeper = array("CreeperMask");
 	public $zombie = array("ZombieMask");
 	public $dragon = array("DragonMask");
-    
-    public $pet1 = array("Zombie Pet");
-
 	public $trail1 = array("FlameTrail");
 	public $trail2 = array("SnowTrail");
 	public $trail3 = array("HeartTrail");
@@ -148,11 +145,10 @@ class Main extends PluginBase implements Listener {
     public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getServer()->getPluginManager()->registerEvents(new Gadgets($this), $this);
+        $this->MorphX = $this->getServer()->getPluginManager()->getPlugin("MorphX");
         $this->getScheduler()->scheduleRepeatingTask(new Particles($this), 5);
         $this->getScheduler()->scheduleRepeatingTask(new Trails($this), 5);
         $this->getScheduler()->scheduleRepeatingTask(new Cooldown($this), 20);
-
-
     }
 
     public function onJoin(PlayerJoinEvent $event) {
@@ -172,25 +168,6 @@ class Main extends PluginBase implements Listener {
 		
 		$player->teleport(new Vector3($x, $y, $z));
 	}
-	//This is for Diamond Rain Particle
-	public function onItemSpawn(ItemSpawnEvent $event) {
-        $item = $event->getEntity();
-        $delay = 5;  
-        $this->getScheduler()->scheduleDelayedTask(new class($item) extends PluginTask {
-            public $itemEntity;
-            
-            public function __construct(ItemEntity $itemEntity)
-            {
-                $this->itemEntity = $itemEntity;
-            }
-
-            public function onRun(int $currentTick)
-            {
-                if(!$this->itemEntity->isFlaggedForDespawn()) $this->itemEntity->flagForDespawn();
-            }
-            
-        }, 5*$delay);
-    }
 	//This is for SmokeBomb
     public function onEggDown(EntityDespawnEvent $event) {
        if($event->getType() === 82){
@@ -234,9 +211,8 @@ class Main extends PluginBase implements Listener {
 	} 
 	
 	public function openMenu($player) {
-        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-        $form = $api->createSimpleForm(function (Player $player, int $data = null) {
-        $result = $data;
+        $form = $this->getServer()->getPluginManager()->getPlugin("FormAPI")->createSimpleForm(function (Player $player, $data) {
+            $result = $data;
             if($result === null) {
                 return true;
             }
@@ -258,7 +234,7 @@ class Main extends PluginBase implements Listener {
                 break;
 
                 case 4:
-                    $this->openPets($player);
+                    $this->openMorphs($player);
                 break;
             }
         });
@@ -277,17 +253,16 @@ class Main extends PluginBase implements Listener {
         if($player->hasPermission("cosmetic.trails")){
             $form->addButton("Trails");
         }
-        if($player->hasPermission("cosmetic.pets")){
-            $form->addButton("Pets");
+        if($player->hasPermission("cosmetic.morphs")){
+            $form->addButton("Morphs");
         }
         $form->sendToPlayer($player);
         return $form;
     }
 
     public function openGadgets($player) {
-        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-        $form = $api->createSimpleForm(function (Player $player, int $data = null) {
-        $result = $data;
+        $form = $this->getServer()->getPluginManager()->getPlugin("FormAPI")->createSimpleForm(function (Player $player, $data) {
+            $result = $data;
             if($result === null) {
                 return true;
             }
@@ -366,9 +341,8 @@ class Main extends PluginBase implements Listener {
     }
 
     public function openParticles($player) {
-        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-        $form = $api->createSimpleForm(function (Player $player, int $data = null) {
-        $result = $data;
+        $form = $this->getServer()->getPluginManager()->getPlugin("FormAPI")->createSimpleForm(function (Player $player, $data) {
+            $result = $data;
             if($result === null) {
                 return true;
             }
@@ -379,23 +353,28 @@ class Main extends PluginBase implements Listener {
                     if(!in_array($name, $this->particle1)) {
 				
                         $this->particle1[] = $name;
-                        $player->sendPopup("You have enabled your Rain Cloud Particle");
+                        $player->sendMessage("You have enabled your Rain Cloud Particle");
                         
                         if(in_array($name, $this->particle2)) {
                             unset($this->particle2[array_search($name, $this->particle2)]);
-                        } 
-                        elseif(in_array($name, $this->particle3)) {
+                        } elseif(in_array($name, $this->particle3)) {
                             unset($this->particle3[array_search($name, $this->particle3)]);
-                        } 
-                        elseif(in_array($name, $this->particle4)) {
+                        } elseif(in_array($name, $this->particle4)) {
                             unset($this->particle4[array_search($name, $this->particle4)]);
                         } 
                         
                     } else {
                         
                         unset($this->particle1[array_search($name, $this->particle1)]);
-                        $player->sendPopup("You have disabled your Rain Cloud Particle");
+                        $player->sendMessage("You have disabled your Rain Cloud Particle");
                         
+                        if(in_array($name, $this->particle2)) {
+                            unset($this->particle2[array_search($name, $this->particle2)]);
+                        } elseif(in_array($name, $this->particle3)) {
+                            unset($this->particle3[array_search($name, $this->particle3)]);
+                        } elseif(in_array($name, $this->particle4)) {
+                            unset($this->particle4[array_search($name, $this->particle4)]);
+                        } 
                     }
                 break;
 
@@ -409,11 +388,9 @@ class Main extends PluginBase implements Listener {
                         
                         if(in_array($name, $this->particle1)) {
                             unset($this->particle1[array_search($name, $this->particle1)]);
-                        } 
-                        elseif(in_array($name, $this->particle3)) {
+                        } elseif(in_array($name, $this->particle3)) {
                             unset($this->particle3[array_search($name, $this->particle3)]);
-                        } 
-                        elseif(in_array($name, $this->particle4)) {
+                        } elseif(in_array($name, $this->particle4)) {
                             unset($this->particle4[array_search($name, $this->particle4)]);
                         } 
                         
@@ -422,6 +399,13 @@ class Main extends PluginBase implements Listener {
                         unset($this->particle2[array_search($name, $this->particle2)]);
                         $player->sendPopup("You have disabled your Diamond Rain Particle");
                         
+                        if(in_array($name, $this->particle1)) {
+                            unset($this->particle1[array_search($name, $this->particle1)]);
+                        } elseif(in_array($name, $this->particle3)) {
+                            unset($this->particle3[array_search($name, $this->particle3)]);
+                        } elseif(in_array($name, $this->particle4)) {
+                            unset($this->particle4[array_search($name, $this->particle4)]);
+                        } 
                     }
                 break;
 
@@ -435,11 +419,9 @@ class Main extends PluginBase implements Listener {
                         
                         if(in_array($name, $this->particle1)) {
                             unset($this->particle1[array_search($name, $this->particle1)]);
-                        } 
-                        elseif(in_array($name, $this->particle2)) {
+                        } elseif(in_array($name, $this->particle2)) {
                             unset($this->particle2[array_search($name, $this->particle2)]);
-                        } 
-                        elseif(in_array($name, $this->particle4)) {
+                        } elseif(in_array($name, $this->particle4)) {
                             unset($this->particle4[array_search($name, $this->particle4)]);
                         } 
                         
@@ -448,6 +430,13 @@ class Main extends PluginBase implements Listener {
                         unset($this->particle3[array_search($name, $this->particle3)]);
                         $player->sendPopup("You have disabled your SnowAura Particle");
                        
+                        if(in_array($name, $this->particle2)) {
+                            unset($this->particle2[array_search($name, $this->particle2)]);
+                        } elseif(in_array($name, $this->particle1)) {
+                            unset($this->particle1[array_search($name, $this->particle1)]);
+                        } elseif(in_array($name, $this->particle4)) {
+                            unset($this->particle4[array_search($name, $this->particle4)]);
+                        } 
                     }
                 break;
 
@@ -461,11 +450,9 @@ class Main extends PluginBase implements Listener {
                         
                         if(in_array($name, $this->particle1)) {
                             unset($this->particle1[array_search($name, $this->particle1)]);
-                        }
-                        elseif(in_array($name, $this->particle2)) {
+                        } elseif(in_array($name, $this->particle2)) {
                             unset($this->particle2[array_search($name, $this->particle2)]);
-                        } 
-                        elseif(in_array($name, $this->particle3)) {
+                        } elseif(in_array($name, $this->particle3)) {
                             unset($this->particle3[array_search($name, $this->particle3)]);
                         } 
                         
@@ -473,7 +460,14 @@ class Main extends PluginBase implements Listener {
                         
                         unset($this->particle4[array_search($name, $this->particle4)]);
                         $player->sendPopup("You have disabled your CupidsLove Particle");
-                         	
+                             
+                        if(in_array($name, $this->particle2)) {
+                            unset($this->particle2[array_search($name, $this->particle2)]);
+                        } elseif(in_array($name, $this->particle3)) {
+                            unset($this->particle3[array_search($name, $this->particle3)]);
+                        } elseif(in_array($name, $this->particle1)) {
+                            unset($this->particle1[array_search($name, $this->particle1)]);
+                        } 
                     }
                 break;
 
@@ -482,14 +476,11 @@ class Main extends PluginBase implements Listener {
 
                     if(in_array($name, $this->particle1)) {
                         unset($this->particle1[array_search($name, $this->particle1)]);
-                    }
-                    elseif(in_array($name, $this->particle2)) {
+                    } elseif(in_array($name, $this->particle2)) {
                         unset($this->particle2[array_search($name, $this->particle2)]);
-                    } 
-                    elseif(in_array($name, $this->particle3)) {
+                    } elseif(in_array($name, $this->particle3)) {
                         unset($this->particle3[array_search($name, $this->particle3)]);
-                    } 
-                    elseif(in_array($name, $this->particle4)) {
+                    } elseif(in_array($name, $this->particle4)) {
                         unset($this->particle4[array_search($name, $this->particle4)]);
                     }
 
@@ -522,9 +513,8 @@ class Main extends PluginBase implements Listener {
 	}
 	
 	public function openMasks($player) {
-        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-        $form = $api->createSimpleForm(function (Player $player, int $data = null) {
-        $result = $data;
+        $form = $this->getServer()->getPluginManager()->getPlugin("FormAPI")->createSimpleForm(function (Player $player, $data) {
+            $result = $data;
             if($result === null) {
                 return true;
             }
@@ -714,9 +704,8 @@ class Main extends PluginBase implements Listener {
     }
 
     public function openTrails($player) {
-        $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-        $form = $api->createSimpleForm(function (Player $player, int $data = null) {
-        $result = $data;
+        $form = $this->getServer()->getPluginManager()->getPlugin("FormAPI")->createSimpleForm(function (Player $player, $data) {
+            $result = $data;
             if($result === null) {
                 return true;
             }
@@ -727,23 +716,28 @@ class Main extends PluginBase implements Listener {
                     if(!in_array($name, $this->trail1)) {
 				
                         $this->trail1[] = $name;
-                        $player->sendPopup("You have enabled your Flame Trail Particle");
+                        $player->sendMessage("You have enabled your Flame Trail Particle");
                         
                         if(in_array($name, $this->trail2)) {
                             unset($this->trail2[array_search($name, $this->trail2)]);
-                        } 
-                        elseif(in_array($name, $this->trail3)) {
+                        } elseif(in_array($name, $this->trail3)) {
                             unset($this->trail3[array_search($name, $this->trail3)]);
-                        } 
-                        elseif(in_array($name, $this->trail4)) {
+                        } elseif(in_array($name, $this->trail4)) {
                             unset($this->trail4[array_search($name, $this->trail4)]);
                         }
                         
                     } else {
                         
                         unset($this->trail1[array_search($name, $this->trail1)]);
-                        $player->sendPopup("You have disabled your Flame Trail Particle");
-                       	
+                        $player->sendMessage("You have disabled your Flame Trail Particle");
+                        
+                        if(in_array($name, $this->trail2)) {
+                            unset($this->trail2[array_search($name, $this->trail2)]);
+                        } elseif(in_array($name, $this->trail3)) {
+                            unset($this->trail3[array_search($name, $this->trail3)]);
+                        } elseif(in_array($name, $this->trail4)) {
+                            unset($this->trail4[array_search($name, $this->trail4)]);
+                        }	
                     }
                 break;
 
@@ -769,7 +763,14 @@ class Main extends PluginBase implements Listener {
                         
                         unset($this->trail2[array_search($name, $this->trail2)]);
                         $player->sendPopup("You have disabled your Snow Trail Particle");
-                        	
+                        
+                        if(in_array($name, $this->trail1)) {
+                            unset($this->trail1[array_search($name, $this->trail1)]);
+                        } elseif(in_array($name, $this->trail3)) {
+                            unset($this->trail3[array_search($name, $this->trail3)]);
+                        } elseif(in_array($name, $this->trail4)) {
+                            unset($this->trail4[array_search($name, $this->trail4)]);
+                        }
                     }
                 break;
 
@@ -796,6 +797,13 @@ class Main extends PluginBase implements Listener {
                         unset($this->trail3[array_search($name, $this->trail3)]);
                         $player->sendPopup("You have disabled your Heart Trail Particle");
                       
+                        if(in_array($name, $this->trail2)) {
+                            unset($this->trail2[array_search($name, $this->trail2)]);
+                        } elseif(in_array($name, $this->trail1)) {
+                            unset($this->trail1[array_search($name, $this->trail1)]);
+                        } elseif(in_array($name, $this->trail4)) {
+                            unset($this->trail4[array_search($name, $this->trail4)]);
+                        }
                     }
                 break;
 
@@ -821,7 +829,14 @@ class Main extends PluginBase implements Listener {
                         
                         unset($this->trail4[array_search($name, $this->trail4)]);
                         $player->sendPopup("You have disabled your Smoke Trail Particle");
-                        	
+                            
+                        if(in_array($name, $this->trail2)) {
+                            unset($this->trail2[array_search($name, $this->trail2)]);
+                        } elseif(in_array($name, $this->trail3)) {
+                            unset($this->trail3[array_search($name, $this->trail3)]);
+                        } elseif(in_array($name, $this->trail1)) {
+                            unset($this->trail1[array_search($name, $this->trail1)]);
+                        }
                     }
                 break;
 
@@ -863,6 +878,38 @@ class Main extends PluginBase implements Listener {
             $form->addButton("Smoke Trail");
         }
         $form->addButton("Clear");
+        $form->addButton("Back");
+        $form->sendToPlayer($player);
+        return $form;
+    }
+
+    public function openMorphs($player) {
+        $form = $this->getServer()->getPluginManager()->getPlugin("FormAPI")->createSimpleForm(function (Player $player, $data) {
+            $result = $data;
+            if($result === null) {
+                return true;
+            }
+            switch($result) {
+                case 0:
+                    Server::getInstance()->dispatchCommand($player, "morph zombie");
+                break;
+
+                case 1:
+                    Server::getInstance()->dispatchCommand($player, "morph remove");
+                break;
+
+                case 2:
+                    $this->openMenu($player);             
+                break;
+            }
+        });
+
+        $form->setTitle("Morphs");
+        $form->setContent("Pick One");
+        if($player->hasPermission("cosmetic.morphs.zombie")){
+            $form->addButton("Zombie");
+        }
+        $form->addButton("Remove");
         $form->addButton("Back");
         $form->sendToPlayer($player);
         return $form;
@@ -1027,6 +1074,26 @@ class Main extends PluginBase implements Listener {
 
         }
 
+    }
+
+    //This is for Diamond Rain Particle
+	public function onItemSpawn(ItemSpawnEvent $event) {
+        $item = $event->getEntity();
+        $delay = 5;  
+        $this->getScheduler()->scheduleDelayedTask(new class($item) extends PluginTask {
+            public $itemEntity;
+            
+            public function __construct(ItemEntity $itemEntity)
+            {
+                $this->itemEntity = $itemEntity;
+            }
+
+            public function onRun(int $currentTick)
+            {
+                if(!$this->itemEntity->isFlaggedForDespawn()) $this->itemEntity->flagForDespawn();
+            }
+            
+        }, 5*$delay);
     }
 
 }

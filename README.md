@@ -1,6 +1,9 @@
 # CosmeticMenu
 Fun in the lobby (PMMP-Plugin)
-Please note that this is an incomplete plugin, you can still use it but there still more features to add 
+Please note that this is an incomplete plugin, you can still use it but there still more features to add
+
+## Plugins Required
+ MorphX
 
 ## Permissions
 
