@@ -16,7 +16,7 @@ Please note that this is an incomplete plugin, you can still use it but there st
 | `SmokeBomb` | `cosmetic.gadgets.smokebomb` |
 | `Particles` | `cosmetic.particles` |
 | `Rain Cloud` | `cosmetic.particles.raincloud` |
-| `Diamond Rain` | `cosmetic.particles.diamondrain` |
+| `Flaming Ring` | `cosmetic.particles.flamingring` |
 | `Snow Aura` | `cosmetic.particles.snowaura` |
 | `Cupid's Love` | `cosmetic.particles.cupidslove` |
 | `Masks` | `cosmetic.masks` |
