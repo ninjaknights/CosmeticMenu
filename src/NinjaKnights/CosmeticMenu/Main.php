@@ -469,7 +469,7 @@ class Main extends PluginBase implements Listener {
                     }
                 break;
 
-                case 4:
+                case 5:
                     if($player->hasPermission("cosmetic.particles.test")){
                         $name = $player->getName();
     
