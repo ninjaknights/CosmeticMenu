@@ -53,6 +53,34 @@ use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\EnumTag;
 
+use pocketmine\level\particle\AngryVillagerParticle;
+use pocketmine\level\particle\BubbleParticle;//
+use pocketmine\level\particle\CriticalParticle;
+use pocketmine\level\particle\EnchantParticle;
+use pocketmine\level\particle\EnchantmentTableParticle;
+use pocketmine\level\particle\EntityFlameParticle;
+use pocketmine\level\particle\ExplodeParticle;
+use pocketmine\level\particle\FlameParticle;
+use pocketmine\level\particle\HappyVillagerParticle;
+use pocketmine\level\particle\HeartParticle;
+use pocketmine\level\particle\HugeExplodeParticle;
+use pocketmine\level\particle\HugeExplodeSeedParticle;
+use pocketmine\level\particle\InkParticle;
+use pocketmine\level\particle\InstantEnchantParticle;
+use pocketmine\level\particle\LavaDripParticle;
+use pocketmine\level\particle\LavaParticle;
+use pocketmine\level\particle\MobSpawnParticle;
+use pocketmine\level\particle\Particle;//-//
+use pocketmine\level\particle\PortalParticle;
+use pocketmine\level\particle\RainSplashParticle;
+use pocketmine\level\particle\RedstoneParticle;
+use pocketmine\level\particle\SmokeParticle;
+use pocketmine\level\particle\SnowballPoofParticle;
+use pocketmine\level\particle\SplashParticle;
+use pocketmine\level\particle\SporeParticle;
+use pocketmine\level\particle\WaterDripParticle;
+use pocketmine\level\particle\WaterParticle;
+
 use NinjaKnights\CosmeticMenu\Cooldown;
 
 class Gadgets implements Listener {
@@ -64,4 +92,36 @@ class Gadgets implements Listener {
     public function ExplosionPrimeEvent(ExplosionPrimeEvent $event){
 		$event->setBlockBreaking(false);
 	}
+
+	public function onEggDown(EntityDespawnEvent $event) {
+		if($event->getType() === 82){
+		   $entity = $event->getEntity();
+		   $shooter = $entity->getOwningEntity();
+		   $x = $entity->getX();
+		   $y = $entity->getY();
+		   $z = $entity->getZ();
+		   $level = $entity->getLevel();
+		   for ($i = 1; $i < 4; $i++) {
+				$v0 = new Vector3($x + 1, $y + $i, $z + 1);
+				$v1 = new Vector3($x - 1, $y + $i, $z - 1);
+				$v2 = new Vector3($x + 1, $y + $i, $z - 1);
+				$v3 = new Vector3($x - 1, $y + $i, $z + 1);
+				$v4 = new Vector3($x + 1, $y + $i, $z);
+				$v5 = new Vector3($x - 1, $y + $i, $z);
+				$v6 = new Vector3($x, $y + $i, $z + 1);
+				$v7 = new Vector3($x, $y + $i, $z - 1);
+				$v8 = new Vector3($x, $y + $i, $z);
+				$level->addParticle(new MobSpawnParticle($v0));
+				$level->addParticle(new MobSpawnParticle($v1));
+				$level->addParticle(new MobSpawnParticle($v2));
+				$level->addParticle(new MobSpawnParticle($v3));
+				$level->addParticle(new MobSpawnParticle($v4));
+				$level->addParticle(new MobSpawnParticle($v5));
+				$level->addParticle(new MobSpawnParticle($v6));
+				$level->addParticle(new MobSpawnParticle($v7));
+				$level->addParticle(new MobSpawnParticle($v8));
+			}        
+		}
+	}
+
 }

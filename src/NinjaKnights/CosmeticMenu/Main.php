@@ -104,16 +104,18 @@ class Main extends PluginBase implements Listener {
 	public $trail3 = array("HeartTrail");
 	public $trail4 = array("SmokeTrail ");
 	public $particle1 = array("Rain Cloud");
-	public $particle2 = array("Flaming Ring");
+	public $particle2 = array("Flaming Rings");
 	public $particle3 = array("SnowAura");
-	public $particle4 = array("CupidsLove");
+    public $particle4 = array("Cupid's Love");
+    public $particle5 = array("Bullet Helix");
+    public $particle6 = array("Test");
 
 
     public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getServer()->getPluginManager()->registerEvents(new Gadgets($this), $this);
         $this->MorphX = $this->getServer()->getPluginManager()->getPlugin("MorphX");
-        $this->getScheduler()->scheduleRepeatingTask(new Particles($this), 5);
+        $this->getScheduler()->scheduleRepeatingTask(new Particles($this), 3);
         $this->getScheduler()->scheduleRepeatingTask(new Trails($this), 5);
         $this->getScheduler()->scheduleRepeatingTask(new Cooldown($this), 20);
     }
@@ -134,38 +136,7 @@ class Main extends PluginBase implements Listener {
 		$z = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getZ();
 		
 		$player->teleport(new Vector3($x, $y, $z));
-	}
-	//This is for SmokeBomb
-    public function onEggDown(EntityDespawnEvent $event) {
-       if($event->getType() === 82){
-          $entity = $event->getEntity();
-          $shooter = $entity->getOwningEntity();
-          $x = $entity->getX();
-          $y = $entity->getY();
-          $z = $entity->getZ();
-          $level = $entity->getLevel();
-          for ($i = 1; $i < 4; $i++) {
-               $v0 = new Vector3($x + 1, $y + $i, $z + 1);
-               $v1 = new Vector3($x - 1, $y + $i, $z - 1);
-          	   $v2 = new Vector3($x + 1, $y + $i, $z - 1);
-               $v3 = new Vector3($x - 1, $y + $i, $z + 1);
-               $v4 = new Vector3($x + 1, $y + $i, $z);
-               $v5 = new Vector3($x - 1, $y + $i, $z);
-               $v6 = new Vector3($x, $y + $i, $z + 1);
-               $v7 = new Vector3($x, $y + $i, $z - 1);
-               $v8 = new Vector3($x, $y + $i, $z);
-               $level->addParticle(new MobSpawnParticle($v0));
-               $level->addParticle(new MobSpawnParticle($v1));
-               $level->addParticle(new MobSpawnParticle($v2));
-               $level->addParticle(new MobSpawnParticle($v3));
-               $level->addParticle(new MobSpawnParticle($v4));
-               $level->addParticle(new MobSpawnParticle($v5));
-               $level->addParticle(new MobSpawnParticle($v6));
-               $level->addParticle(new MobSpawnParticle($v7));
-               $level->addParticle(new MobSpawnParticle($v8));
-            }        
-        }
-    } 
+    }
     
     public function getCosmetic(Player $player) {
 		$name = $player->getName();
@@ -173,7 +144,7 @@ class Main extends PluginBase implements Listener {
 		$inv = $player->getInventory();
 		
 		$item1 = Item::get(345, 0, 1);
-		$item1->setCustomName("CosmeticMenu");
+		$item1->setCustomName("§l§3Cosmetic§8Menu");
 		$inv->setItem(0, $item1);
 	} 
 	
@@ -185,44 +156,43 @@ class Main extends PluginBase implements Listener {
             }
             switch($result) {
                 case 0:
-                    $this->openGadgets($player);
+                    if($player->hasPermission("cosmetic.gadgets")){
+                        $this->openGadgets($player);
+                    } 
                 break;
 
                 case 1:
-                    $this->openParticles($player);
+                    if($player->hasPermission("cosmetic.particles")){
+                        $this->openParticles($player);
+                    }
                 break;
 
                 case 2:
-                    $this->openMasks($player);
+                    if($player->hasPermission("cosmetic.masks")){
+                        $this->openHats($player);
+                    }
                 break;
 
                 case 3:
-                    $this->openTrails($player);
+                    if($player->hasPermission("cosmetic.trails")){
+                        $this->openTrails($player);
+                    }
                 break;
 
                 case 4:
-                    $this->openMorphs($player);
+                    if($player->hasPermission("cosmetic.morphs")){
+                        $this->openMorphs($player);
+                    }
                 break;
             }
         });
            
-        $form->setTitle("CosmeticMenu");
-        $form->setContent("Pick One");
-        if($player->hasPermission("cosmetic.gadgets")){
-            $form->addButton("Gadgets");
-        }
-        if($player->hasPermission("cosmetic.particles")){
-            $form->addButton("Particles");
-        }
-        if($player->hasPermission("cosmetic.masks")){
-            $form->addButton("Masks");
-        }
-        if($player->hasPermission("cosmetic.trails")){
-            $form->addButton("Trails");
-        }
-        if($player->hasPermission("cosmetic.morphs")){
-            $form->addButton("Morphs");
-        }
+        $form->setTitle("§l§3Cosmetic§8Menu");
+        $form->addButton("§l§6Gadgets");
+        $form->addButton("§l§6Particles");
+        $form->addButton("§l§6Hats");
+        $form->addButton("§l§6Trails");
+        $form->addButton("§l§6Morphs");
         $form->sendToPlayer($player);
         return $form;
     }
@@ -235,51 +205,59 @@ class Main extends PluginBase implements Listener {
             }
             switch($result) {
                 case 0:
-		            $inv = $player->getInventory();
+                    if($player->hasPermission("cosmetic.gadgets.tntlauncher")){
+		                $inv = $player->getInventory();
 		
-		            $item = Item::get(352, 0, 1);
-                    $item->setCustomName("TNT-Launcher");
-                    $inv->setItem(0, $item);
+		                $item = Item::get(352, 0, 1);
+                        $item->setCustomName("§l§4T§fN§4T§f-Launcher");
+                        $inv->setItem(0, $item);
                     
-                    $item1 = Item::get(355, 0 , 1);
-                    $item1->setCustomName("Back");
-                    $inv->setItem(8, $item1);
+                        $item1 = Item::get(355, 0 , 1);
+                        $item1->setCustomName("§l§4Back");
+                        $inv->setItem(8, $item1);
+                    }
                 break;
 
                 case 1:
-                    $inv = $player->getInventory();
+                    if($player->hasPermission("cosmetic.gadgets.lightningstick")){
+                        $inv = $player->getInventory();
 		
-                    $item = Item::get(369, 0, 1);
-                    $item->setCustomName("LightningStick");
-                    $inv->setItem(0, $item);
+                        $item = Item::get(369, 0, 1);
+                        $item->setCustomName("§l§dLightning §eStick");
+                        $inv->setItem(0, $item);
 
-                    $item1 = Item::get(355, 0 , 1);
-                    $item1->setCustomName("Back");
-                    $inv->setItem(8, $item1);
+                        $item1 = Item::get(355, 0 , 1);
+                        $item1->setCustomName("§l§4Back");
+                        $inv->setItem(8, $item1);
+                    }
                 break;
 
                 case 2:
-                    $inv = $player->getInventory();
+                    if($player->hasPermission("cosmetic.gadgets.leaper")){
+                        $inv = $player->getInventory();
 		
-		            $item = Item::get(288, 0, 1);
-		            $item->setCustomName("Leaper");
-                    $inv->setItem(0, $item);
-                    
-                    $item1 = Item::get(355, 0 , 1);
-                    $item1->setCustomName("Back");
-                    $inv->setItem(8, $item1);
+		                $item = Item::get(288, 0, 1);
+		                $item->setCustomName("§l§2Leaper");
+                        $inv->setItem(0, $item);
+                        
+                        $item1 = Item::get(355, 0 , 1);
+                        $item1->setCustomName("§l§4Back");
+                        $inv->setItem(8, $item1);
+                    }
                 break;
 
                 case 3:
-                    $inv = $player->getInventory();
-		
-		            $item = Item::get(385, 0, 1);
-		            $item->setCustomName("SmokeBomb");   
-                    $inv->setItem(0, $item);
+                    if($player->hasPermission("cosmetic.gadgets.smokebomb")){
+                        $inv = $player->getInventory();
+                        
+	    	            $item = Item::get(385, 0, 1);
+		                $item->setCustomName("§l§fSmoke §8Bomb");   
+                        $inv->setItem(0, $item);
                     
-                    $item1 = Item::get(355, 0 , 1);
-                    $item1->setCustomName("Back");
-                    $inv->setItem(8, $item1);
+                        $item1 = Item::get(355, 0 , 1);
+                        $item1->setCustomName("§l§4Back");
+                        $inv->setItem(8, $item1);
+                    }
                 break;
 
                 case 4:
@@ -290,19 +268,11 @@ class Main extends PluginBase implements Listener {
            
         $form->setTitle("Gadgets");
         $form->setContent("Pick One");
-        if($player->hasPermission("cosmetic.gadgets.tntlauncher")){
-            $form->addButton("TNT-Launcher");
-        }
-        if($player->hasPermission("cosmetic.gadgets.lightningstick")){
-            $form->addButton("LightningStick");
-        }
-        if($player->hasPermission("cosmetic.gadgets.leaper")){
-            $form->addButton("Leaper");
-        }
-        if($player->hasPermission("cosmetic.gadgets.smokebomb")){
-            $form->addButton("SmokeBomb");
-        }
-        $form->addButton("Back");
+        $form->addButton("§l§4T§fN§4T§f-Launcher");
+        $form->addButton("§l§dLightning §eStick");
+        $form->addButton("§l§2Leaper");
+        $form->addButton("§l§fSmoke §8Bomb");
+        $form->addButton("§l§4Back");
         $form->sendToPlayer($player);
         return $form;
     }
@@ -315,130 +285,232 @@ class Main extends PluginBase implements Listener {
             }
             switch($result) {
                 case 0:
-                    $name = $player->getName();
+                    if($player->hasPermission("cosmetic.particles.raincloud")){
+                        $name = $player->getName();
+                        
+                        if(!in_array($name, $this->particle1)) {
                     
-                    if(!in_array($name, $this->particle1)) {
-				
-                        $this->particle1[] = $name;
-                        $player->sendMessage("You have enabled your Rain Cloud Particle");
-                        
-                        if(in_array($name, $this->particle2)) {
-                            unset($this->particle2[array_search($name, $this->particle2)]);
-                        } elseif(in_array($name, $this->particle3)) {
-                            unset($this->particle3[array_search($name, $this->particle3)]);
-                        } elseif(in_array($name, $this->particle4)) {
-                            unset($this->particle4[array_search($name, $this->particle4)]);
-                        } 
-                        
-                    } else {
-                        
-                        unset($this->particle1[array_search($name, $this->particle1)]);
-                        $player->sendMessage("You have disabled your Rain Cloud Particle");
-                        
-                        if(in_array($name, $this->particle2)) {
-                            unset($this->particle2[array_search($name, $this->particle2)]);
-                        } elseif(in_array($name, $this->particle3)) {
-                            unset($this->particle3[array_search($name, $this->particle3)]);
-                        } elseif(in_array($name, $this->particle4)) {
-                            unset($this->particle4[array_search($name, $this->particle4)]);
-                        } 
+                            $this->particle1[] = $name;
+                            $player->sendMessage("You have enabled your §l§1Rain §fCloud§r Particle");
+                            
+                            if(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->particle1[array_search($name, $this->particle1)]);
+                            $player->sendMessage("You have disabled your §l§1Rain §fCloud§r Particle");
+                            
+                            if(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            }
+                        }
                     }
                 break;
 
                 case 1:
-                    $name = $player->getName();
-
-                    if(!in_array($name, $this->particle2)) {
-				
-                        $this->particle2[] = $name;
-                        $player->sendPopup("You have enabled your Flaming Ring Particle");
-                        
-                        if(in_array($name, $this->particle1)) {
-                            unset($this->particle1[array_search($name, $this->particle1)]);
-                        } elseif(in_array($name, $this->particle3)) {
-                            unset($this->particle3[array_search($name, $this->particle3)]);
-                        } elseif(in_array($name, $this->particle4)) {
-                            unset($this->particle4[array_search($name, $this->particle4)]);
-                        } 
-                        
-                    } else {
-                        
-                        unset($this->particle2[array_search($name, $this->particle2)]);
-                        $player->sendPopup("You have disabled your Flaming Ring Particle");
-                        
-                        if(in_array($name, $this->particle1)) {
-                            unset($this->particle1[array_search($name, $this->particle1)]);
-                        } elseif(in_array($name, $this->particle3)) {
-                            unset($this->particle3[array_search($name, $this->particle3)]);
-                        } elseif(in_array($name, $this->particle4)) {
-                            unset($this->particle4[array_search($name, $this->particle4)]);
-                        } 
+                    if($player->hasPermission("cosmetic.particles.flamingring")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->particle2)) {
+                    
+                            $this->particle2[] = $name;
+                            $player->sendPopup("You have enabled your §l§6Flaming §eRings§r Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->particle2[array_search($name, $this->particle2)]);
+                            $player->sendPopup("You have disabled your §l§6Flaming §eRings§r Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            }
+                        }
                     }
                 break;
 
                 case 2:
-                    $name = $player->getName();
-
-                    if(!in_array($name, $this->particle3)) {
-				
-                        $this->particle3[] = $name;
-                        $player->sendPopup("You have enabled your SnowAura Particle");
-                        
-                        if(in_array($name, $this->particle1)) {
-                            unset($this->particle1[array_search($name, $this->particle1)]);
-                        } elseif(in_array($name, $this->particle2)) {
-                            unset($this->particle2[array_search($name, $this->particle2)]);
-                        } elseif(in_array($name, $this->particle4)) {
-                            unset($this->particle4[array_search($name, $this->particle4)]);
-                        } 
-                        
-                    } else {
-                        
-                        unset($this->particle3[array_search($name, $this->particle3)]);
-                        $player->sendPopup("You have disabled your SnowAura Particle");
-                       
-                        if(in_array($name, $this->particle2)) {
-                            unset($this->particle2[array_search($name, $this->particle2)]);
-                        } elseif(in_array($name, $this->particle1)) {
-                            unset($this->particle1[array_search($name, $this->particle1)]);
-                        } elseif(in_array($name, $this->particle4)) {
-                            unset($this->particle4[array_search($name, $this->particle4)]);
-                        } 
+                    if($player->hasPermission("cosmetic.particles.snowaura")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->particle3)) {
+                    
+                            $this->particle3[] = $name;
+                            $player->sendPopup("You have enabled your §l§fSnow §3Aura§r Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->particle3[array_search($name, $this->particle3)]);
+                            $player->sendPopup("You have disabled your §l§fSnow §3Aura§r Particle");
+                           
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            }
+                        }
                     }
                 break;
 
                 case 3:
-                    $name = $player->getName();
-
-                    if(!in_array($name, $this->particle4)) {
-				
-                        $this->particle4[] = $name;
-                        $player->sendPopup("You have enabled your CupidsLove Particle");
-                        
-                        if(in_array($name, $this->particle1)) {
-                            unset($this->particle1[array_search($name, $this->particle1)]);
-                        } elseif(in_array($name, $this->particle2)) {
-                            unset($this->particle2[array_search($name, $this->particle2)]);
-                        } elseif(in_array($name, $this->particle3)) {
-                            unset($this->particle3[array_search($name, $this->particle3)]);
-                        } 
-                        
-                    } else {
-                        
-                        unset($this->particle4[array_search($name, $this->particle4)]);
-                        $player->sendPopup("You have disabled your CupidsLove Particle");
-                             
-                        if(in_array($name, $this->particle2)) {
-                            unset($this->particle2[array_search($name, $this->particle2)]);
-                        } elseif(in_array($name, $this->particle3)) {
-                            unset($this->particle3[array_search($name, $this->particle3)]);
-                        } elseif(in_array($name, $this->particle1)) {
-                            unset($this->particle1[array_search($name, $this->particle1)]);
-                        } 
+                    if($player->hasPermission("cosmetic.particles.cupidslove")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->particle4)) {
+                    
+                            $this->particle4[] = $name;
+                            $player->sendPopup("You have enabled your §l§cCupid's §4Love§r Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            } 
+                            
+                        } else {
+                            
+                            unset($this->particle4[array_search($name, $this->particle4)]);
+                            $player->sendPopup("You have disabled your §l§cCupid's §4Love§r Particle");
+                                 
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            }
+                        }
                     }
                 break;
 
                 case 4:
+                    if($player->hasPermission("cosmetic.particles.bullethelix")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->particle5)) {
+                    
+                            $this->particle5[] = $name;
+                            $player->sendPopup("You have enabled your Bullet Helix Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->particle5[array_search($name, $this->particle5)]);
+                            $player->sendPopup("You have disabled your Bullet Helix Particle");
+                                 
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            }
+                        }
+                    }
+                break;
+
+                case 4:
+                    if($player->hasPermission("cosmetic.particles.test")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->particle6)) {
+                    
+                            $this->particle6[] = $name;
+                            $player->sendPopup("You have enabled your  Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->particle6[array_search($name, $this->particle6)]);
+                            $player->sendPopup("You have disabled your Particle");
+                                 
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            }
+                        }
+                    }
+                break;
+
+                case 6:
                     $name = $player->getName();
 
                     if(in_array($name, $this->particle1)) {
@@ -449,11 +521,13 @@ class Main extends PluginBase implements Listener {
                         unset($this->particle3[array_search($name, $this->particle3)]);
                     } elseif(in_array($name, $this->particle4)) {
                         unset($this->particle4[array_search($name, $this->particle4)]);
+                    } elseif(in_array($name, $this->particle5)) {
+                        unset($this->particle5[array_search($name, $this->particle5)]);
                     }
 
                 break;
 
-                case 5:
+                case 7:
                     $this->openMenu($player);
                 break;
             }
@@ -461,183 +535,182 @@ class Main extends PluginBase implements Listener {
            
         $form->setTitle("Particles");
         $form->setContent("Pick One");
-        if($player->hasPermission("cosmetic.particles.raincloud")){
-            $form->addButton("Rain Cloud");
-        }
-        if($player->hasPermission("cosmetic.particles.flamingring")){
-            $form->addButton("Flaming Ring");
-        }
-        if($player->hasPermission("cosmetic.particles.snowaura")){
-            $form->addButton("Snow Aura");
-        }
-        if($player->hasPermission("cosmetic.particles.cupidslove")){
-            $form->addButton("CupidsLove");
-        }
+        $form->addButton("§l§1Rain §fCloud");
+        $form->addButton("§l§6Flaming §eRings");
+        $form->addButton("§l§fSnow §3Aura");
+        $form->addButton("§l§cCupid's §4Love");
+        $form->addButton("Bullet Helix");
+        $form->addButton("Test");
         $form->addButton("Clear");
-        $form->addButton("Back");
+        $form->addButton("§l§4Back");
         $form->sendToPlayer($player);
         return $form;
 	}
 	
-	public function openMasks($player) {
+	public function openHats($player) {
         $form = $this->getServer()->getPluginManager()->getPlugin("FormAPI")->createSimpleForm(function (Player $player, $data) {
             $result = $data;
             if($result === null) {
                 return true;
             }
             switch($result) {
-				case 0:
-					$name = $player->getName();
+                case 0:
+                    if($player->hasPermission("cosmetic.masks.zombie")){
+                        $name = $player->getName();
+                        
+                        if(in_array($name, $this->zombie)) {
                     
-					if(in_array($name, $this->zombie)) {
-				
-						unset($this->zombie[array_search($name, $this->zombie)]);
-						$player->sendPopup("You have no Mask on");
-						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
-						
-						if(in_array($name, $this->creeper)) {
-							unset($this->creeper[array_search($name, $this->creeper)]);
-						} elseif(in_array($name, $this->witherskeleton)) {
-							unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-						} elseif(in_array($name, $this->skeleton)) {
-							unset($this->skeleton[array_search($name, $this->skeleton)]);
-						} elseif(in_array($name, $this->dragon)) {
-							unset($this->dragon[array_search($name, $this->dragon)]);
-						}
-						
-					} else {
-						
-						$this->zombie[] = $name;
-						$player->sendPopup("You have The Zombie Mask on!");
-						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,2,1));
-						$player->sendPopup("§l§aPlop!");
-										
-					}
-
+                            unset($this->zombie[array_search($name, $this->zombie)]);
+                            $player->sendPopup("You have no §9Hat§r on");
+                            $player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+                            
+                            if(in_array($name, $this->creeper)) {
+                                unset($this->creeper[array_search($name, $this->creeper)]);
+                            } elseif(in_array($name, $this->witherskeleton)) {
+                                unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+                            } elseif(in_array($name, $this->skeleton)) {
+                                unset($this->skeleton[array_search($name, $this->skeleton)]);
+                            } elseif(in_array($name, $this->dragon)) {
+                                unset($this->dragon[array_search($name, $this->dragon)]);
+                            }
+                            
+                        } else {
+                            
+                            $this->zombie[] = $name;
+                            $player->sendPopup("You have The §l§2Zombie §9Hat§r on!");
+                            $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,2,1));
+                            $player->sendPopup("§l§aPlop!");
+                                            
+                        }
+                    }
                 break;
 
                 case 1:
-					$name = $player->getName();
-
-					if(in_array($name, $this->skeleton)) {
-				
-						unset($this->skeleton[array_search($name, $this->skeleton)]);
-						$player->sendPopup("You have no Mask on");
-						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
-						
-						if(in_array($name, $this->creeper)) {
-							unset($this->creeper[array_search($name, $this->creeper)]);
-						} elseif(in_array($name, $this->witherskeleton)) {
-							unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-						} elseif(in_array($name, $this->zombie)) {
-							unset($this->zombie[array_search($name, $this->zombie)]);
-						} elseif(in_array($name, $this->dragon)) {
-							unset($this->dragon[array_search($name, $this->dragon)]);
-						}
-						
-					} else {
-						
-						$this->skeleton[] = $name;
-						$player->sendPopup("You have The Skeleton Mask on!");
-						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,0,1));
-						$player->sendPopup("§l§aPlop!");
-									
-					}
-
+                    if($player->hasPermission("cosmetic.masks.skeleton")){
+                        $name = $player->getName();
+    
+                        if(in_array($name, $this->skeleton)) {
+                    
+                            unset($this->skeleton[array_search($name, $this->skeleton)]);
+                            $player->sendPopup("You have no §9Hat§r on");
+                            $player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+                            
+                            if(in_array($name, $this->creeper)) {
+                                unset($this->creeper[array_search($name, $this->creeper)]);
+                            } elseif(in_array($name, $this->witherskeleton)) {
+                                unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+                            } elseif(in_array($name, $this->zombie)) {
+                                unset($this->zombie[array_search($name, $this->zombie)]);
+                            } elseif(in_array($name, $this->dragon)) {
+                                unset($this->dragon[array_search($name, $this->dragon)]);
+                            }
+                            
+                        } else {
+                            
+                            $this->skeleton[] = $name;
+                            $player->sendPopup("You have The §l§fSkeleton §9Hat§r on!");
+                            $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,0,1));
+                            $player->sendPopup("§l§aPlop!");
+                                        
+                        }
+                    }
                 break;
 
                 case 2:
-					$name = $player->getName();
-					
-					if(in_array($name, $this->creeper)) {
-				
-						unset($this->creeper[array_search($name, $this->creeper)]);
-						$player->sendPopup("You have no Mask on");
-						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
-						
-						if(in_array($name, $this->skeleton)) {
-							unset($this->skeleton[array_search($name, $this->skeleton)]);
-						} elseif(in_array($name, $this->witherskeleton)) {
-							unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-						} elseif(in_array($name, $this->zombie)) {
-							unset($this->zombie[array_search($name, $this->zombie)]);
-						} elseif(in_array($name, $this->dragon)) {
-							unset($this->dragon[array_search($name, $this->dragon)]);
-						}
-						
-					} else {
-						
-						$this->creeper[] = $name;
-						$player->sendPopup("You have The Creeper Mask on!");
-						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,4,1));
-						$player->sendPopup("§l§aPlop!");
-									
-					}
-
+                    if($player->hasPermission("cosmetic.masks.creeper")){
+                        $name = $player->getName();
+                        
+                        if(in_array($name, $this->creeper)) {
+                    
+                            unset($this->creeper[array_search($name, $this->creeper)]);
+                            $player->sendPopup("You have no §9Hat§r on");
+                            $player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+                            
+                            if(in_array($name, $this->skeleton)) {
+                                unset($this->skeleton[array_search($name, $this->skeleton)]);
+                            } elseif(in_array($name, $this->witherskeleton)) {
+                                unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+                            } elseif(in_array($name, $this->zombie)) {
+                                unset($this->zombie[array_search($name, $this->zombie)]);
+                            } elseif(in_array($name, $this->dragon)) {
+                                unset($this->dragon[array_search($name, $this->dragon)]);
+                            }
+                            
+                        } else {
+                            
+                            $this->creeper[] = $name;
+                            $player->sendPopup("You have The §l§aCreeper §9Hat§r on!");
+                            $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,4,1));
+                            $player->sendPopup("§l§aPlop!");
+                                        
+                        }
+                    }
                 break;
 
                 case 3:
-					$name = $player->getName();
-					
-					if(in_array($name, $this->witherskeleton)) {
-				
-						unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-						$player->sendPopup("You have no Mask on");
-						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
-						
-						if(in_array($name, $this->creeper)) {
-							unset($this->creeper[array_search($name, $this->creeper)]);
-						} elseif(in_array($name, $this->skeleton)) {
-							unset($this->skeleton[array_search($name, $this->skeleton)]);
-						} elseif(in_array($name, $this->zombie)) {
-							unset($this->zombie[array_search($name, $this->zombie)]);
-						} elseif(in_array($name, $this->dragon)) {
-							unset($this->dragon[array_search($name, $this->dragon)]);
-						}
-						
-					} else {
-						
-						$this->witherskeleton[] = $name;
-						$player->sendPopup("You have The WitherSkeleton Mask on!");
-						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,1,1));
-						$player->sendPopup("§l§aPlop!");
-										
-					}
-
+                    if($player->hasPermission("cosmetic.masks.witherskeleton")){
+                        $name = $player->getName();
+                        
+                        if(in_array($name, $this->witherskeleton)) {
+                    
+                            unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+                            $player->sendPopup("You have no §9Hat§r on");
+                            $player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+                            
+                            if(in_array($name, $this->creeper)) {
+                                unset($this->creeper[array_search($name, $this->creeper)]);
+                            } elseif(in_array($name, $this->skeleton)) {
+                                unset($this->skeleton[array_search($name, $this->skeleton)]);
+                            } elseif(in_array($name, $this->zombie)) {
+                                unset($this->zombie[array_search($name, $this->zombie)]);
+                            } elseif(in_array($name, $this->dragon)) {
+                                unset($this->dragon[array_search($name, $this->dragon)]);
+                            }
+                            
+                        } else {
+                            
+                            $this->witherskeleton[] = $name;
+                            $player->sendPopup("You have The §l§8Wither§fSkeleton §9Hat§r on!");
+                            $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,1,1));
+                            $player->sendPopup("§l§aPlop!");
+                                            
+                        }
+                    }
 				break;
 				
-				case 4:
-					$name = $player->getName();
-					
-					if(in_array($name, $this->dragon)) {
-				
-						unset($this->dragon[array_search($name, $this->dragon)]);
-						$player->sendPopup("You have no Mask on");
-						$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
-						
-						if(in_array($name, $this->creeper)) {
-							unset($this->creeper[array_search($name, $this->creeper)]);
-						} elseif(in_array($name, $this->witherskeleton)) {
-							unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
-						} elseif(in_array($name, $this->zombie)) {
-							unset($this->zombie[array_search($name, $this->zombie)]);
-						} elseif(in_array($name, $this->skeleton)) {
-							unset($this->skeleton[array_search($name, $this->skeleton)]);
-						}
-						
-					} else {
-						
-						$this->dragon[] = $name;
-						$player->sendPopup("You have The Dragon Mask on!");
-						$player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,5,1));
-						$player->sendPopup("§l§aPlop!");
-										
-					}
-
+                case 4:
+                    if($player->hasPermission("cosmetic.masks.dragon")){
+                        $name = $player->getName();
+                        
+                        if(in_array($name, $this->dragon)) {
+                    
+                            unset($this->dragon[array_search($name, $this->dragon)]);
+                            $player->sendPopup("You have no §9Hat§r on");
+                            $player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
+                            
+                            if(in_array($name, $this->creeper)) {
+                                unset($this->creeper[array_search($name, $this->creeper)]);
+                            } elseif(in_array($name, $this->witherskeleton)) {
+                                unset($this->witherskeleton[array_search($name, $this->witherskeleton)]);
+                            } elseif(in_array($name, $this->zombie)) {
+                                unset($this->zombie[array_search($name, $this->zombie)]);
+                            } elseif(in_array($name, $this->skeleton)) {
+                                unset($this->skeleton[array_search($name, $this->skeleton)]);
+                            }
+                            
+                        } else {
+                            
+                            $this->dragon[] = $name;
+                            $player->sendPopup("You have The §l§5Dragon §9Hat§r on!");
+                            $player->getArmorInventory()->setHelmet(Item::get(ITEM::SKULL,5,1));
+                            $player->sendPopup("§l§aPlop!");
+                                            
+                        }
+                    }
 				break;
 				
 				case 5:
-					$player->sendPopup("You have no Mask on");
+					$player->sendPopup("You have no §9Hat§r on");
 					$player->getArmorInventory()->setHelmet(Item::get(0, 0, 1));
 				break;
 				
@@ -646,26 +719,15 @@ class Main extends PluginBase implements Listener {
                 break;
             }
         });
-           
-        $form->setTitle("Masks");
+        $form->setTitle("§9Hats");
         $form->setContent("Pick One");
-        if($player->hasPermission("cosmetic.masks.zombie")){
-            $form->addButton("Zombie Mask");
-        }
-        if($player->hasPermission("cosmetic.masks.skeleton")){
-            $form->addButton("Skeleton Mask");
-        }
-        if($player->hasPermission("cosmetic.masks.creeper")){
-            $form->addButton("Creeper Mask");
-        }
-        if($player->hasPermission("cosmetic.masks.witherskeleton")){
-            $form->addButton("WitherSkeleton Mask");
-		}
-		if($player->hasPermission("cosmetic.masks.dragon")){
-            $form->addButton("Dragon Mask");
-		}
+        $form->addButton("§l§2Zombie §9Hat");
+        $form->addButton("§l§fSkeleton §9Hat");
+        $form->addButton("§l§aCreeper §9Hat");
+        $form->addButton("§l§8Wither§fSkeleton §9Hat");
+        $form->addButton("§l§5Dragon §9Hat");
 		$form->addButton("Clear");
-		$form->addButton("Back");
+		$form->addButton("§l§4Back");
         $form->sendToPlayer($player);
         return $form;
     }
@@ -678,131 +740,139 @@ class Main extends PluginBase implements Listener {
             }
             switch($result) {
                 case 0:
-                    $name = $player->getName();
-
-                    if(!in_array($name, $this->trail1)) {
-				
-                        $this->trail1[] = $name;
-                        $player->sendMessage("You have enabled your Flame Trail Particle");
-                        
-                        if(in_array($name, $this->trail2)) {
-                            unset($this->trail2[array_search($name, $this->trail2)]);
-                        } elseif(in_array($name, $this->trail3)) {
-                            unset($this->trail3[array_search($name, $this->trail3)]);
-                        } elseif(in_array($name, $this->trail4)) {
-                            unset($this->trail4[array_search($name, $this->trail4)]);
+                    if($player->hasPermission("cosmetic.trails.flame")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->trail1)) {
+                    
+                            $this->trail1[] = $name;
+                            $player->sendMessage("You have enabled your §l§6Flame §gTrail§r Particle");
+                            
+                            if(in_array($name, $this->trail2)) {
+                                unset($this->trail2[array_search($name, $this->trail2)]);
+                            } elseif(in_array($name, $this->trail3)) {
+                                unset($this->trail3[array_search($name, $this->trail3)]);
+                            } elseif(in_array($name, $this->trail4)) {
+                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->trail1[array_search($name, $this->trail1)]);
+                            $player->sendMessage("You have disabled your §l§6Flame §gTrail§r Particle");
+                            
+                            if(in_array($name, $this->trail2)) {
+                                unset($this->trail2[array_search($name, $this->trail2)]);
+                            } elseif(in_array($name, $this->trail3)) {
+                                unset($this->trail3[array_search($name, $this->trail3)]);
+                            } elseif(in_array($name, $this->trail4)) {
+                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            }	
                         }
-                        
-                    } else {
-                        
-                        unset($this->trail1[array_search($name, $this->trail1)]);
-                        $player->sendMessage("You have disabled your Flame Trail Particle");
-                        
-                        if(in_array($name, $this->trail2)) {
-                            unset($this->trail2[array_search($name, $this->trail2)]);
-                        } elseif(in_array($name, $this->trail3)) {
-                            unset($this->trail3[array_search($name, $this->trail3)]);
-                        } elseif(in_array($name, $this->trail4)) {
-                            unset($this->trail4[array_search($name, $this->trail4)]);
-                        }	
                     }
                 break;
 
                 case 1:
-                    $name = $player->getName();
-
-                    if(!in_array($name, $this->trail2)) {
-				
-                        $this->trail2[] = $name;
-                        $player->sendPopup("You have enabled your Snow Trail Particle");
-                        
-                        if(in_array($name, $this->trail1)) {
-                            unset($this->trail1[array_search($name, $this->trail1)]);
-                        } 
-                        elseif(in_array($name, $this->trail3)) {
-                            unset($this->trail3[array_search($name, $this->trail3)]);
-                        } 
-                        elseif(in_array($name, $this->trail4)) {
-                            unset($this->trail4[array_search($name, $this->trail4)]);
-                        }
-                        
-                    } else {
-                        
-                        unset($this->trail2[array_search($name, $this->trail2)]);
-                        $player->sendPopup("You have disabled your Snow Trail Particle");
-                        
-                        if(in_array($name, $this->trail1)) {
-                            unset($this->trail1[array_search($name, $this->trail1)]);
-                        } elseif(in_array($name, $this->trail3)) {
-                            unset($this->trail3[array_search($name, $this->trail3)]);
-                        } elseif(in_array($name, $this->trail4)) {
-                            unset($this->trail4[array_search($name, $this->trail4)]);
+                    if($player->hasPermission("cosmetic.trails.snow")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->trail2)) {
+                    
+                            $this->trail2[] = $name;
+                            $player->sendPopup("You have enabled your §l§fSnow §gTrail§r Particle");
+                            
+                            if(in_array($name, $this->trail1)) {
+                                unset($this->trail1[array_search($name, $this->trail1)]);
+                            } 
+                            elseif(in_array($name, $this->trail3)) {
+                                unset($this->trail3[array_search($name, $this->trail3)]);
+                            } 
+                            elseif(in_array($name, $this->trail4)) {
+                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->trail2[array_search($name, $this->trail2)]);
+                            $player->sendPopup("You have disabled your §l§fSnow §gTrail§r Particle");
+                            
+                            if(in_array($name, $this->trail1)) {
+                                unset($this->trail1[array_search($name, $this->trail1)]);
+                            } elseif(in_array($name, $this->trail3)) {
+                                unset($this->trail3[array_search($name, $this->trail3)]);
+                            } elseif(in_array($name, $this->trail4)) {
+                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            }
                         }
                     }
                 break;
 
                 case 2:
-                    $name = $player->getName();
-
-                    if(!in_array($name, $this->trail3)) {
-				
-                        $this->trail3[] = $name;
-                        $player->sendPopup("You have enabled your Heart Trail Particle");
-                        
-                        if(in_array($name, $this->trail1)) {
-                            unset($this->trail1[array_search($name, $this->trail1)]);
-                        }
-                        elseif(in_array($name, $this->trail2)) {
-                            unset($this->trail2[array_search($name, $this->trail2)]);
-                        } 
-                        elseif(in_array($name, $this->trail4)) {
-                            unset($this->trail4[array_search($name, $this->trail4)]);
-                        }
-                        
-                    } else {
-                        
-                        unset($this->trail3[array_search($name, $this->trail3)]);
-                        $player->sendPopup("You have disabled your Heart Trail Particle");
-                      
-                        if(in_array($name, $this->trail2)) {
-                            unset($this->trail2[array_search($name, $this->trail2)]);
-                        } elseif(in_array($name, $this->trail1)) {
-                            unset($this->trail1[array_search($name, $this->trail1)]);
-                        } elseif(in_array($name, $this->trail4)) {
-                            unset($this->trail4[array_search($name, $this->trail4)]);
+                    if($player->hasPermission("cosmetic.trails.heart")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->trail3)) {
+                    
+                            $this->trail3[] = $name;
+                            $player->sendPopup("You have enabled your §l§4Heart §gTrail§r Particle");
+                            
+                            if(in_array($name, $this->trail1)) {
+                                unset($this->trail1[array_search($name, $this->trail1)]);
+                            }
+                            elseif(in_array($name, $this->trail2)) {
+                                unset($this->trail2[array_search($name, $this->trail2)]);
+                            } 
+                            elseif(in_array($name, $this->trail4)) {
+                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->trail3[array_search($name, $this->trail3)]);
+                            $player->sendPopup("You have disabled your §l§4Heart §gTrail§r Particle");
+                          
+                            if(in_array($name, $this->trail2)) {
+                                unset($this->trail2[array_search($name, $this->trail2)]);
+                            } elseif(in_array($name, $this->trail1)) {
+                                unset($this->trail1[array_search($name, $this->trail1)]);
+                            } elseif(in_array($name, $this->trail4)) {
+                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            }
                         }
                     }
                 break;
 
                 case 3:
-                    $name = $player->getName();
-
-                    if(!in_array($name, $this->trail4)) {
-				
-                        $this->trail4[] = $name;
-                        $player->sendPopup("You have enabled your Smoke Trail Particle");
-                        
-                        if(in_array($name, $this->trail1)) {
-                            unset($this->trail1[array_search($name, $this->trail1)]);
-                        }
-                        elseif(in_array($name, $this->trail2)) {
-                            unset($this->trail2[array_search($name, $this->trail2)]);
-                        } 
-                        elseif(in_array($name, $this->trail3)) {
-                            unset($this->trail3[array_search($name, $this->trail3)]);
-                        }
-                        
-                    } else {
-                        
-                        unset($this->trail4[array_search($name, $this->trail4)]);
-                        $player->sendPopup("You have disabled your Smoke Trail Particle");
+                    if($player->hasPermission("cosmetic.trails.smoke")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->trail4)) {
+                    
+                            $this->trail4[] = $name;
+                            $player->sendPopup("You have enabled your §l§fSmoke §gTrail§r Particle");
                             
-                        if(in_array($name, $this->trail2)) {
-                            unset($this->trail2[array_search($name, $this->trail2)]);
-                        } elseif(in_array($name, $this->trail3)) {
-                            unset($this->trail3[array_search($name, $this->trail3)]);
-                        } elseif(in_array($name, $this->trail1)) {
-                            unset($this->trail1[array_search($name, $this->trail1)]);
+                            if(in_array($name, $this->trail1)) {
+                                unset($this->trail1[array_search($name, $this->trail1)]);
+                            }
+                            elseif(in_array($name, $this->trail2)) {
+                                unset($this->trail2[array_search($name, $this->trail2)]);
+                            } 
+                            elseif(in_array($name, $this->trail3)) {
+                                unset($this->trail3[array_search($name, $this->trail3)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->trail4[array_search($name, $this->trail4)]);
+                            $player->sendPopup("You have disabled your §l§fSmoke §gTrail§r Particle");
+                                
+                            if(in_array($name, $this->trail2)) {
+                                unset($this->trail2[array_search($name, $this->trail2)]);
+                            } elseif(in_array($name, $this->trail3)) {
+                                unset($this->trail3[array_search($name, $this->trail3)]);
+                            } elseif(in_array($name, $this->trail1)) {
+                                unset($this->trail1[array_search($name, $this->trail1)]);
+                            }
                         }
                     }
                 break;
@@ -832,20 +902,12 @@ class Main extends PluginBase implements Listener {
            
         $form->setTitle("Trails");
         $form->setContent("Pick One");
-        if($player->hasPermission("cosmetic.trails.flame")){
-            $form->addButton("Flame Trail");
-        }
-        if($player->hasPermission("cosmetic.trails.snow")){
-            $form->addButton("Snow Trail");
-        }
-        if($player->hasPermission("cosmetic.trails.heart")){
-            $form->addButton("Heart Trail");
-        }
-        if($player->hasPermission("cosmetic.trails.smoke")){
-            $form->addButton("Smoke Trail");
-        }
+        $form->addButton("§l§6Flame §gTrail");
+        $form->addButton("§l§fSnow §gTrail");
+        $form->addButton("§l§4Heart §gTrail");
+        $form->addButton("§l§fSmoke §gTrail");
         $form->addButton("Clear");
-        $form->addButton("Back");
+        $form->addButton("§l§4Back");
         $form->sendToPlayer($player);
         return $form;
     }
@@ -858,7 +920,9 @@ class Main extends PluginBase implements Listener {
             }
             switch($result) {
                 case 0:
-                    Server::getInstance()->dispatchCommand($player, "morph zombie");
+                    if($player->hasPermission("cosmetic.morphs.zombie")){
+                        Server::getInstance()->dispatchCommand($player, "morph zombie");
+                    }
                 break;
 
                 case 1:
@@ -873,11 +937,9 @@ class Main extends PluginBase implements Listener {
 
         $form->setTitle("Morphs");
         $form->setContent("Pick One");
-        if($player->hasPermission("cosmetic.morphs.zombie")){
-            $form->addButton("Zombie");
-        }
+        $form->addButton("Zombie");
         $form->addButton("Remove");
-        $form->addButton("Back");
+        $form->addButton("§l§4Back");
         $form->sendToPlayer($player);
         return $form;
     }
@@ -895,13 +957,13 @@ class Main extends PluginBase implements Listener {
             return true;
         }
 
-        if($iname == "CosmeticMenu") {
+        if($iname == "§l§3Cosmetic§8Menu") {
             $this->openMenu($player);
         }
 
         //Gadgets
 		//TNT-Launcher
-		if($iname == "TNT-Launcher") {
+		if($iname == "§l§4T§fN§4T§f-Launcher") {
 			if($player->hasPermission("cosmetic.gadgets.tntlauncher")) {
 			if(!isset($this->tntCooldown[$player->getName()])){
                $nbt = new CompoundTag("", [
@@ -924,11 +986,11 @@ class Main extends PluginBase implements Listener {
                 $tnt->setMotion($tnt->getMotion()->multiply(2));
                 $tnt->spawnTo($player);
                 $this->tntCooldown[$player->getName()] = $player->getName();
-                $time = "60";
+                $time = "30";
                 $this->tntCooldownTime[$player->getName()] = $time;
 
             } else {
-                $player->sendPopup("§cYou can't use the TNT-Launcher for another ".$this->tntCooldownTime[$player->getName()]." seconds.");
+                $player->sendPopup("§cYou can't use the §l§4T§fN§4T§f-Launcher §c for another ".$this->tntCooldownTime[$player->getName()]." seconds.");
             }
             } else {
 				
@@ -936,8 +998,8 @@ class Main extends PluginBase implements Listener {
 				
 			}
         }
-		//LightningStick
-		if($iname == "LightningStick") {
+		//Lightning Stick
+		if($iname == "§l§dLightning §eStick") {
         	if($player->hasPermission("cosmetic.gadgets.lightningstick")) {
 				if(!isset($this->lsCooldown[$player->getName()])) {				
 				$block = $event->getBlock();
@@ -954,14 +1016,14 @@ class Main extends PluginBase implements Listener {
             	$this->lsCooldownTime[$player->getName()] = $time;
 				}
 				} else {
-                $player->sendPopup("§cYou can't use the LightningStick for another ".$this->lsCooldownTime[$player->getName()]." seconds.");
+                $player->sendPopup("§cYou can't use the §l§dLightning §eStick for another ".$this->lsCooldownTime[$player->getName()]." seconds.");
             	}
 			} else {
-				$player->sendMessage("You don't have permission to use LightningStick!");
+				$player->sendMessage("You don't have permission to use §l§dLightning §eStick!");
 			}
 		}
         //Leaper
-        if($iname == "Leaper") {
+        if($iname == "§l§2Leaper") {
 			if($player->hasPermission("cosmetic.gadgets.leaper")) {
 				
            $yaw = $player->yaw;
@@ -988,12 +1050,12 @@ class Main extends PluginBase implements Listener {
 		   
 		    } else {
 				
-				$player->sendMessage("You don't have permission to use Leaper!");
+				$player->sendMessage("You don't have permission to use §l§2Leaper!");
 				
 			}
         }
-		//SmokeBomb
-		if($iname == "SmokeBomb") {
+		//Smoke Bomb
+		if($iname == "§l§fSmoke §8Bomb") {
 			if($player->hasPermission("cosmetic.gadgets.smokebomb")) {
 			if(!isset($this->sbCooldown[$player->getName()])){
 		       $nbt = new CompoundTag ("", [
@@ -1021,19 +1083,19 @@ class Main extends PluginBase implements Listener {
                 $this->sbCooldownTime[$player->getName()] = $time;
 
             } else {
-                $player->sendPopup("§cYou can't use the SmokeBomb for another ".$this->sbCooldownTime[$player->getName()]." seconds.");
+                $player->sendPopup("§cYou can't use the §l§fSmoke §8Bomb for another ".$this->sbCooldownTime[$player->getName()]." seconds.");
             }
             } else {
 				
-				$player->sendMessage("You don't have permission to use SmokeBomb!");
+				$player->sendMessage("You don't have permission to use §l§fSmoke §8Bomb!");
 				
 			}
         }
         //Back
-        if($iname == "Back") {
+        if($iname == "§l§4Back") {
 
             $item1 = Item::get(345, 0, 1);
-            $item1->setCustomName("CosmeticMenu");
+            $item1->setCustomName("§l§3Cosmetic§8Menu");
             $inv->setItem(0, $item1);  
             
             $item1 = Item::get(0, 0 , 1);
@@ -1042,26 +1104,5 @@ class Main extends PluginBase implements Listener {
         }
 
     }
-
-
-/*   //This is for Diamond Rain Particle
-	public function onItemSpawn(ItemSpawnEvent $event) {
-        $item = $event->getEntity();
-        $delay = 5;  
-        $this->getScheduler()->scheduleDelayedTask(new class($item) extends PluginTask {
-            public $itemEntity;
-            
-            public function __construct(ItemEntity $itemEntity)
-            {
-                $this->itemEntity = $itemEntity;
-            }
-
-            public function onRun(int $currentTick)
-            {
-                if(!$this->itemEntity->isFlaggedForDespawn()) $this->itemEntity->flagForDespawn();
-            }
-            
-        }, 5*$delay);
-    }*/
 
 }

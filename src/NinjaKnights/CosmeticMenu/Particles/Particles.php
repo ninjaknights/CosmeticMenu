@@ -55,6 +55,7 @@ use pocketmine\nbt\tag\ListTag;
 use pocketmine\level\particle\AngryVillagerParticle;
 use pocketmine\level\particle\BubbleParticle;//
 use pocketmine\level\particle\CriticalParticle;
+use pocketmine\level\particle\DustParticle;
 use pocketmine\level\particle\EnchantParticle;
 use pocketmine\level\particle\EnchantmentTableParticle;
 use pocketmine\level\particle\EntityFlameParticle;
@@ -80,6 +81,9 @@ use pocketmine\level\particle\SporeParticle;
 use pocketmine\level\particle\WaterDripParticle;
 use pocketmine\level\particle\WaterParticle;
 
+use NinjaKnights\CosmeticMenu\Particles\Bullet;
+
+
 /* Will be used later on
 use pocketmine\level\sound\PopSound;
 use pocketmine\level\sound\GhastSound;
@@ -95,6 +99,7 @@ class Particles extends PluginTask {
 	
 	public function __construct($plugin) {
 		$this->plugin = $plugin;
+		$this->r = 0;
 	}
 
 	public function onRun($tick) {
@@ -114,88 +119,66 @@ class Particles extends PluginTask {
 		//Particles
 			//Rain Cloud
 			if(in_array($name, $this->plugin->particle1)) {
-				$x = $player->getX();
-				$y = $player->getY();
-				$z = $player->getZ();
-				
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
-            	$level->addParticle(new MobSpawnParticle(new Vector3($x + 0.5, $y + 3, $z + 0.5)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x - 0.5, $y + 3, $z - 0.5)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x + 0.5, $y + 3, $z - 0.5)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x - 0.5, $y + 3, $z + 0.5)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x + 0.5, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x - 0.5, $y + 3, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z + 0.5)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z - 0.5)));
+				if($this->r < 0){
+					$this->r++;
+					return true;
+				}
+				$levels = $this->plugin->getServer()->getLevels();
+				foreach($levels as $l){					  						 
+					$x = $player->getX();
+					$y = $player->getY();
+					$z = $player->getZ();
+					$level = $this->plugin->getServer()->getDefaultLevel();
+					$size = 0.5;
+					$size2 = 0.8;
+		   		    $a = cos(deg2rad($this->r/0.04))* $size;
+					$b = sin(deg2rad($this->r/0.04))* $size;
+					$c = cos(deg2rad($this->r/0.04))* $size2;
+					$d = sin(deg2rad($this->r/0.04))* $size2;
+					$time = microtime(true) - \pocketmine\START_TIME;
+					$seconds = floor($time % 20);
+					$up = $seconds/8;
+					$level->addParticle(new MobSpawnParticle(new Vector3($x - $a, $y + 3, $z - $b)));
+					$level->addParticle(new MobSpawnParticle(new Vector3($x - $b, $y + 3, $z - $a)));
 
-                $level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2, $z + 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2, $z - 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2, $z - 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2, $z + 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z + 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z - 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2, $z + 0.5)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2, $z - 0.5)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2, $z - 0.5)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2, $z + 0.5)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z + 0.5)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2, $z - 0.5)));
+					$level->addParticle(new SplashParticle(new Vector3($x - $a, $y + 2.3, $z - $b)));
+					$level->addParticle(new SplashParticle(new Vector3($x - $b, $y + 2.3, $z - $a)));
 
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.5, $z + 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2.5, $z - 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.5, $z - 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2.5, $z + 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.3, $y + 2.5, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.3, $y + 2.5, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z + 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z - 0.3)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.5, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2.5, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.5, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2.5, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.4, $y + 2.5, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.4, $y + 2.5, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z + 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z - 0.4)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.5, $z + 0.5)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.5, $z - 0.5)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.5, $z - 0.5)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.5, $z + 0.5)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x + 0.5, $y + 2.5, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x - 0.5, $y + 2.5, $z)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z + 0.5)));
-				$level->addParticle(new RainSplashParticle(new Vector3($x, $y + 2.5, $z - 0.5)));				
+					$level->addParticle(new MobSpawnParticle(new Vector3($x - $c, $y + 3, $z - $d)));
+					$level->addParticle(new MobSpawnParticle(new Vector3($x - $d, $y + 3, $z - $c)));
+
+					$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
+					$level->addParticle(new SplashParticle(new Vector3($x, $y + 2.3, $z)));
+
+					$this->r++; 			
+				}
+							
 			}
 			//Flaming Ring
             if(in_array($name, $this->plugin->particle2)) {
-				$radio = 5;
-				for($i = 5; $i > 0; $i-=0.1){
-					$radio = $i/3;
-					$x = $radio*cos(3*$i);
-					$y = 5-$i;
-					$z = $radio*sin(3*$i);
-					$level->addParticle(new FlameParticle($location->add($x, $y, $z)));
+				if($this->r < 0){
+					$this->r++;
+					return true;
 				}
-				for($i = 5; $i > 0; $i-=0.1){
-					$radio = $i/3;
-					$x = -$radio*cos(3*$i);
-					$y = 5-$i;
-					$z = -$radio*sin(3*$i);
-					$level->addParticle(new FlameParticle($location->add($x, $y, $z)));
+				$levels = $this->plugin->getServer()->getLevels();
+				foreach($levels as $l){					  						 
+					$x = $player->getX();
+					$y = $player->getY();
+					$z = $player->getZ();
+					$level = $this->plugin->getServer()->getDefaultLevel();
+		     		$hypo = 0.8;
+		   		    $a = cos(deg2rad($this->r/0.09))* $hypo;
+					$b = sin(deg2rad($this->r/0.09))* $hypo;
+					$time = microtime(true) - \pocketmine\START_TIME;
+					$seconds = floor($time % 20);
+					$up = $seconds/8;
+					$p1 = new Vector3($x - $a, $y + $up, $z - $b);
+					$p2 = new Vector3($x - $b, $y + $up, $z - $a);
+					$pl1 = new FlameParticle(($p1));
+					$pl2 = new FlameParticle(($p2));
+					$level->addParticle($pl1);
+					$level->addParticle($pl2);
+					$this->r++; 			
 				}
 			}	
 			//SnowAura
@@ -219,19 +202,139 @@ class Particles extends PluginTask {
 		    }	
 		    //CupidsLove
 			if(in_array($name, $this->plugin->particle4)) {
-				
-	            $x = $player->getX();
-				$y = $player->getY();
-			    $z = $player->getZ(); 
-				
-			    $level->addParticle(new HeartParticle(new Vector3($x, $y + 2, $z)));	
-				$level->addParticle(new HeartParticle(new Vector3($x + 0.6, $y + 1.3, $z + 0.6)));
-				$level->addParticle(new HeartParticle(new Vector3($x - 0.6, $y + 1, $z - 0.6)));
-                $level->addParticle(new HeartParticle(new Vector3($x + 0.6, $y + 0.4, $z - 0.6)));
-                $level->addParticle(new HeartParticle(new Vector3($x - 0.6, $y + 0.8, $z + 0.6)));
+				if($this->r < 0){
+					$this->r++;
+					return true;
+				}
+				$levels = $this->plugin->getServer()->getLevels();
+				foreach($levels as $l){					  						 
+					$x = $player->getX();
+					$y = $player->getY();
+					$z = $player->getZ();
+					$level = $this->plugin->getServer()->getDefaultLevel();
+		     		$size = 1.2;
+		   		    $a = cos(deg2rad($this->r/0.09))* $size;
+					$b = sin(deg2rad($this->r/0.09))* $size;
+					$c = tan(deg2rad($this->r/0.09))* $size;
+					$time = microtime(true) - \pocketmine\START_TIME;
+					$seconds = floor($time % 20);
+					$up = $seconds/10;
+					$level->addParticle(new HeartParticle(new Vector3($x - $a, $y + $up, $z - $b)));
+					$level->addParticle(new HeartParticle(new Vector3($x - $b, $y - $up + 2, $z - $a)));
+					$this->r++; 			
+				}
 			}
+			//Bullet Helix 
+			if(in_array($name, $this->plugin->particle5)) {
+	            if($this->r < 0){
+					$this->r++;
+					return true;
+				}
+				$levels = $this->plugin->getServer()->getLevels();
+				foreach($levels as $l){					  						 
+					$x = $player->getX();
+					$y = $player->getY();
+					$z = $player->getZ();
+					$level = $this->plugin->getServer()->getDefaultLevel();
+		     		$hypo = 1.2;
+		   		    $a = cos(deg2rad($this->r/0.09))* $hypo;
+					$b = sin(deg2rad($this->r/0.09))* $hypo;
+					$c = tan(deg2rad($this->r/0.09))* $hypo;
+					$time = microtime(true) - \pocketmine\START_TIME;
+					$seconds = floor($time % 20);
+					$up = $seconds/8;
+					$p1 = new Vector3($x - $a, $y + 0.2 + $up, $z - $b);
+					$p2 = new Vector3($x - $b, $y + 2.2 - $up, $z - $a);
+					$pl1 = new Bullet(($p1));
+					$pl2 = new Bullet(($p2));
+					$level->addParticle($pl1);
+					$level->addParticle($pl2);
+					$this->r++; 			
+				}
+			}
+			//Test 2
+			if(in_array($name, $this->plugin->particle6)) {
+				$x = $player->getX();
+				$y = $player->getY();
+				$z = $player->getZ(); 
 
+				$center = new Vector3($x, $y + 1.2, $z);
+				$particle = new DustParticle(($center),255, 255, 255);
+				switch($player->getDirection()){
+					case 0:
+						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
+							$x = sin($yaw) + $center->x;
+							$y = cos($yaw) + $center->y;
+							$z = cos($yaw) + $center->z;
+			
+							$particle->setComponents($x, $y, $z);
+							$level->addParticle($particle);
+						}
+						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
+							$x = cos($yaw) + $center->x;
+							 $y = sin($yaw) + $center->y;
+							$z = -sin($yaw) + $center->z;
+			
+							$particle->setComponents($x, $y, $z);
+							$level->addParticle($particle);
+						}
+					break;
+					case 1:
+						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
+							$x = -sin($yaw) + $center->x;
+							$y = sin($yaw) + $center->y;
+							$z = cos($yaw) + $center->z;
+			
+							$particle->setComponents($x, $y, $z);
+							$level->addParticle($particle);
+						}
+						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
+							$x = cos($yaw) + $center->x;
+							 $y = cos($yaw) + $center->y;
+							$z = sin($yaw) + $center->z;
+			
+							$particle->setComponents($x, $y, $z);
+							$level->addParticle($particle);
+						}
+					break;
+					case 2:
+						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
+							$x = sin($yaw) + $center->x;
+							$y = cos($yaw) + $center->y;
+							$z = cos($yaw) + $center->z;
+			
+							$particle->setComponents($x, $y, $z);
+							$level->addParticle($particle);
+						}
+						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
+							$x = cos($yaw) + $center->x;
+							 $y = sin($yaw) + $center->y;
+							$z = -sin($yaw) + $center->z;
+			
+							$particle->setComponents($x, $y, $z);
+							$level->addParticle($particle);
+						}
+					break;
+					case 3:
+						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
+							$x = -sin($yaw) + $center->x;
+							$y = sin($yaw) + $center->y;
+							$z = cos($yaw) + $center->z;
+			
+							$particle->setComponents($x, $y, $z);
+							$level->addParticle($particle);
+						}
+						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
+							$x = cos($yaw) + $center->x;
+							 $y = cos($yaw) + $center->y;
+							$z = sin($yaw) + $center->z;
+			
+							$particle->setComponents($x, $y, $z);
+							$level->addParticle($particle);
+						}
+					break;
+			    }
+			}
 		}
 	}
-
 }		
