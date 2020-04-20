@@ -20,6 +20,7 @@ Please note that this is an incomplete plugin, you can still use it but there st
 | `Flaming Ring` | `cosmetic.particles.flamingring` |
 | `Snow Aura` | `cosmetic.particles.snowaura` |
 | `Cupid's Love` | `cosmetic.particles.cupidslove` |
+| `Bullet Helix` | `cosmetic.particles.bullethelix` |
 | `Masks` | `cosmetic.masks` |
 | `Zombie` | `cosmetic.masks.zombie` |
 | `Skeleton` | `cosmetic.masks.skeleton` |
