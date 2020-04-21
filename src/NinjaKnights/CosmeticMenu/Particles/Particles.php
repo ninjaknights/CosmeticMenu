@@ -189,7 +189,7 @@ class Particles extends PluginTask {
 			    $z = $player->getZ(); 
 				
 				$center = new Vector3($x, $y + 2, $z);
-				$particle = new SnowballPoofParticle($center, 1);
+				$particle = new SnowballPoofParticle($center);
 				
 				for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
 					$x = -sin($yaw) + $center->x;
