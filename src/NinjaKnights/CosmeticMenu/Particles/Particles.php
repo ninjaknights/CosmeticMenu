@@ -119,10 +119,6 @@ class Particles extends PluginTask {
 		//Particles
 			//Rain Cloud
 			if(in_array($name, $this->plugin->particle1)) {
-				if($this->r < 0){
-					$this->r++;
-					return true;
-				}
 				$levels = $this->plugin->getServer()->getLevels();
 				foreach($levels as $l){					  						 
 					$x = $player->getX();
@@ -156,10 +152,6 @@ class Particles extends PluginTask {
 			}
 			//Flaming Ring
             if(in_array($name, $this->plugin->particle2)) {
-				if($this->r < 0){
-					$this->r++;
-					return true;
-				}
 				$levels = $this->plugin->getServer()->getLevels();
 				foreach($levels as $l){					  						 
 					$x = $player->getX();
@@ -189,7 +181,7 @@ class Particles extends PluginTask {
 			    $z = $player->getZ(); 
 				
 				$center = new Vector3($x, $y + 2, $z);
-				$particle = new SnowballPoofParticle($center, 1);
+				$particle = new SnowballPoofParticle($center);
 				
 				for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
 					$x = -sin($yaw) + $center->x;
@@ -202,10 +194,6 @@ class Particles extends PluginTask {
 		    }	
 		    //CupidsLove
 			if(in_array($name, $this->plugin->particle4)) {
-				if($this->r < 0){
-					$this->r++;
-					return true;
-				}
 				$levels = $this->plugin->getServer()->getLevels();
 				foreach($levels as $l){					  						 
 					$x = $player->getX();
@@ -226,10 +214,6 @@ class Particles extends PluginTask {
 			}
 			//Bullet Helix 
 			if(in_array($name, $this->plugin->particle5)) {
-	            if($this->r < 0){
-					$this->r++;
-					return true;
-				}
 				$levels = $this->plugin->getServer()->getLevels();
 				foreach($levels as $l){					  						 
 					$x = $player->getX();

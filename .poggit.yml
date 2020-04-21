@@ -6,6 +6,6 @@ projects:
   CosmeticMenu:
     path: ""
     lint:
-      phpstan: false
+      phpstan: true
 ...
 

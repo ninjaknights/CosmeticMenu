@@ -68,6 +68,8 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 
+use jojoe77777\FormAPI;
+
 use NinjaKnights\CosmeticMenu\Gadgets\Gadgets;
 use NinjaKnights\CosmeticMenu\Cooldown;
 use NinjaKnights\CosmeticMenu\Particles\Particles;
@@ -114,7 +116,6 @@ class Main extends PluginBase implements Listener {
     public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getServer()->getPluginManager()->registerEvents(new Gadgets($this), $this);
-        $this->MorphX = $this->getServer()->getPluginManager()->getPlugin("MorphX");
         $this->getScheduler()->scheduleRepeatingTask(new Particles($this), 3);
         $this->getScheduler()->scheduleRepeatingTask(new Trails($this), 5);
         $this->getScheduler()->scheduleRepeatingTask(new Cooldown($this), 20);
