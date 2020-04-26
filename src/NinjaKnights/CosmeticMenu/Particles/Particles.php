@@ -82,6 +82,8 @@ use pocketmine\level\particle\WaterDripParticle;
 use pocketmine\level\particle\WaterParticle;
 
 use NinjaKnights\CosmeticMenu\Particles\Bullet;
+use NinjaKnights\CosmeticMenu\Particles\WitchCurse;
+use NinjaKnights\CosmeticMenu\Particles\Conduit;
 
 
 /* Will be used later on
@@ -122,219 +124,130 @@ class Particles extends PluginTask {
 				if($this->r < 0){
 					$this->r++;
 					return true;
-				}
-				$levels = $this->plugin->getServer()->getLevels();
-				foreach($levels as $l){					  						 
-					$x = $player->getX();
-					$y = $player->getY();
-					$z = $player->getZ();
-					$level = $this->plugin->getServer()->getDefaultLevel();
-					$size = 0.5;
-					$size2 = 0.8;
-		   		    $a = cos(deg2rad($this->r/0.04))* $size;
-					$b = sin(deg2rad($this->r/0.04))* $size;
-					$c = cos(deg2rad($this->r/0.04))* $size2;
-					$d = sin(deg2rad($this->r/0.04))* $size2;
-					$time = microtime(true) - \pocketmine\START_TIME;
-					$seconds = floor($time % 20);
-					$up = $seconds/8;
-					$level->addParticle(new MobSpawnParticle(new Vector3($x - $a, $y + 3, $z - $b)));
-					$level->addParticle(new MobSpawnParticle(new Vector3($x - $b, $y + 3, $z - $a)));
+				}							  						 
+				
+		   		$a = cos(deg2rad($this->r/0.04))* 0.5;
+				$b = sin(deg2rad($this->r/0.04))* 0.5;
+				$c = cos(deg2rad($this->r/0.04))* 0.8;
+				$d = sin(deg2rad($this->r/0.04))* 0.8;
+				$level->addParticle(new MobSpawnParticle(new Vector3($x - $a, $y + 3, $z - $b)));
+				$level->addParticle(new MobSpawnParticle(new Vector3($x - $b, $y + 3, $z - $a)));
 
-					$level->addParticle(new SplashParticle(new Vector3($x - $a, $y + 2.3, $z - $b)));
-					$level->addParticle(new SplashParticle(new Vector3($x - $b, $y + 2.3, $z - $a)));
+				$level->addParticle(new SplashParticle(new Vector3($x - $a, $y + 2.3, $z - $b)));
+				$level->addParticle(new SplashParticle(new Vector3($x - $b, $y + 2.3, $z - $a)));
 
-					$level->addParticle(new MobSpawnParticle(new Vector3($x - $c, $y + 3, $z - $d)));
-					$level->addParticle(new MobSpawnParticle(new Vector3($x - $d, $y + 3, $z - $c)));
+				$level->addParticle(new MobSpawnParticle(new Vector3($x - $c, $y + 3, $z - $d)));
+				$level->addParticle(new MobSpawnParticle(new Vector3($x - $d, $y + 3, $z - $c)));
 
-					$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
-					$level->addParticle(new SplashParticle(new Vector3($x, $y + 2.3, $z)));
+				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
+				$level->addParticle(new SplashParticle(new Vector3($x, $y + 2.3, $z)));
 
-					$this->r++; 			
-				}
+				$this->r++; 			
 							
 			}
-			//Flaming Ring
+			//Flame Ring
             if(in_array($name, $this->plugin->particle2)) {
-				if($this->r < 0){
-					$this->r++;
-					return true;
-				}
-				$levels = $this->plugin->getServer()->getLevels();
-				foreach($levels as $l){					  						 
-					$x = $player->getX();
-					$y = $player->getY();
-					$z = $player->getZ();
-					$level = $this->plugin->getServer()->getDefaultLevel();
-		     		$hypo = 0.8;
-		   		    $a = cos(deg2rad($this->r/0.09))* $hypo;
-					$b = sin(deg2rad($this->r/0.09))* $hypo;
-					$time = microtime(true) - \pocketmine\START_TIME;
-					$seconds = floor($time % 20);
-					$up = $seconds/8;
-					$p1 = new Vector3($x - $a, $y + $up, $z - $b);
-					$p2 = new Vector3($x - $b, $y + $up, $z - $a);
-					$pl1 = new FlameParticle(($p1));
-					$pl2 = new FlameParticle(($p2));
-					$level->addParticle($pl1);
-					$level->addParticle($pl2);
-					$this->r++; 			
-				}
+				$size = 0.8;
+		   	    $a = cos(deg2rad($this->r/0.04))* $size;
+				$b = sin(deg2rad($this->r/0.04))* $size;
+				$c = cos(deg2rad($this->r/0.04))* 0.6;
+				$d = sin(deg2rad($this->r/0.04))* 0.6;
+				$level->addParticle(new FlameParticle(new Vector3($x + $a, $y + $c + $d + 1.2, $z + $b)));
+				$level->addParticle(new FlameParticle(new Vector3($x - $b, $y + $c + $d + 1.2, $z - $a)));
+				$this->r++; 
 			}	
-			//SnowAura
+			//Blizzard Aura
 			if(in_array($name, $this->plugin->particle3)) {
-				
-	            $x = $player->getX();
-				$y = $player->getY();
-			    $z = $player->getZ(); 
-				
-				$center = new Vector3($x, $y + 2, $z);
-				$particle = new SnowballPoofParticle($center);
-				
-				for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
-					$x = -sin($yaw) + $center->x;
-					$z = cos($yaw) + $center->z;
-					$y = $center->y;
-					
-					$particle->setComponents($x, $y, $z);
-					$level->addParticle($particle);
-				}
+	     		$size = 0.6;
+		   	    $a = cos(deg2rad($this->r/0.06))* $size;
+				$b = sin(deg2rad($this->r/0.06))* $size;
+				$level->addParticle(new DustParticle((new Vector3($x - $a, $y + 2, $z - $b)), 250, 250, 250));
+				$level->addParticle(new DustParticle((new Vector3($x + $a, $y + 2, $z + $b)), 250, 250, 250));
+				$this->r++;
 		    }	
 		    //CupidsLove
 			if(in_array($name, $this->plugin->particle4)) {
+		     	$size = 1.2;
+		   		$a = cos(deg2rad($this->r/0.09))* $size;
+				$b = sin(deg2rad($this->r/0.09))* $size;
+				$c = sin(deg2rad($this->r/0.2))* $size;
+				$level->addParticle(new HeartParticle(new Vector3($x - $a, $y + $c + 1.4, $z - $b)));
+				$this->r++; 			
+			}
+			//Bullet Helix 
+			if(in_array($name, $this->plugin->particle5)) {
+	     		$size = 1.2;
+		   	    $a = cos(deg2rad($this->r/0.09))* $size;
+				$b = sin(deg2rad($this->r/0.09))* $size;
+				$c = cos(deg2rad($this->r/0.3))* $size;
+				$level->addParticle(new Bullet(new Vector3($x - $a, $y + $c + 1.4, $z - $b)));
+				$level->addParticle(new Bullet(new Vector3($x + $a, $y + $c + 1.4, $z + $b)));
+				$this->r++; 			
+			}
+			//Conduit Halo
+			if(in_array($name, $this->plugin->particle6)) {
+	     		$size = 0.6;
+		   	    $a = cos(deg2rad($this->r/0.06))* $size;
+				$b = sin(deg2rad($this->r/0.06))* $size;
+				$level->addParticle(new Conduit(new Vector3($x - $a, $y + 2, $z - $b)));
+				$level->addParticle(new Conduit(new Vector3($x - $a, $y + 2, $z - $b)));
+				$this->r++;
+			}
+			//Wicth Curse
+			if(in_array($name, $this->plugin->particle7)) {
 				if($this->r < 0){
 					$this->r++;
 					return true;
 				}
-				$levels = $this->plugin->getServer()->getLevels();
-				foreach($levels as $l){					  						 
-					$x = $player->getX();
-					$y = $player->getY();
-					$z = $player->getZ();
-					$level = $this->plugin->getServer()->getDefaultLevel();
-		     		$size = 1.2;
-		   		    $a = cos(deg2rad($this->r/0.09))* $size;
-					$b = sin(deg2rad($this->r/0.09))* $size;
-					$c = tan(deg2rad($this->r/0.09))* $size;
-					$time = microtime(true) - \pocketmine\START_TIME;
-					$seconds = floor($time % 20);
-					$up = $seconds/10;
-					$level->addParticle(new HeartParticle(new Vector3($x - $a, $y + $up, $z - $b)));
-					$level->addParticle(new HeartParticle(new Vector3($x - $b, $y - $up + 2, $z - $a)));
-					$this->r++; 			
-				}
+				$a = cos($this->r*0.1)* 2;
+				$b = sin($this->r*0.1)* 2;
+				$level->addParticle(new WitchCurse(new Vector3($x + $a, $y + 1, $z + $b)));
+				$level->addParticle(new WitchCurse(new Vector3($x - $a, $y + 1, $z - $b)));
+				$level->addParticle(new WitchCurse(new Vector3($x + $b, $y + 1, $z - $a)));
+				$level->addParticle(new WitchCurse(new Vector3($x - $b, $y + 1, $z + $a)));
+				$this->r++;
 			}
-			//Bullet Helix 
-			if(in_array($name, $this->plugin->particle5)) {
-	            if($this->r < 0){
+			//Blood Helix
+			if(in_array($name, $this->plugin->particle8)) {
+				if($this->r < 0){
 					$this->r++;
 					return true;
 				}
-				$levels = $this->plugin->getServer()->getLevels();
-				foreach($levels as $l){					  						 
-					$x = $player->getX();
-					$y = $player->getY();
-					$z = $player->getZ();
-					$level = $this->plugin->getServer()->getDefaultLevel();
-		     		$hypo = 1.2;
-		   		    $a = cos(deg2rad($this->r/0.09))* $hypo;
-					$b = sin(deg2rad($this->r/0.09))* $hypo;
-					$c = tan(deg2rad($this->r/0.09))* $hypo;
-					$time = microtime(true) - \pocketmine\START_TIME;
-					$seconds = floor($time % 20);
-					$up = $seconds/8;
-					$p1 = new Vector3($x - $a, $y + 0.2 + $up, $z - $b);
-					$p2 = new Vector3($x - $b, $y + 2.2 - $up, $z - $a);
-					$pl1 = new Bullet(($p1));
-					$pl2 = new Bullet(($p2));
-					$level->addParticle($pl1);
-					$level->addParticle($pl2);
-					$this->r++; 			
+				$radio = 5;
+				for($size = 2.2; $size > 0; $size-=0.4){
+					$radio = $size/3;
+		   			$a = $radio*cos(deg2rad($this->r/0.09))* $size;
+					$b = $radio*sin(deg2rad($this->r/0.09))* $size;
+					$y = 4.8-$size;
+					$level->addParticle(new DustParticle((new Vector3($x + $a, $y + 2, $z + $b)),148, 37, 37));
+					$this->r++; 
 				}
 			}
-			//Test 2
-			if(in_array($name, $this->plugin->particle6)) {
-				$x = $player->getX();
-				$y = $player->getY();
-				$z = $player->getZ(); 
-
-				$center = new Vector3($x, $y + 1.2, $z);
-				$particle = new DustParticle(($center),255, 255, 255);
-				switch($player->getDirection()){
-					case 0:
-						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
-							$x = sin($yaw) + $center->x;
-							$y = cos($yaw) + $center->y;
-							$z = cos($yaw) + $center->z;
-			
-							$particle->setComponents($x, $y, $z);
-							$level->addParticle($particle);
-						}
-						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
-							$x = cos($yaw) + $center->x;
-							 $y = sin($yaw) + $center->y;
-							$z = -sin($yaw) + $center->z;
-			
-							$particle->setComponents($x, $y, $z);
-							$level->addParticle($particle);
-						}
-					break;
-					case 1:
-						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
-							$x = -sin($yaw) + $center->x;
-							$y = sin($yaw) + $center->y;
-							$z = cos($yaw) + $center->z;
-			
-							$particle->setComponents($x, $y, $z);
-							$level->addParticle($particle);
-						}
-						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
-							$x = cos($yaw) + $center->x;
-							 $y = cos($yaw) + $center->y;
-							$z = sin($yaw) + $center->z;
-			
-							$particle->setComponents($x, $y, $z);
-							$level->addParticle($particle);
-						}
-					break;
-					case 2:
-						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
-							$x = sin($yaw) + $center->x;
-							$y = cos($yaw) + $center->y;
-							$z = cos($yaw) + $center->z;
-			
-							$particle->setComponents($x, $y, $z);
-							$level->addParticle($particle);
-						}
-						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
-							$x = cos($yaw) + $center->x;
-							 $y = sin($yaw) + $center->y;
-							$z = -sin($yaw) + $center->z;
-			
-							$particle->setComponents($x, $y, $z);
-							$level->addParticle($particle);
-						}
-					break;
-					case 3:
-						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
-							$x = -sin($yaw) + $center->x;
-							$y = sin($yaw) + $center->y;
-							$z = cos($yaw) + $center->z;
-			
-							$particle->setComponents($x, $y, $z);
-							$level->addParticle($particle);
-						}
-						for($yaw = 0; $yaw <= 10; $yaw += (M_PI * 2) / 20){
-							$x = cos($yaw) + $center->x;
-							 $y = cos($yaw) + $center->y;
-							$z = sin($yaw) + $center->z;
-			
-							$particle->setComponents($x, $y, $z);
-							$level->addParticle($particle);
-						}
-					break;
-			    }
+			//Emerald Twirl
+			if(in_array($name, $this->plugin->particle9)) {
+				if($this->r < 0){
+					$this->r++;
+					return true;
+				}
+	     		$size = 1;
+		   	    $a = cos(deg2rad($this->r/0.09))* $size;
+				$b = sin(deg2rad($this->r/0.09))* $size;
+				$c = sin(deg2rad($this->r/0.2))* $size;
+				$level->addParticle(new HappyVillagerParticle(new Vector3($x - $a, $y + $c + 1.4, $z - $b)));
+				$this->r++;
 			}
+			//change
+			if(in_array($name, $this->plugin->particle10)) {
+	     		$size = 0.6;
+		   	    $a = cos(deg2rad($this->r/0.06))* $size;
+				$b = sin(deg2rad($this->r/0.06))* $size;
+				$c = cos(deg2rad($this->r/0.3))* $size;
+				$level->addParticle(new DustParticle((new Vector3($x - $a, $y + 2, $z - $b)), 250, 250, 250));
+				$level->addParticle(new DustParticle((new Vector3($x + $a, $y + 2, $z + $b)), 250, 250, 250));
+				$this->r++;  			
+				
+			}
+
 		}
 	}
 }		

@@ -100,17 +100,29 @@ class Main extends PluginBase implements Listener {
 	public $witherskeleton = array("WitherSkeletonMask");
 	public $creeper = array("CreeperMask");
 	public $zombie = array("ZombieMask");
-	public $dragon = array("DragonMask");
+    public $dragon = array("DragonMask");
+    
 	public $trail1 = array("FlameTrail");
 	public $trail2 = array("SnowTrail");
 	public $trail3 = array("HeartTrail");
-	public $trail4 = array("SmokeTrail ");
+    public $trail4 = array("SmokeTrail ");
+    public $trail5 = array("Trail ");
+    public $trail6 = array("Trail ");
+    public $trail7 = array("Trail ");
+    public $trail8 = array("Trail ");
+    public $trail9 = array("Trail ");
+    public $trail10 = array("Trail ");
+
 	public $particle1 = array("Rain Cloud");
-	public $particle2 = array("Flaming Rings");
-	public $particle3 = array("SnowAura");
+	public $particle2 = array("Flame Rings");
+	public $particle3 = array("SnowAura");//need work
     public $particle4 = array("Cupid's Love");
     public $particle5 = array("Bullet Helix");
     public $particle6 = array("Test");
+    public $particle7 = array("Test");
+    public $particle8 = array("Test");
+    public $particle9 = array("Test");
+    public $particle10 = array("Test");
 
 
     public function onEnable() {
@@ -124,19 +136,9 @@ class Main extends PluginBase implements Listener {
     public function onJoin(PlayerJoinEvent $event) {
 		
 		$player = $event->getPlayer();
-		$name = $player->getName();
-		
-		$player->setFood($player->getMaxFood()); 
-		
-		$player->setGamemode(2);
 		
 		$this->getCosmetic($player);
 		
-		$x = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getX();
-		$y = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getY();
-		$z = $this->getServer()->getDefaultLevel()->getSafeSpawn()->getZ();
-		
-		$player->teleport(new Vector3($x, $y, $z));
     }
     
     public function getCosmetic(Player $player) {
@@ -145,7 +147,7 @@ class Main extends PluginBase implements Listener {
 		$inv = $player->getInventory();
 		
 		$item1 = Item::get(345, 0, 1);
-		$item1->setCustomName("§l§3Cosmetic§8Menu");
+		$item1->setCustomName("§l§3Cosmetic§eMenu");
 		$inv->setItem(0, $item1);
 	} 
 	
@@ -188,12 +190,12 @@ class Main extends PluginBase implements Listener {
             }
         });
            
-        $form->setTitle("§l§3Cosmetic§8Menu");
-        $form->addButton("§l§6Gadgets");
-        $form->addButton("§l§6Particles");
-        $form->addButton("§l§6Hats");
-        $form->addButton("§l§6Trails");
-        $form->addButton("§l§6Morphs");
+        $form->setTitle("§l§3Cosmetic§eMenu");
+        $form->addButton("§l§8Gadgets\n§r§7Click to Open");
+        $form->addButton("§l§8Particles\n§r§7Click to Open");
+        $form->addButton("§l§8Hats\n§r§7Click to Open");
+        $form->addButton("§l§8Trails\n§r§7Click to Open");
+        $form->addButton("§l§8Morphs\n§r§7Click to Open");
         $form->sendToPlayer($player);
         return $form;
     }
@@ -214,7 +216,7 @@ class Main extends PluginBase implements Listener {
                         $inv->setItem(0, $item);
                     
                         $item1 = Item::get(355, 0 , 1);
-                        $item1->setCustomName("§l§4Back");
+                        $item1->setCustomName("§l§4<< Back");
                         $inv->setItem(8, $item1);
                     }
                 break;
@@ -228,7 +230,7 @@ class Main extends PluginBase implements Listener {
                         $inv->setItem(0, $item);
 
                         $item1 = Item::get(355, 0 , 1);
-                        $item1->setCustomName("§l§4Back");
+                        $item1->setCustomName("§l§4<< Back");
                         $inv->setItem(8, $item1);
                     }
                 break;
@@ -242,7 +244,7 @@ class Main extends PluginBase implements Listener {
                         $inv->setItem(0, $item);
                         
                         $item1 = Item::get(355, 0 , 1);
-                        $item1->setCustomName("§l§4Back");
+                        $item1->setCustomName("§l§4<< Back");
                         $inv->setItem(8, $item1);
                     }
                 break;
@@ -256,7 +258,7 @@ class Main extends PluginBase implements Listener {
                         $inv->setItem(0, $item);
                     
                         $item1 = Item::get(355, 0 , 1);
-                        $item1->setCustomName("§l§4Back");
+                        $item1->setCustomName("§l§4<< Back");
                         $inv->setItem(8, $item1);
                     }
                 break;
@@ -269,11 +271,11 @@ class Main extends PluginBase implements Listener {
            
         $form->setTitle("Gadgets");
         $form->setContent("Pick One");
-        $form->addButton("§l§4T§fN§4T§f-Launcher");
-        $form->addButton("§l§dLightning §eStick");
-        $form->addButton("§l§2Leaper");
-        $form->addButton("§l§fSmoke §8Bomb");
-        $form->addButton("§l§4Back");
+        $form->addButton("TNT-Launcher");
+        $form->addButton("Lightning Stick");
+        $form->addButton("Leaper");
+        $form->addButton("Smoke Bomb");
+        $form->addButton("§l§8<< Back");
         $form->sendToPlayer($player);
         return $form;
     }
@@ -302,6 +304,16 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle4[array_search($name, $this->particle4)]);
                             } elseif(in_array($name, $this->particle5)) {
                                 unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                             
                         } else {
@@ -317,6 +329,16 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle4[array_search($name, $this->particle4)]);
                             } elseif(in_array($name, $this->particle5)) {
                                 unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                         }
                     }
@@ -329,7 +351,7 @@ class Main extends PluginBase implements Listener {
                         if(!in_array($name, $this->particle2)) {
                     
                             $this->particle2[] = $name;
-                            $player->sendPopup("You have enabled your §l§6Flaming §eRings§r Particle");
+                            $player->sendPopup("You have enabled your §l§6Flame §eRings§r Particle");
                             
                             if(in_array($name, $this->particle1)) {
                                 unset($this->particle1[array_search($name, $this->particle1)]);
@@ -339,12 +361,22 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle4[array_search($name, $this->particle4)]);
                             } elseif(in_array($name, $this->particle5)) {
                                 unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                             
                         } else {
                             
                             unset($this->particle2[array_search($name, $this->particle2)]);
-                            $player->sendPopup("You have disabled your §l§6Flaming §eRings§r Particle");
+                            $player->sendPopup("You have disabled your §l§6Flame §eRings§r Particle");
                             
                             if(in_array($name, $this->particle1)) {
                                 unset($this->particle1[array_search($name, $this->particle1)]);
@@ -354,6 +386,16 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle4[array_search($name, $this->particle4)]);
                             } elseif(in_array($name, $this->particle5)) {
                                 unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                         }
                     }
@@ -366,7 +408,7 @@ class Main extends PluginBase implements Listener {
                         if(!in_array($name, $this->particle3)) {
                     
                             $this->particle3[] = $name;
-                            $player->sendPopup("You have enabled your §l§fSnow §3Aura§r Particle");
+                            $player->sendPopup("You have enabled your §l§fBlizzard §3Aura§r Particle");
                             
                             if(in_array($name, $this->particle1)) {
                                 unset($this->particle1[array_search($name, $this->particle1)]);
@@ -376,12 +418,22 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle4[array_search($name, $this->particle4)]);
                             } elseif(in_array($name, $this->particle5)) {
                                 unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                             
                         } else {
                             
                             unset($this->particle3[array_search($name, $this->particle3)]);
-                            $player->sendPopup("You have disabled your §l§fSnow §3Aura§r Particle");
+                            $player->sendPopup("You have disabled your §l§fBlizzard §3Aura§r Particle");
                            
                             if(in_array($name, $this->particle1)) {
                                 unset($this->particle1[array_search($name, $this->particle1)]);
@@ -391,6 +443,16 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle4[array_search($name, $this->particle4)]);
                             } elseif(in_array($name, $this->particle5)) {
                                 unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                         }
                     }
@@ -413,7 +475,17 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle3[array_search($name, $this->particle3)]);
                             } elseif(in_array($name, $this->particle5)) {
                                 unset($this->particle5[array_search($name, $this->particle5)]);
-                            } 
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
+                            }
                             
                         } else {
                             
@@ -428,6 +500,16 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle3[array_search($name, $this->particle3)]);
                             } elseif(in_array($name, $this->particle5)) {
                                 unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                         }
                     }
@@ -450,6 +532,16 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle3[array_search($name, $this->particle3)]);
                             } elseif(in_array($name, $this->particle4)) {
                                 unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                             
                         } else {
@@ -465,6 +557,16 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle3[array_search($name, $this->particle3)]);
                             } elseif(in_array($name, $this->particle4)) {
                                 unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                         }
                     }
@@ -489,6 +591,14 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle4[array_search($name, $this->particle4)]);
                             } elseif(in_array($name, $this->particle5)) {
                                 unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                             
                         } else {
@@ -506,12 +616,250 @@ class Main extends PluginBase implements Listener {
                                 unset($this->particle4[array_search($name, $this->particle4)]);
                             } elseif(in_array($name, $this->particle5)) {
                                 unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
                             }
                         }
                     }
                 break;
 
                 case 6:
+                    if($player->hasPermission("cosmetic.particles.test")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->particle7)) {
+                    
+                            $this->particle7[] = $name;
+                            $player->sendPopup("You have enabled your  Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->particle7[array_search($name, $this->particle7)]);
+                            $player->sendPopup("You have disabled your Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
+                            }
+                        }
+                    }
+                break;
+
+                case 7:
+                    if($player->hasPermission("cosmetic.particles.test")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->particle8)) {
+                    
+                            $this->particle8[] = $name;
+                            $player->sendPopup("You have enabled your  Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->particle8[array_search($name, $this->particle8)]);
+                            $player->sendPopup("You have disabled your Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
+                            }
+                        }
+                    }
+                break;
+
+                case 8:
+                    if($player->hasPermission("cosmetic.particles.test")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->particle9)) {
+                    
+                            $this->particle9[] = $name;
+                            $player->sendPopup("You have enabled your  Particle");
+                           
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
+                            }
+                            
+                        } else {
+                            
+                            unset($this->particle9[array_search($name, $this->particle9)]);
+                            $player->sendPopup("You have disabled your Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle10)) {
+                                unset($this->particle10[array_search($name, $this->particle10)]);
+                            }
+
+                        }
+                    }
+                break;
+
+                case 9:
+                    if($player->hasPermission("cosmetic.particles.test")){
+                        $name = $player->getName();
+    
+                        if(!in_array($name, $this->particle10)) {
+                    
+                            $this->particle10[] = $name;
+                            $player->sendPopup("You have enabled your  Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } 
+
+                        } else {
+                            
+                            unset($this->particle10[array_search($name, $this->particle10)]);
+                            $player->sendPopup("You have disabled your Particle");
+                            
+                            if(in_array($name, $this->particle1)) {
+                                unset($this->particle1[array_search($name, $this->particle1)]);
+                            } elseif(in_array($name, $this->particle2)) {
+                                unset($this->particle2[array_search($name, $this->particle2)]);
+                            } elseif(in_array($name, $this->particle3)) {
+                                unset($this->particle3[array_search($name, $this->particle3)]);
+                            } elseif(in_array($name, $this->particle4)) {
+                                unset($this->particle4[array_search($name, $this->particle4)]);
+                            } elseif(in_array($name, $this->particle5)) {
+                                unset($this->particle5[array_search($name, $this->particle5)]);
+                            } elseif(in_array($name, $this->particle6)) {
+                                unset($this->particle6[array_search($name, $this->particle6)]);
+                            } elseif(in_array($name, $this->particle7)) {
+                                unset($this->particle7[array_search($name, $this->particle7)]);
+                            } elseif(in_array($name, $this->particle8)) {
+                                unset($this->particle8[array_search($name, $this->particle8)]);
+                            } elseif(in_array($name, $this->particle9)) {
+                                unset($this->particle9[array_search($name, $this->particle9)]);
+                            } 
+
+                        }
+                    }
+                break;
+
+                case 10:
                     $name = $player->getName();
 
                     if(in_array($name, $this->particle1)) {
@@ -524,11 +872,21 @@ class Main extends PluginBase implements Listener {
                         unset($this->particle4[array_search($name, $this->particle4)]);
                     } elseif(in_array($name, $this->particle5)) {
                         unset($this->particle5[array_search($name, $this->particle5)]);
+                    } elseif(in_array($name, $this->particle6)) {
+                        unset($this->particle6[array_search($name, $this->particle6)]);
+                    } elseif(in_array($name, $this->particle7)) {
+                        unset($this->particle7[array_search($name, $this->particle7)]);
+                    } elseif(in_array($name, $this->particle8)) {
+                        unset($this->particle8[array_search($name, $this->particle8)]);
+                    } elseif(in_array($name, $this->particle9)) {
+                        unset($this->particle9[array_search($name, $this->particle9)]);
+                    } elseif(in_array($name, $this->particle10)) {
+                        unset($this->particle10[array_search($name, $this->particle10)]);
                     }
 
                 break;
 
-                case 7:
+                case 11:
                     $this->openMenu($player);
                 break;
             }
@@ -536,14 +894,18 @@ class Main extends PluginBase implements Listener {
            
         $form->setTitle("Particles");
         $form->setContent("Pick One");
-        $form->addButton("§l§1Rain §fCloud");
-        $form->addButton("§l§6Flaming §eRings");
-        $form->addButton("§l§fSnow §3Aura");
-        $form->addButton("§l§cCupid's §4Love");
+        $form->addButton("Rain Cloud");
+        $form->addButton("Flame Rings");
+        $form->addButton("Blizzard Aura");
+        $form->addButton("Cupid's Love");
         $form->addButton("Bullet Helix");
+        $form->addButton("Conduit Halo");
+        $form->addButton("Wicth Curse");
+        $form->addButton("Blood Helix");
+        $form->addButton("Emerald Twirl");
         $form->addButton("Test");
         $form->addButton("Clear");
-        $form->addButton("§l§4Back");
+        $form->addButton("§l§8<< Back");
         $form->sendToPlayer($player);
         return $form;
 	}
@@ -728,7 +1090,7 @@ class Main extends PluginBase implements Listener {
         $form->addButton("§l§8Wither§fSkeleton §9Hat");
         $form->addButton("§l§5Dragon §9Hat");
 		$form->addButton("Clear");
-		$form->addButton("§l§4Back");
+		$form->addButton("§l§8<< Back");
         $form->sendToPlayer($player);
         return $form;
     }
@@ -908,7 +1270,7 @@ class Main extends PluginBase implements Listener {
         $form->addButton("§l§4Heart §gTrail");
         $form->addButton("§l§fSmoke §gTrail");
         $form->addButton("Clear");
-        $form->addButton("§l§4Back");
+        $form->addButton("§l§8<< Back");
         $form->sendToPlayer($player);
         return $form;
     }
@@ -940,7 +1302,7 @@ class Main extends PluginBase implements Listener {
         $form->setContent("Pick One");
         $form->addButton("Zombie");
         $form->addButton("Remove");
-        $form->addButton("§l§4Back");
+        $form->addButton("§l§8<< Back");
         $form->sendToPlayer($player);
         return $form;
     }
@@ -958,11 +1320,11 @@ class Main extends PluginBase implements Listener {
             return true;
         }
 
-        if($iname == "§l§3Cosmetic§8Menu") {
+        if($iname == "§l§3Cosmetic§eMenu") {
             $this->openMenu($player);
         }
 
-        //Gadgets
+    //Gadgets
 		//TNT-Launcher
 		if($iname == "§l§4T§fN§4T§f-Launcher") {
 			if($player->hasPermission("cosmetic.gadgets.tntlauncher")) {
@@ -1093,10 +1455,10 @@ class Main extends PluginBase implements Listener {
 			}
         }
         //Back
-        if($iname == "§l§4Back") {
+        if($iname == "§l§4<< Back") {
 
             $item1 = Item::get(345, 0, 1);
-            $item1->setCustomName("§l§3Cosmetic§8Menu");
+            $item1->setCustomName("§l§3Cosmetic§eMenu");
             $inv->setItem(0, $item1);  
             
             $item1 = Item::get(0, 0 , 1);

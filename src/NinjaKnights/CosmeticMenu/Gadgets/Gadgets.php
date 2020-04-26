@@ -85,6 +85,13 @@ use NinjaKnights\CosmeticMenu\Cooldown;
 
 class Gadgets implements Listener {
 
+	public $tntCooldown = [ ];
+	public $tntCooldownTime = [ ];
+	public $lsCooldownTime = [ ];
+	public $lsCooldown = [ ];
+	public $sbCooldown = [ ];
+	public $sbCooldownTime = [ ];
+
 	public function __construct($plugin) {
 		$this->plugin = $plugin;
     }
@@ -123,5 +130,20 @@ class Gadgets implements Listener {
 			}        
 		}
 	}
+
+	public function onInteract(PlayerInteractEvent $event) {
+        $player = $event->getPlayer();
+        $item = $event->getItem();
+		$name = $player->getName();
+		$iname = $event->getPlayer()->getInventory()->getItemInHand()->getCustomName();//Item Name
+		$inv = $player->getInventory();
+		$block = $player->getLevel()->getBlock($player->floor()->subtract(0, 1));
+
+        if ($block->getId() === 0) {
+            $player->sendPopup("§cPlease wait");
+            return true;
+		}
+    
+    }
 
 }
