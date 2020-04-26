@@ -2,6 +2,8 @@
 Fun in the lobby (PMMP-Plugin)
 Please note that this is an incomplete plugin, you can still use it but there still more features to add
 
+Discord: https://discord.gg/PsMYb6Q
+
 ## Plugins Required
  - MorphX
  - FormAPI
