@@ -1,7 +1,7 @@
 name: CosmeticMenu
 main: NinjaKnights\CosmeticMenu\Main
 version: 1.6
-api: 3.9.3
+api: 3.12.0
 author: TheKnightGamer / Jean
 description: A CosmeticMenu plugin for server lobbys!
     
