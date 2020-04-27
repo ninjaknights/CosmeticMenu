@@ -4,18 +4,17 @@ namespace NinjaKnights\CosmeticMenuV2\cosmetics\Particles;
 
 use pocketmine\level\Location;
 use pocketmine\level\Position;
-use pocketmine\plugin\PluginBase;
 use pocketmine\Player;
 use pocketmine\level\Level;
 use pocketmine\math\Vector3;
 use pocketmine\math\Vector2;
 use pocketmine\scheduler\Task as PluginTask;
 
-use pocketmine\level\particle\FlameParticle;
+use pocketmine\level\particle\HeartParticle;
 
 use NinjaKnights\CosmeticMenuV2\Main;
 
-class FlameRings extends PluginTask {
+class CupidsLove extends PluginTask {
 	
 	public function __construct(Main $main) {
         $this->main = $main;
@@ -30,16 +29,15 @@ class FlameRings extends PluginTask {
             $x = $player->getX();
             $y = $player->getY();
             $z = $player->getZ();
-            if(in_array($name, $this->main->particle2)) {
-                $size = 0.8;
-                $a = cos(deg2rad($this->r/0.04))* $size;
-                $b = sin(deg2rad($this->r/0.04))* $size;
-                $c = cos(deg2rad($this->r/0.04))* 0.6;
-                $d = sin(deg2rad($this->r/0.04))* 0.6;
-                $level->addParticle(new FlameParticle(new Vector3($x + $a, $y + $c + $d + 1.2, $z + $b)));
-                $level->addParticle(new FlameParticle(new Vector3($x - $b, $y + $c + $d + 1.2, $z - $a)));
-                $this->r++;               
-            }  
+            if(in_array($name, $this->main->particle4)) {
+                $size = 1.2;
+                $a = cos(deg2rad($this->r/0.09))* $size;
+                $b = sin(deg2rad($this->r/0.09))* $size;
+                $c = sin(deg2rad($this->r/0.2))* $size;
+                $level->addParticle(new HeartParticle(new Vector3($x - $a, $y + $c + 1.4, $z - $b)));
+                $this->r++; 
+            } 	
         }
-    }    
+    }
+
 }

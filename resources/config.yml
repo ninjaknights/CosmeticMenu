@@ -1,0 +1,25 @@
+#DON'T CHANGE
+Version: 2.0
+
+#The world you want to add the Cosmetic item in
+WorldName: world
+
+#Settings for the cosmetic item
+Cosmetic:
+  # Choose if you want the Cosmetic Item to be enabled or not
+  Enabled: true
+
+  # Choose the name of the cosmetic item name
+  Name: "CosmeticMenu"
+
+  # Choose the name of the cosmetic item description 
+  Des: "Click Me"
+
+  # Choose what item the Cosmetic should be (Default is a nether star (399))
+  Item: 399
+
+  # Choose what slot of the player's hotbar or inventory the cosmetic item should appear in (0-8 are the player's hotbar)
+  Slot: 4
+
+  # Choose whether to prevent players from dropping or moving the cosmetic item
+  Force-Slot: true
