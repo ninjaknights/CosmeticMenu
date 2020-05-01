@@ -29,10 +29,12 @@ use NinjaKnights\CosmeticMenuV2\forms\GadgetForm;
 use NinjaKnights\CosmeticMenuV2\forms\ParticleForm;
 use NinjaKnights\CosmeticMenuV2\forms\MorphForm;
 use NinjaKnights\CosmeticMenuV2\forms\TrailForm;
-use NinjaKnights\CosmeticMenuV2\forms\HatForm;
+use NinjaKnights\CosmeticMenuV2\forms\SuitForm;
+
 use NinjaKnights\CosmeticMenuV2\EventListener;
 
 use NinjaKnights\CosmeticMenuV2\cosmetics\Gadgets\GadgetsEvents;
+use NinjaKnights\CosmeticMenuV2\cosmetics\Gadgets\TNTLauncher;
 
 use NinjaKnights\CosmeticMenuV2\cosmetics\Particles\BlizzardAura;
 use NinjaKnights\CosmeticMenuV2\cosmetics\Particles\BloodHelix;
@@ -43,6 +45,14 @@ use NinjaKnights\CosmeticMenuV2\cosmetics\Particles\EmeraldTwirl;
 use NinjaKnights\CosmeticMenuV2\cosmetics\Particles\FlameRings;
 use NinjaKnights\CosmeticMenuV2\cosmetics\Particles\RainCloud;
 use NinjaKnights\CosmeticMenuV2\cosmetics\Particles\WitchCurse;
+
+use NinjaKnights\CosmeticMenuV2\cosmetics\Trails\Flames;
+use NinjaKnights\CosmeticMenuV2\cosmetics\Trails\Snow;
+use NinjaKnights\CosmeticMenuV2\cosmetics\Trails\Heart;
+use NinjaKnights\CosmeticMenuV2\cosmetics\Trails\Smoke;
+
+use NinjaKnights\CosmeticMenuV2\cosmetics\Suits\Youtube;
+use NinjaKnights\CosmeticMenuV2\cosmetics\Suits\Frog;
 
 class Main extends PluginBase implements Listener {
 
@@ -57,7 +67,7 @@ class Main extends PluginBase implements Listener {
 	private $particles;
 	private $morphs;
 	private $trails;
-	private $hats;
+	private $suits;
 
 	public $particle1 = array("Rain Cloud");
 	public $particle2 = array("Flame Rings");
@@ -68,12 +78,21 @@ class Main extends PluginBase implements Listener {
     public $particle7 = array("Witch Curse");
     public $particle8 = array("Blood Helix");
     public $particle9 = array("Emerald Twril");
-    public $particle10 = array("Test");
+	public $particle10 = array("Test");
+	
+	public $trail1 = array("Flame Trail");
+	public $trail2 = array("Snow Trail");
+	public $trail3 = array("Heart Trail");
+	public $trail4 = array("Smoke Trail ");
+	
+	public $suit1 = array("Suit");
+	public $suit2 = array("Suit");
 
     public function onEnable() {
 		$this->getServer()->getPluginManager()->registerEvents($this,$this);
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 		$this->getServer()->getPluginManager()->registerEvents(new GadgetsEvents($this), $this);
+		$this->getServer()->getPluginManager()->registerEvents(new TNTLauncher($this), $this);
 		$this->getScheduler()->scheduleRepeatingTask(new BlizzardAura($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new BloodHelix($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new BulletHelix($this), 3);
@@ -83,6 +102,14 @@ class Main extends PluginBase implements Listener {
 		$this->getScheduler()->scheduleRepeatingTask(new FlameRings($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new RainCloud($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new WitchCurse($this), 3);
+
+		$this->getScheduler()->scheduleRepeatingTask(new Flames($this), 3);
+		$this->getScheduler()->scheduleRepeatingTask(new Snow($this), 3);
+		$this->getScheduler()->scheduleRepeatingTask(new Heart($this), 3);
+		$this->getScheduler()->scheduleRepeatingTask(new Smoke($this), 3);
+
+		$this->getScheduler()->scheduleRepeatingTask(new Youtube($this), 3);
+		$this->getScheduler()->scheduleRepeatingTask(new Frog($this), 3);
 		
 		$this->loadPlugins();
 		$this->loadFormClass();
@@ -116,7 +143,7 @@ class Main extends PluginBase implements Listener {
 		$this->particles = new ParticleForm($this);
 		$this->morphs = new MorphForm($this);
 		$this->trails = new TrailForm($this);
-		$this->hats = new HatForm($this);
+		$this->suits = new SuitForm($this);
     }
 	
 	private function loadPlugins() : void {
@@ -150,8 +177,8 @@ class Main extends PluginBase implements Listener {
 	function getTrails() : TrailForm {
         return $this->trails;
 	}
-	function getHats() : HatForm {
-        return $this->hats;
+	function getSuits() : SuitForm {
+        return $this->suits;
     }
 
 }

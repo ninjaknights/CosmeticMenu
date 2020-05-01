@@ -27,31 +27,29 @@ class TrailForm {
                     if($player->hasPermission("cosmetic.trails.flame")){
                         $name = $player->getName();
     
-                        if(!in_array($name, $this->trail1)) {
+                        if(!in_array($name, $this->getMain()->trail1)) {
                     
-                            $this->trail1[] = $name;
-                            $player->sendMessage("You have enabled your §l§6Flame §gTrail§r Particle");
+                            $this->getMain()->trail1[] = $name;
                             
-                            if(in_array($name, $this->trail2)) {
-                                unset($this->trail2[array_search($name, $this->trail2)]);
-                            } elseif(in_array($name, $this->trail3)) {
-                                unset($this->trail3[array_search($name, $this->trail3)]);
-                            } elseif(in_array($name, $this->trail4)) {
-                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            if(in_array($name, $this->main->trail2)) {
+                                unset($this->main->trail2[array_search($name, $this->main->trail2)]);
+                            } elseif(in_array($name, $this->main->trail3)) {
+                                unset($this->main->trail3[array_search($name, $this->main->trail3)]);
+                            } elseif(in_array($name, $this->main->trail4)) {
+                                unset($this->main->trail4[array_search($name, $this->main->trail4)]);
                             }
                             
                         } else {
                             
-                            unset($this->trail1[array_search($name, $this->trail1)]);
-                            $player->sendMessage("You have disabled your §l§6Flame §gTrail§r Particle");
-                            
-                            if(in_array($name, $this->trail2)) {
-                                unset($this->trail2[array_search($name, $this->trail2)]);
-                            } elseif(in_array($name, $this->trail3)) {
-                                unset($this->trail3[array_search($name, $this->trail3)]);
-                            } elseif(in_array($name, $this->trail4)) {
-                                unset($this->trail4[array_search($name, $this->trail4)]);
-                            }	
+                            if(in_array($name, $this->main->trail1)) {
+                                unset($this->main->trail1[array_search($name, $this->main->trail1)]);
+                            } elseif(in_array($name, $this->main->trail2)) {
+                                unset($this->main->trail2[array_search($name, $this->main->trail2)]);
+                            } elseif(in_array($name, $this->main->trail3)) {
+                                unset($this->main->trail3[array_search($name, $this->main->trail3)]);
+                            } elseif(in_array($name, $this->main->trail4)) {
+                                unset($this->main->trail4[array_search($name, $this->main->trail4)]);
+                            }
                         }
                     }
                 break;
@@ -60,32 +58,28 @@ class TrailForm {
                     if($player->hasPermission("cosmetic.trails.snow")){
                         $name = $player->getName();
     
-                        if(!in_array($name, $this->trail2)) {
+                        if(!in_array($name, $this->main->trail2)) {
                     
-                            $this->trail2[] = $name;
-                            $player->sendPopup("You have enabled your §l§fSnow §gTrail§r Particle");
-                            
-                            if(in_array($name, $this->trail1)) {
-                                unset($this->trail1[array_search($name, $this->trail1)]);
-                            } 
-                            elseif(in_array($name, $this->trail3)) {
-                                unset($this->trail3[array_search($name, $this->trail3)]);
-                            } 
-                            elseif(in_array($name, $this->trail4)) {
-                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            $this->main->trail2[] = $name;
+
+                            if(in_array($name, $this->main->trail1)) {
+                                unset($this->main->trail1[array_search($name, $this->main->trail1)]);
+                            } elseif(in_array($name, $this->main->trail3)) {
+                                unset($this->main->trail3[array_search($name, $this->main->trail3)]);
+                            } elseif(in_array($name, $this->main->trail4)) {
+                                unset($this->main->trail4[array_search($name, $this->main->trail4)]);
                             }
                             
                         } else {
                             
-                            unset($this->trail2[array_search($name, $this->trail2)]);
-                            $player->sendPopup("You have disabled your §l§fSnow §gTrail§r Particle");
-                            
-                            if(in_array($name, $this->trail1)) {
-                                unset($this->trail1[array_search($name, $this->trail1)]);
-                            } elseif(in_array($name, $this->trail3)) {
-                                unset($this->trail3[array_search($name, $this->trail3)]);
-                            } elseif(in_array($name, $this->trail4)) {
-                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            if(in_array($name, $this->main->trail1)) {
+                                unset($this->main->trail1[array_search($name, $this->main->trail1)]);
+                            } elseif(in_array($name, $this->main->trail2)) {
+                                unset($this->main->trail2[array_search($name, $this->main->trail2)]);
+                            } elseif(in_array($name, $this->main->trail3)) {
+                                unset($this->main->trail3[array_search($name, $this->main->trail3)]);
+                            } elseif(in_array($name, $this->main->trail4)) {
+                                unset($this->main->trail4[array_search($name, $this->main->trail4)]);
                             }
                         }
                     }
@@ -95,32 +89,28 @@ class TrailForm {
                     if($player->hasPermission("cosmetic.trails.heart")){
                         $name = $player->getName();
     
-                        if(!in_array($name, $this->trail3)) {
+                        if(!in_array($name, $this->main->trail3)) {
                     
-                            $this->trail3[] = $name;
-                            $player->sendPopup("You have enabled your §l§4Heart §gTrail§r Particle");
-                            
-                            if(in_array($name, $this->trail1)) {
-                                unset($this->trail1[array_search($name, $this->trail1)]);
-                            }
-                            elseif(in_array($name, $this->trail2)) {
-                                unset($this->trail2[array_search($name, $this->trail2)]);
-                            } 
-                            elseif(in_array($name, $this->trail4)) {
-                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            $this->main->trail3[] = $name;
+
+                            if(in_array($name, $this->main->trail1)) {
+                                unset($this->main->trail1[array_search($name, $this->main->trail1)]);
+                            } elseif(in_array($name, $this->main->trail2)) {
+                                unset($this->main->trail2[array_search($name, $this->main->trail2)]);
+                            } elseif(in_array($name, $this->main->trail4)) {
+                                unset($this->main->trail4[array_search($name, $this->main->trail4)]);
                             }
                             
                         } else {
                             
-                            unset($this->trail3[array_search($name, $this->trail3)]);
-                            $player->sendPopup("You have disabled your §l§4Heart §gTrail§r Particle");
-                          
-                            if(in_array($name, $this->trail2)) {
-                                unset($this->trail2[array_search($name, $this->trail2)]);
-                            } elseif(in_array($name, $this->trail1)) {
-                                unset($this->trail1[array_search($name, $this->trail1)]);
-                            } elseif(in_array($name, $this->trail4)) {
-                                unset($this->trail4[array_search($name, $this->trail4)]);
+                            if(in_array($name, $this->main->trail1)) {
+                                unset($this->main->trail1[array_search($name, $this->main->trail1)]);
+                            } elseif(in_array($name, $this->main->trail2)) {
+                                unset($this->main->trail2[array_search($name, $this->main->trail2)]);
+                            } elseif(in_array($name, $this->main->trail3)) {
+                                unset($this->main->trail3[array_search($name, $this->main->trail3)]);
+                            } elseif(in_array($name, $this->main->trail4)) {
+                                unset($this->main->trail4[array_search($name, $this->main->trail4)]);
                             }
                         }
                     }
@@ -130,32 +120,28 @@ class TrailForm {
                     if($player->hasPermission("cosmetic.trails.smoke")){
                         $name = $player->getName();
     
-                        if(!in_array($name, $this->trail4)) {
+                        if(!in_array($name, $this->main->trail4)) {
                     
-                            $this->trail4[] = $name;
-                            $player->sendPopup("You have enabled your §l§fSmoke §gTrail§r Particle");
+                            $this->main->trail4[] = $name;
                             
-                            if(in_array($name, $this->trail1)) {
-                                unset($this->trail1[array_search($name, $this->trail1)]);
-                            }
-                            elseif(in_array($name, $this->trail2)) {
-                                unset($this->trail2[array_search($name, $this->trail2)]);
-                            } 
-                            elseif(in_array($name, $this->trail3)) {
-                                unset($this->trail3[array_search($name, $this->trail3)]);
+                            if(in_array($name, $this->main->trail1)) {
+                                unset($this->main->trail1[array_search($name, $this->main->trail1)]);
+                            } elseif(in_array($name, $this->main->trail2)) {
+                                unset($this->main->trail2[array_search($name, $this->main->trail2)]);
+                            } elseif(in_array($name, $this->main->trail3)) {
+                                unset($this->main->trail3[array_search($name, $this->main->trail3)]);
                             }
                             
                         } else {
                             
-                            unset($this->trail4[array_search($name, $this->trail4)]);
-                            $player->sendPopup("You have disabled your §l§fSmoke §gTrail§r Particle");
-                                
-                            if(in_array($name, $this->trail2)) {
-                                unset($this->trail2[array_search($name, $this->trail2)]);
-                            } elseif(in_array($name, $this->trail3)) {
-                                unset($this->trail3[array_search($name, $this->trail3)]);
-                            } elseif(in_array($name, $this->trail1)) {
-                                unset($this->trail1[array_search($name, $this->trail1)]);
+                            if(in_array($name, $this->main->trail1)) {
+                                unset($this->main->trail1[array_search($name, $this->main->trail1)]);
+                            } elseif(in_array($name, $this->main->trail2)) {
+                                unset($this->main->trail2[array_search($name, $this->main->trail2)]);
+                            } elseif(in_array($name, $this->main->trail3)) {
+                                unset($this->main->trail3[array_search($name, $this->main->trail3)]);
+                            } elseif(in_array($name, $this->main->trail4)) {
+                                unset($this->main->trail4[array_search($name, $this->main->trail4)]);
                             }
                         }
                     }
@@ -164,17 +150,14 @@ class TrailForm {
                 case 4:
                     $name = $player->getName();
 
-                    if(in_array($name, $this->trail1)) {
-                        unset($this->trail1[array_search($name, $this->trail1)]);
-                    }
-                    elseif(in_array($name, $this->trail2)) {
-                        unset($this->trail2[array_search($name, $this->trail2)]);
-                    } 
-                    elseif(in_array($name, $this->trail3)) {
-                        unset($this->trail3[array_search($name, $this->trail3)]);
-                    }
-                    elseif(in_array($name, $this->trail4)) {
-                        unset($this->trail4[array_search($name, $this->trail4)]);
+                    if(in_array($name, $this->main->trail1)) {
+                        unset($this->main->trail1[array_search($name, $this->main->trail1)]);
+                    } elseif(in_array($name, $this->main->trail2)) {
+                        unset($this->main->trail2[array_search($name, $this->main->trail2)]);
+                    } elseif(in_array($name, $this->main->trail3)) {
+                        unset($this->main->trail3[array_search($name, $this->main->trail3)]);
+                    } elseif(in_array($name, $this->main->trail4)) {
+                        unset($this->main->trail4[array_search($name, $this->main->trail4)]);
                     }
                 break;
 
@@ -186,10 +169,10 @@ class TrailForm {
            
         $form->setTitle("Trails");
         $form->setContent("Pick One");
-        $form->addButton("§l§6Flame §gTrail");
-        $form->addButton("§l§fSnow §gTrail");
-        $form->addButton("§l§4Heart §gTrail");
-        $form->addButton("§l§fSmoke §gTrail");
+        $form->addButton("Flame Trail");
+        $form->addButton("Snow Trail");
+        $form->addButton("Heart Trail");
+        $form->addButton("Smoke Trail");
         $form->addButton("Clear");
         $form->addButton("§l§8<< Back");
         $form->sendToPlayer($player);

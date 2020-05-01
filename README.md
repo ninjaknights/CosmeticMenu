@@ -1,5 +1,6 @@
 # CosmeticMenu
-Fun in the lobby (PMMP-Plugin)
+Fun and Easy-to-Use Pocketmine Cosmetics plugin. With so many Features added like a Tnt-Launcher to blast players away or cool particle effect to show off to your friends.
+
 Please note that this is an incomplete plugin, you can still use it but there still more features to add
 
 Discord: https://discord.gg/PsMYb6Q
@@ -7,6 +8,7 @@ Discord: https://discord.gg/PsMYb6Q
 ## Plugins Required
  - MorphX
  - FormAPI
+ - PerWorldInventory (Optional) 
 
 ## Permissions
 
@@ -17,23 +19,24 @@ Discord: https://discord.gg/PsMYb6Q
 | `Lightning Stick` | `cosmetic.gadgets.lightningstick` |
 | `Leaper` | `cosmetic.gadgets.leaper` |
 | `SmokeBomb` | `cosmetic.gadgets.smokebomb` |
+
 | `Particles` | `cosmetic.particles` |
 | `Rain Cloud` | `cosmetic.particles.raincloud` |
 | `Flaming Ring` | `cosmetic.particles.flamingring` |
 | `Snow Aura` | `cosmetic.particles.snowaura` |
 | `Cupid's Love` | `cosmetic.particles.cupidslove` |
 | `Bullet Helix` | `cosmetic.particles.bullethelix` |
-| `Masks` | `cosmetic.masks` |
-| `Zombie` | `cosmetic.masks.zombie` |
-| `Skeleton` | `cosmetic.masks.skeleton` |
-| `Creeper` | `cosmetic.masks.creeper` |
-| `WhitherSkeleton` | `cosmetic.masks.witherskeleton` |
-| `Dragon` | `cosmetic.masks.dragon` |
+
+| `Suits` | `cosmetic.suits` |
+| `Youtube Suit` | `cosmetic.suits.youtube` |
+| `Frog Suit` | `cosmetic.suits.frog` |
+
 | `Trails` | `cosmetic.trails` |
 | `Flame Trail` | `cosmetic.trails.flame` |
 | `Snow Trail` | `cosmetic.trails.snow` |
 | `Heart Trail` | `cosmetic.trails.heart` |
 | `Smoke Trail` | `cosmetic.trails.smoke` |
+
 | `Morphs` | `cosmetic.morphs` |
 | `Zombie Morph` | `cosmetic.morphs.zombie` |
 

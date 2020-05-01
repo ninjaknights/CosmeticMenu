@@ -37,6 +37,11 @@ class GadgetForm {
                         $item1 = Item::get(355, 0 , 1);
                         $item1->setCustomName("§l§4<< Back");
                         $inv->setItem(8, $item1);
+
+                        $item2 = Item::get(0, 0 , 1);
+			            $slot = $this->main->config->getNested("Cosmetic.Slot");
+				        $player->getInventory()->setItem($slot,$item2,true);
+			
                     }
                 break;
 
@@ -51,6 +56,10 @@ class GadgetForm {
                         $item1 = Item::get(355, 0 , 1);
                         $item1->setCustomName("§l§4<< Back");
                         $inv->setItem(8, $item1);
+
+                        $item2 = Item::get(0, 0 , 1);
+			            $slot = $this->main->config->getNested("Cosmetic.Slot");
+				        $player->getInventory()->setItem($slot,$item2,true);
                     }
                 break;
 
@@ -65,6 +74,10 @@ class GadgetForm {
                         $item1 = Item::get(355, 0 , 1);
                         $item1->setCustomName("§l§4<< Back");
                         $inv->setItem(8, $item1);
+
+                        $item2 = Item::get(0, 0 , 1);
+			            $slot = $this->main->config->getNested("Cosmetic.Slot");
+				        $player->getInventory()->setItem($slot,$item2,true);
                     }
                 break;
 
@@ -79,8 +92,30 @@ class GadgetForm {
                         $item1 = Item::get(355, 0 , 1);
                         $item1->setCustomName("§l§4<< Back");
                         $inv->setItem(8, $item1);
+
+                        $item2 = Item::get(0, 0 , 1);
+			            $slot = $this->main->config->getNested("Cosmetic.Slot");
+				        $player->getInventory()->setItem($slot,$item2,true);
                     }
                 break;
+
+                /*case 4:
+                    if($player->hasPermission("cosmetic.gadgets.paintballgun")){
+                        $inv = $player->getInventory();
+                        
+	    	            $item = Item::get(418, 0, 1);
+		                $item->setCustomName("PaintBall Gun");   
+                        $inv->setItem(0, $item);
+                    
+                        $item1 = Item::get(355, 0 , 1);
+                        $item1->setCustomName("§l§4<< Back");
+                        $inv->setItem(8, $item1);
+
+                        $item2 = Item::get(0, 0 , 1);
+			            $slot = $this->main->config->getNested("Cosmetic.Slot");
+				        $player->getInventory()->setItem($slot,$item2,true);
+                    }
+                break;*/
 
                 case 4:
                     $this->getMain()->getForms()->menuForm($player);
@@ -94,6 +129,7 @@ class GadgetForm {
         $form->addButton("Lightning Stick");
         $form->addButton("Leaper");
         $form->addButton("Smoke Bomb");
+        //$form->addButton("PaintBall Gun");
         $form->addButton("§l§8<< Back");
         $form->sendToPlayer($player);
         return $form;

@@ -36,8 +36,8 @@ class MainForm {
                 break;
 
                 case 2:
-                    if($player->hasPermission("cosmetic.masks")){
-                        $this->getMain()->getHats()->openHats($player);
+                    if($player->hasPermission("cosmetic.suits")){
+                        $this->getMain()->getSuits()->openSuits($player);
                     }
                 break;
 
@@ -58,7 +58,7 @@ class MainForm {
         $form->setTitle("§l§3Cosmetic§eMenu");
         $form->addButton("§l§8Gadgets\n§r§7Click to Open");
         $form->addButton("§l§8Particles\n§r§7Click to Open");
-        $form->addButton("§l§8Hats\n§r§7Click to Open");
+        $form->addButton("§l§8Suits\n§r§7Click to Open");
         $form->addButton("§l§8Trails\n§r§7Click to Open");
         $form->addButton("§l§8Morphs\n§r§7Click to Open");
         $form->sendToPlayer($player);
