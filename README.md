@@ -12,9 +12,8 @@ Discord: https://discord.gg/PsMYb6Q
 
 ## Permissions
 
-| Name | Permissions |
+| Gadgets | `cosmetic.gadgets` |
 | --- | --- |
-| `Gadgets` | `cosmetic.gadgets` |
 | `TNT Launcher` | `cosmetic.gadgets.tntlauncher` |
 | `Lightning Stick` | `cosmetic.gadgets.lightningstick` |
 | `Leaper` | `cosmetic.gadgets.leaper` |
