@@ -37,7 +37,7 @@ class BulletHelix extends PluginTask {
                 $level->addParticle(new Bullet(new Vector3($x - $a, $y + $c + 1.4, $z - $b)));
                 $level->addParticle(new Bullet(new Vector3($x + $a, $y + $c + 1.4, $z + $b)));
                 $this->r++; 
-            } 	
+            } 
         }
     }
 

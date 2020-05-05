@@ -1,9 +1,5 @@
 # CosmeticMenu
-Fun and Easy-to-Use Pocketmine Cosmetics plugin. With so many Features added like a Tnt-Launcher to blast players away or cool particle effect to show off to your friends.
-
-Please note that this is an incomplete plugin, you can still use it but there still more features to add
-
-Discord: https://discord.gg/PsMYb6Q
+Fun and Easy-to-Use Cosmetic plugin with gadgets, particles, trails, suits and morphs. A Easy config and tons of permissions.
 
 ## Plugins Required
  - MorphX

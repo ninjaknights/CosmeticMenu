@@ -423,7 +423,7 @@ class ParticleForm {
                 break;
                 //Blood Helix
                 case 7:
-                    if($player->hasPermission("cosmetic.particles.test")){
+                    if($player->hasPermission("cosmetic.particles.bloodhelix")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->getMain()->particle8)) {
@@ -631,9 +631,9 @@ class ParticleForm {
         $form->addButton("Bullet Helix");
         $form->addButton("Conduit Halo");
         $form->addButton("Wicth Curse");
-        $form->addButton("Blood Helix");//must change
+        $form->addButton("Blood Helix\nNot Working for now");//must change
         $form->addButton("Emerald Twirl");
-        $form->addButton("Test");
+        $form->addButton("Not Added");
         $form->addButton("Clear");
         $form->addButton("§l§8<< Back");
         $form->sendToPlayer($player);
