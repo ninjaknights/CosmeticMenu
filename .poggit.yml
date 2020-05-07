@@ -1,11 +1,13 @@
 --- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/ninjaknights/CosmeticMenu
 branches:
 - master
-- "1.0"
 projects:
   CosmeticMenu:
     path: ""
     lint:
       phpstan: false
+    libs:
+      - src: jojoe77777/FormAPI/libFormAPI
+        version: 1.3.0
 ...
 
