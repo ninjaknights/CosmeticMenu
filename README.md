@@ -5,7 +5,6 @@ Our Discord: https://discord.gg/PsMYb6Q
 
 ## Plugins Required
  - MorphX
- - FormAPI
  - PerWorldInventory (Optional) 
 
 ## Permissions
