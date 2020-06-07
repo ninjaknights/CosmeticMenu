@@ -29,7 +29,7 @@ use pocketmine\inventory\transaction\action\SlotChangeAction;
 use pocketmine\entity\Effect;
 use pocketmine\entity\EffectInstance;
 
-use jojoe77777\FormAPI\FormAPI;
+use NinjaKnights\CosmeticMenu\libs\jojoe77777\FormAPI\SimpleForm;
 
 use NinjaKnights\CosmeticMenu\forms\MainForm;
 use NinjaKnights\CosmeticMenu\Main;
@@ -49,7 +49,18 @@ class EventListener implements Listener {
             }
         }
         return false;
-	}
+    }
+    
+    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
+        switch($cmd->getName()) {
+            case "cosmetics":
+                if($this->main->cosmeticSupport){
+                    $this->getMain()->getForms()->menuForm($player);
+                } 
+            break;
+        }
+        return true;
+    }
 
 	public function onJoin(PlayerJoinEvent $event){
         if($this->main->cosmeticSupport){

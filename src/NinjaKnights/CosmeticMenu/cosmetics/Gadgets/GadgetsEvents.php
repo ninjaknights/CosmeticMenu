@@ -102,28 +102,6 @@ class GadgetsEvents implements Listener {
 		$event->setBlockBreaking(false);
 	}
 
-	public function onEggDown(EntityDespawnEvent $event) {
-		if($event->getType() === 82){
-		   $entity = $event->getEntity();
-		   $shooter = $entity->getOwningEntity();
-		   $x = $entity->getX();
-		   $y = $entity->getY();
-		   $z = $entity->getZ();
-		   $level = $entity->getLevel();
-		   for ($i = 1; $i < 4; $i++) {
-				$level->addParticle(new MobSpawnParticle(new Vector3($x + 1, $y + $i, $z + 1)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x - 1, $y + $i, $z - 1)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x + 1, $y + $i, $z - 1)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x - 1, $y + $i, $z + 1)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x + 1, $y + $i, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x - 1, $y + $i, $z)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + $i, $z + 1)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + $i, $z - 1)));
-				$level->addParticle(new MobSpawnParticle(new Vector3($x, $y + $i, $z)));
-			}        
-		}
-	}
-
 	public function onInteract(PlayerInteractEvent $event) {
         $player = $event->getPlayer();
         $item = $event->getItem();
@@ -181,38 +159,6 @@ class GadgetsEvents implements Listener {
 				
 			}
         }
-		//Smoke Bomb
-		if($iname == "Smoke Bomb") {
-			if($player->hasPermission("cosmetic.gadgets.smokebomb")) {
-		       $nbt = new CompoundTag ("", [
-					"Pos" => new ListTag ("Pos", [
-					    new DoubleTag ("", $player->x),
-						new DoubleTag ("", $player->y + $player->getEyeHeight()),
-						new DoubleTag ("", $player->z)
-					]),
-					"Motion" => new ListTag ("Motion", [
-						new DoubleTag ("", -\sin($player->yaw / 180 * M_PI) * \cos($player->pitch / 180 * M_PI)),
-						new DoubleTag ("", -\sin($player->pitch / 180 * M_PI)),
-						new DoubleTag ("", \cos($player->yaw / 180 * M_PI) * \cos($player->pitch / 180 * M_PI))
-					]),
-					"Rotation" => new ListTag ("Rotation", [
-						new FloatTag ("", $player->yaw),
-						new FloatTag ("", $player->pitch)
-					])
-				]);
-				$f = 1.5;
-				$egg = Entity::createEntity("Egg", $player->getLevel(), $nbt, $player);
-				$egg->setMotion($egg->getMotion()->multiply($f));
-				$egg->setHealth(1);
-				$egg->spawnToAll();
-				
-
-            } else {
-				
-				$player->sendMessage("You don't have permission to use §l§fSmoke §8Bomb!");
-				
-			}
-		}
 		
 	}
 	

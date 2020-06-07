@@ -3,7 +3,7 @@
 namespace NinjaKnights\CosmeticMenu\forms;
     
 use NinjaKnights\CosmeticMenu\Main;
-use jojoe77777\FormAPI\SimpleForm;
+use NinjaKnights\CosmeticMenu\libs\jojoe77777\FormAPI\SimpleForm;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\item\Item;
@@ -20,7 +20,7 @@ class SuitForm {
     }
 
     public function openSuits($player) {
-        $form = $this->getMain()->getForm()->createSimpleForm(function (Player $player, $data) {
+        $form = new SimpleForm(function (Player $player, $data) {
         $result = $data;
             if($result === null) {
                 return true;

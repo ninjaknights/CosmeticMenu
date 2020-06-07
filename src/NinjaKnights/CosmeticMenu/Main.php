@@ -22,7 +22,7 @@ use pocketmine\inventory\transaction\action\{SlotChangeAction,DropItemAction};
 
 use pocketmine\utils\Config;
 
-use jojoe77777\FormAPI\FormAPI;
+use NinjaKnights\CosmeticMenu\libs\jojoe77777\FormAPI\SimpleForm;
 
 use NinjaKnights\CosmeticMenu\forms\MainForm;
 use NinjaKnights\CosmeticMenu\forms\GadgetForm;
@@ -55,8 +55,6 @@ use NinjaKnights\CosmeticMenu\cosmetics\Suits\Youtube;
 use NinjaKnights\CosmeticMenu\cosmetics\Suits\Frog;
 
 class Main extends PluginBase implements Listener {
-
-	private $formapi;
 
 	public $world;
     /**
@@ -147,18 +145,11 @@ class Main extends PluginBase implements Listener {
     }
 	
 	private function loadPlugins() : void {
-        $this->formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+
 	}
 
 	function getMain() : Main {
         return $this;
-	}
-
-    /**
-     * @return FormAPI
-     */
-    function getForm() : FormAPI {
-        return $this->formapi;
 	}
 	
 	function getForms() : MainForm {
