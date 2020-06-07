@@ -35,6 +35,7 @@ use NinjaKnights\CosmeticMenu\forms\TrailForm;
 use NinjaKnights\CosmeticMenu\forms\SuitForm;
 
 use NinjaKnights\CosmeticMenu\EventListener;
+use NinjaKnights\CosmeticMenu\Cooldown;
 
 use NinjaKnights\CosmeticMenu\cosmetics\Gadgets\GadgetsEvents;
 use NinjaKnights\CosmeticMenu\cosmetics\Gadgets\TNTLauncher;
@@ -69,6 +70,13 @@ class Main extends PluginBase implements Listener {
 	private $morphs;
 	private $trails;
 	private $suits;
+
+	public $tntCooldown = [ ];
+	public $tntCooldownTime = [ ];
+	public $lsCooldownTime = [ ];
+	public $lsCooldown = [ ];
+	public $sbCooldown = [ ];
+	public $sbCooldownTime = [ ];
 
 	public $particle1 = array("Rain Cloud");
 	public $particle2 = array("Flame Rings");
@@ -108,6 +116,8 @@ class Main extends PluginBase implements Listener {
 		$this->getScheduler()->scheduleRepeatingTask(new Snow($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new Heart($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new Smoke($this), 3);
+
+		$this->getScheduler()->scheduleRepeatingTask(new Cooldown($this), 20);
 
 		$this->getScheduler()->scheduleRepeatingTask(new Youtube($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new Frog($this), 3);

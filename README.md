@@ -14,7 +14,6 @@ Our Discord: https://discord.gg/PsMYb6Q
 | `TNT Launcher` | `cosmetic.gadgets.tntlauncher` |
 | `Lightning Stick` | `cosmetic.gadgets.lightningstick` |
 | `Leaper` | `cosmetic.gadgets.leaper` |
-| `SmokeBomb` | `cosmetic.gadgets.smokebomb` |
 
 | Particles | `cosmetic.particles` |
 | --- | --- |
