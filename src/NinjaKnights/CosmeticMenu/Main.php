@@ -121,7 +121,7 @@ class Main extends PluginBase implements Listener {
         $version = $this->config->get("Version");
         $this->pluginVersion = $this->getDescription()->getVersion();
         if($version < "2.0"){
-            $this->getLogger()->warning("You have updated CosmeticMenu to v".$this->pluginVersion." but have a config from v$version! Please delete your old config for new features to be enabled and to prevent unwanted errors! The Plugin will remain disabled.");
+            $this->getLogger()->warning("You have updated CosmeticMenu to v".$this->pluginVersion." but have a config from v$version! Please delete your old config for new features to be enabled and to prevent unwanted errors!");
             $this->getServer()->getPluginManager()->disablePlugin($this);
         }
 
