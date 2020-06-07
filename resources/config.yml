@@ -1,8 +1,10 @@
 #DON'T CHANGE
-Version: 2.0
+Version: 2.1
 
 #The world you want to add the Cosmetic item in
 WorldName: world
+
+Command: true
 
 #Settings for the cosmetic item
 Cosmetic:

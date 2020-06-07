@@ -159,6 +159,38 @@ class GadgetsEvents implements Listener {
 				
 			}
         }
+		//Smoke Bomb
+		if($iname == "Smoke Bomb") {
+			if($player->hasPermission("cosmetic.gadgets.smokebomb")) {
+		       $nbt = new CompoundTag ("", [
+					"Pos" => new ListTag ("Pos", [
+					    new DoubleTag ("", $player->x),
+						new DoubleTag ("", $player->y + $player->getEyeHeight()),
+						new DoubleTag ("", $player->z)
+					]),
+					"Motion" => new ListTag ("Motion", [
+						new DoubleTag ("", -\sin($player->yaw / 180 * M_PI) * \cos($player->pitch / 180 * M_PI)),
+						new DoubleTag ("", -\sin($player->pitch / 180 * M_PI)),
+						new DoubleTag ("", \cos($player->yaw / 180 * M_PI) * \cos($player->pitch / 180 * M_PI))
+					]),
+					"Rotation" => new ListTag ("Rotation", [
+						new FloatTag ("", $player->yaw),
+						new FloatTag ("", $player->pitch)
+					])
+				]);
+				$f = 1.5;
+				$egg = Entity::createEntity("Egg", $player->getLevel(), $nbt, $player);
+				$egg->setMotion($egg->getMotion()->multiply($f));
+				$egg->setHealth(1);
+				$egg->spawnToAll();
+				
+
+            } else {
+				
+				$player->sendMessage("You don't have permission to use §l§fSmoke §8Bomb!");
+				
+			}
+		}
 		
 	}
 	

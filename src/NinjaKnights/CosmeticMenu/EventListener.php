@@ -43,27 +43,16 @@ class EventListener implements Listener {
     }
 
 	private function cosmeticItem(Item $item) : bool{
-        if($this->main->cosmeticSupport){
+        if($this->main->cosmeticItemSupport){
             if($item->getCustomName() == $this->main->cosmeticName && $item->getId() == $this->main->cosmeticItemType && $item->getLore() == $this->main->cosmeticDes){
                 return true;
             }
         }
         return false;
     }
-    
-    public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
-        switch($cmd->getName()) {
-            case "cosmetics":
-                if($this->main->cosmeticSupport){
-                    $this->getMain()->getForms()->menuForm($player);
-                } 
-            break;
-        }
-        return true;
-    }
 
 	public function onJoin(PlayerJoinEvent $event){
-        if($this->main->cosmeticSupport){
+        if($this->main->cosmeticItemSupport){
 			$world = $this->main->config->get("WorldName");
 			$this->main->reloadConfig();
 
@@ -81,7 +70,7 @@ class EventListener implements Listener {
     }
 
     public function onRespawn(PlayerRespawnEvent $event){
-        if($this->main->cosmeticSupport){
+        if($this->main->cosmeticItemSupport){
 			$world = $this->main->config->get("WorldName");
 			$this->main->reloadConfig();
 
@@ -159,7 +148,7 @@ class EventListener implements Listener {
     }
 
     public function onInventoryTransaction(InventoryTransactionEvent $event){
-        if($this->main->cosmeticSupport && $this->main->cosmeticForceSlot){
+        if($this->main->cosmeticItemSupport && $this->main->cosmeticForceSlot){
             $transaction = $event->getTransaction();
             foreach($transaction->getActions() as $action){
                 $item = $action->getSourceItem();
@@ -201,7 +190,7 @@ class EventListener implements Listener {
 
         }
 
-        if($this->main->cosmeticSupport){
+        if($this->main->cosmeticItemSupport){
             if($this->cosmeticItem($item)){
                 $this->getMain()->getForms()->menuForm($player);
             }

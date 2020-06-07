@@ -9,6 +9,9 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 
+use pocketmine\command\CommandSender;
+use pocketmine\command\Command;
+
 use pocketmine\block\Block;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
@@ -108,7 +111,7 @@ class Main extends PluginBase implements Listener {
 
 		$this->getScheduler()->scheduleRepeatingTask(new Youtube($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new Frog($this), 3);
-		
+
 		$this->loadPlugins();
 		$this->loadFormClass();
 		
@@ -118,21 +121,28 @@ class Main extends PluginBase implements Listener {
 		$this->config->getAll();
         $version = $this->config->get("Version");
         $this->pluginVersion = $this->getDescription()->getVersion();
-        if($version < "2.0"){
+        if($version < "2.1"){
             $this->getLogger()->warning("You have updated CosmeticMenu to v".$this->pluginVersion." but have a config from v$version! Please delete your old config for new features to be enabled and to prevent unwanted errors!");
             $this->getServer()->getPluginManager()->disablePlugin($this);
         }
 
 		if($this->config->getNested("Cosmetic.Enabled")){
-			$this->cosmeticSupport = true;
+			$this->cosmeticItemSupport = true;
 			$this->cosmeticName = (str_replace("&", "§", $this->config->getNested("Cosmetic.Name")));
             $this->cosmeticDes = [str_replace("&", "§", $this->config->getNested("Cosmetic.Des"))];
 			$this->cosmeticItemType = $this->config->getNested("Cosmetic.Item");
             $this->cosmeticForceSlot = $this->config->getNested("Cosmetic.Force-Slot");
         } else{
-            $this->cosmeticSupport = false;
+            $this->cosmeticItemSupport = false;
             $this->getLogger()->info("The Cosmetic Item is disabled in the config.");
         }
+
+		if($this->config->getNested("Command")){
+			$this->cosmeticCommandSupport = true;
+		} else {
+			$this->cosmeticCommandSupport = false;
+            $this->getLogger()->info("The Cosmetic Command is disabled in the config.");
+		}
 	}
 
 	private function loadFormClass() : void {
@@ -147,6 +157,17 @@ class Main extends PluginBase implements Listener {
 	private function loadPlugins() : void {
 
 	}
+
+	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
+        switch($cmd->getName()) {
+			case "cosmetics":
+				if($this->main->cosmeticCommandSupport){
+					$this->getForms()->menuForm($sender);
+				}
+            break;
+        }
+        return true;
+    }
 
 	function getMain() : Main {
         return $this;
