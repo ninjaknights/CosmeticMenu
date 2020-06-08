@@ -116,7 +116,7 @@ class GadgetsEvents implements Listener {
 				$block = $event->getBlock();
 				$lightning = new AddActorPacket();
 				$lightning->entityRuntimeId = Entity::$entityCount++;
-				$lightning->type = 93;
+				$lightning->type = "minecraft:lightning_bolt";
 				$lightning->position = new Vector3($block->getX(), $block->getY(), $block->getZ());
 				$lightning->motion = $player->getMotion();
 				$lightning->metadata = [];

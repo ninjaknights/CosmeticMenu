@@ -171,8 +171,12 @@ class Main extends PluginBase implements Listener {
 	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
         switch($cmd->getName()) {
 			case "cosmetics":
-				if($this->main->cosmeticCommandSupport){
-					$this->getForms()->menuForm($sender);
+				if($sender->hasPermission("cosmetics.cmd")){
+					if($this->main->cosmeticCommandSupport){
+						$this->getForms()->menuForm($sender);
+					}
+				} else {
+					$sender->sendMessage("You don't have permission to use this command.");
 				}
             break;
         }
