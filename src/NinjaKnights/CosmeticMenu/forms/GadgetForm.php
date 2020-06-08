@@ -28,19 +28,18 @@ class GadgetForm {
             switch($result) {
                 case 0:
                     if($player->hasPermission("cosmetic.gadgets.tntlauncher")){
-		                $inv = $player->getInventory();
+                        $inv = $player->getInventory();
+                        $slot = $this->main->config->getNested("Cosmetic.Slot");
+                        $air = Item::get(0, 0 , 1);
+                        $inv->setItem($slot,$air,true);
 		
 		                $item = Item::get(352, 0, 1);
                         $item->setCustomName("TNT-Launcher");
-                        $inv->setItem(0, $item);
+                        $inv->setItem($slot,$item,true);
                     
                         $item1 = Item::get(355, 0 , 1);
                         $item1->setCustomName("§l§4<< Back");
-                        $inv->setItem(8, $item1);
-
-                        $item2 = Item::get(0, 0 , 1);
-			            $slot = $this->main->config->getNested("Cosmetic.Slot");
-				        $player->getInventory()->setItem($slot,$item2,true);
+                        $inv->setItem($slot+1,$item1,true);
 			
                     }
                 break;
@@ -48,36 +47,36 @@ class GadgetForm {
                 case 1:
                     if($player->hasPermission("cosmetic.gadgets.lightningstick")){
                         $inv = $player->getInventory();
+                        $slot = $this->main->config->getNested("Cosmetic.Slot");
+                        $air = Item::get(0, 0 , 1);
+                        $inv->setItem($slot,$air,true);
 		
                         $item = Item::get(369, 0, 1);
                         $item->setCustomName("Lightning Stick");
-                        $inv->setItem(0, $item);
+                        $inv->setItem($slot,$item,true);
 
                         $item1 = Item::get(355, 0 , 1);
                         $item1->setCustomName("§l§4<< Back");
-                        $inv->setItem(8, $item1);
+                        $inv->setItem($slot+1,$item1,true);
 
-                        $item2 = Item::get(0, 0 , 1);
-			            $slot = $this->main->config->getNested("Cosmetic.Slot");
-				        $player->getInventory()->setItem($slot,$item2,true);
                     }
                 break;
 
                 case 2:
                     if($player->hasPermission("cosmetic.gadgets.leaper")){
                         $inv = $player->getInventory();
+                        $slot = $this->main->config->getNested("Cosmetic.Slot");
+                        $air = Item::get(0, 0 , 1);
+                        $inv->setItem($slot,$air,true);
 		
 		                $item = Item::get(288, 0, 1);
 		                $item->setCustomName("Leaper");
-                        $inv->setItem(0, $item);
+                        $inv->setItem($slot,$item,true);
                         
                         $item1 = Item::get(355, 0 , 1);
                         $item1->setCustomName("§l§4<< Back");
-                        $inv->setItem(8, $item1);
+                        $inv->setItem($slot+1,$item1,true);
 
-                        $item2 = Item::get(0, 0 , 1);
-			            $slot = $this->main->config->getNested("Cosmetic.Slot");
-				        $player->getInventory()->setItem($slot,$item2,true);
                     }
                 break;
 

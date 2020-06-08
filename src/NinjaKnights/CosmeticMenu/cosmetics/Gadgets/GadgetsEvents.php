@@ -46,10 +46,8 @@ use pocketmine\item\Item;
 use pocketmine\item\ItemIds;
 use pocketmine\inventory\ArmorInventory;
 use pocketmine\inventory\PlayerInventory;
-use pocketmine\entity\Item as ItemE;
 use pocketmine\math\Vector3;
 use pocketmine\math\Vector2;
-use pocketmine\scheduler\Task as PluginTask;
 use pocketmine\event\entity\ItemSpawnEvent;
 use pocketmine\entity\object\ItemEntity;
 
@@ -58,34 +56,6 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\EnumTag;
-
-use pocketmine\level\particle\AngryVillagerParticle;
-use pocketmine\level\particle\BubbleParticle;//
-use pocketmine\level\particle\CriticalParticle;
-use pocketmine\level\particle\EnchantParticle;
-use pocketmine\level\particle\EnchantmentTableParticle;
-use pocketmine\level\particle\EntityFlameParticle;
-use pocketmine\level\particle\ExplodeParticle;
-use pocketmine\level\particle\FlameParticle;
-use pocketmine\level\particle\HappyVillagerParticle;
-use pocketmine\level\particle\HeartParticle;
-use pocketmine\level\particle\HugeExplodeParticle;
-use pocketmine\level\particle\HugeExplodeSeedParticle;
-use pocketmine\level\particle\InkParticle;
-use pocketmine\level\particle\InstantEnchantParticle;
-use pocketmine\level\particle\LavaDripParticle;
-use pocketmine\level\particle\LavaParticle;
-use pocketmine\level\particle\MobSpawnParticle;
-use pocketmine\level\particle\Particle;//-//
-use pocketmine\level\particle\PortalParticle;
-use pocketmine\level\particle\RainSplashParticle;
-use pocketmine\level\particle\RedstoneParticle;
-use pocketmine\level\particle\SmokeParticle;
-use pocketmine\level\particle\SnowballPoofParticle;
-use pocketmine\level\particle\SplashParticle;
-use pocketmine\level\particle\SporeParticle;
-use pocketmine\level\particle\WaterDripParticle;
-use pocketmine\level\particle\WaterParticle;
 
 use NinjaKnights\CosmeticMenu\Cooldown;
 use NinjaKnights\CosmeticMenu\Main;
@@ -112,16 +82,23 @@ class GadgetsEvents implements Listener {
 
 		//Lightning Stick
 		if($iname == "Lightning Stick") {
-        	if($player->hasPermission("cosmetic.gadgets.lightningstick")) {			
-				$block = $event->getBlock();
-				$lightning = new AddActorPacket();
-				$lightning->entityRuntimeId = Entity::$entityCount++;
-				$lightning->type = "minecraft:lightning_bolt";
-				$lightning->position = new Vector3($block->getX(), $block->getY(), $block->getZ());
-				$lightning->motion = $player->getMotion();
-				$lightning->metadata = [];
-				foreach ($player->getLevel()->getPlayers() as $players) {
-					$players->dataPacket($lightning);
+        	if($player->hasPermission("cosmetic.gadgets.lightningstick")) {	
+				if(!isset($this->main->lsCooldown[$player->getName()])){		
+					$block = $event->getBlock();
+					$lightning = new AddActorPacket();
+					$lightning->entityRuntimeId = Entity::$entityCount++;
+					$lightning->type = "minecraft:lightning_bolt";
+					$lightning->position = new Vector3($block->getX(), $block->getY(), $block->getZ());
+					$lightning->motion = $player->getMotion();
+					$lightning->metadata = [];
+					foreach ($player->getLevel()->getPlayers() as $players) {
+						$players->dataPacket($lightning);
+					}
+					$this->main->lsCooldown[$player->getName()] = $player->getName();
+					$time = $this->main->config->getNested("Cooldown.Lightning Stick");
+					$this->main->lsCooldownTime[$player->getName()] = $time;
+				} else {
+					$player->sendPopup("§cYou can't use the Lightning Stick for another ".$this->main->lsCooldownTime[$player->getName()]." seconds.");
 				}
 			} else {
 				$player->sendMessage("You don't have permission to use §l§dLightning §eStick!");
@@ -130,67 +107,41 @@ class GadgetsEvents implements Listener {
         //Leaper
         if($iname == "Leaper") {
 			if($player->hasPermission("cosmetic.gadgets.leaper")) {
+				if(!isset($this->main->lCooldown[$player->getName()])){
 				
-           $yaw = $player->yaw;
-           if (0 <= $yaw and $yaw < 22.5) {
-			        $player->knockBack($player, 0, 0, 1, 1.5);
-           } elseif (22.5 <= $yaw and $yaw < 67.5) {
-                    $player->knockBack($player, 0, -1, 1, 1.5);
-           } elseif (67.5 <= $yaw and $yaw < 112.5) {
-                    $player->knockBack($player, 0, -1, 0, 1.5);
-           } elseif (112.5 <= $yaw and $yaw < 157.5) {
-                    $player->knockBack($player, 0, -1, -1, 1.5);
-           } elseif (157.5 <= $yaw and $yaw < 202.5) {
-                    $player->knockBack($player, 0, 0, -1, 1.5);
-           } elseif (202.5 <= $yaw and $yaw < 247.5) {
-                    $player->knockBack($player, 0, 1, -1, 1.5);
-           } elseif (247.5 <= $yaw and $yaw < 292.5) {
-                    $player->knockBack($player, 0, 1, 0, 1.5);
-           } elseif (292.5 <= $yaw and $yaw < 337.5) {
-                    $player->knockBack($player, 0, 1, 1, 1.5);
-           } elseif (337.5 <= $yaw and $yaw < 360.0) {
-                    $player->knockBack($player, 0, 0, 1, 1.5);
-           }
-           $player->sendPopup("§aLeap!");
-		   
+					$yaw = $player->yaw;
+					if (0 <= $yaw and $yaw < 22.5) {
+								$player->knockBack($player, 0, 0, 1, 1.5);
+					} elseif (22.5 <= $yaw and $yaw < 67.5) {
+								$player->knockBack($player, 0, -1, 1, 1.5);
+					} elseif (67.5 <= $yaw and $yaw < 112.5) {
+								$player->knockBack($player, 0, -1, 0, 1.5);
+					} elseif (112.5 <= $yaw and $yaw < 157.5) {
+								$player->knockBack($player, 0, -1, -1, 1.5);
+					} elseif (157.5 <= $yaw and $yaw < 202.5) {
+								$player->knockBack($player, 0, 0, -1, 1.5);
+					} elseif (202.5 <= $yaw and $yaw < 247.5) {
+								$player->knockBack($player, 0, 1, -1, 1.5);
+					} elseif (247.5 <= $yaw and $yaw < 292.5) {
+								$player->knockBack($player, 0, 1, 0, 1.5);
+					} elseif (292.5 <= $yaw and $yaw < 337.5) {
+								$player->knockBack($player, 0, 1, 1, 1.5);
+					} elseif (337.5 <= $yaw and $yaw < 360.0) {
+								$player->knockBack($player, 0, 0, 1, 1.5);
+					}
+					$player->sendPopup("§aLeap!");
+
+					$this->main->lCooldown[$player->getName()] = $player->getName();
+					$time = $this->main->config->getNested("Cooldown.Leaper");
+					$this->main->lCooldownTime[$player->getName()] = $time;
+
+				} else {
+					$player->sendPopup("§cYou can't use the Leaper for another ".$this->main->lCooldownTime[$player->getName()]." seconds.");
+				}
 		    } else {
-				
 				$player->sendMessage("You don't have permission to use §l§2Leaper!");
-				
 			}
         }
-		//Smoke Bomb
-		if($iname == "Smoke Bomb") {
-			if($player->hasPermission("cosmetic.gadgets.smokebomb")) {
-		       $nbt = new CompoundTag ("", [
-					"Pos" => new ListTag ("Pos", [
-					    new DoubleTag ("", $player->x),
-						new DoubleTag ("", $player->y + $player->getEyeHeight()),
-						new DoubleTag ("", $player->z)
-					]),
-					"Motion" => new ListTag ("Motion", [
-						new DoubleTag ("", -\sin($player->yaw / 180 * M_PI) * \cos($player->pitch / 180 * M_PI)),
-						new DoubleTag ("", -\sin($player->pitch / 180 * M_PI)),
-						new DoubleTag ("", \cos($player->yaw / 180 * M_PI) * \cos($player->pitch / 180 * M_PI))
-					]),
-					"Rotation" => new ListTag ("Rotation", [
-						new FloatTag ("", $player->yaw),
-						new FloatTag ("", $player->pitch)
-					])
-				]);
-				$f = 1.5;
-				$egg = Entity::createEntity("Egg", $player->getLevel(), $nbt, $player);
-				$egg->setMotion($egg->getMotion()->multiply($f));
-				$egg->setHealth(1);
-				$egg->spawnToAll();
-				
-
-            } else {
-				
-				$player->sendMessage("You don't have permission to use §l§fSmoke §8Bomb!");
-				
-			}
-		}
 		
 	}
 	

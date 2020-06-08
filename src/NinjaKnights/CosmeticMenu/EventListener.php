@@ -47,6 +47,10 @@ class EventListener implements Listener {
             if($item->getCustomName() == $this->main->cosmeticName && $item->getId() == $this->main->cosmeticItemType && $item->getLore() == $this->main->cosmeticDes){
                 return true;
             }
+            $in = $item->getCustomName();
+            if($in == "TNT-Launcher" || $in == "Lightning Stick" || $in == "Leaper" || $in == "§l§8<< Back") {
+                return true;
+            }
         }
         return false;
     }
@@ -57,12 +61,14 @@ class EventListener implements Listener {
 			$this->main->reloadConfig();
 
             $player = $event->getPlayer();
+            $air = Item::get(0, 0 , 1);
             $item = Item::get($this->main->cosmeticItemType);
             $item->setCustomName($this->main->cosmeticName);
             $item->setLore($this->main->cosmeticDes);
 			$slot = $this->main->config->getNested("Cosmetic.Slot");
 			if($this->main->getServer()->getLevelByName($world)) {
-				$player->getInventory()->setItem($slot,$item,true);
+                $player->getInventory()->setItem($slot+1,$air,true);
+                $player->getInventory()->setItem($slot,$item,true);
 			} else {
 				$player->getInventory()->setItem($slot,$item,false);
 			}
@@ -75,12 +81,14 @@ class EventListener implements Listener {
 			$this->main->reloadConfig();
 
             $player = $event->getPlayer();
+            $air = Item::get(0, 0 , 1);
             $item = Item::get($this->main->cosmeticItemType);
             $item->setCustomName($this->main->cosmeticName);
             $item->setLore($this->main->cosmeticDes);
 			$slot = $this->main->config->getNested("Cosmetic.Slot");
 			if($this->main->getServer()->getLevelByName($world)) {
-				$player->getInventory()->setItem($slot,$item,true);
+                $player->getInventory()->setItem($slot+1,$air,true);
+                $player->getInventory()->setItem($slot,$item,true);
 			} else {
 				$player->getInventory()->setItem($slot,$item,false);
 			}
@@ -88,12 +96,12 @@ class EventListener implements Listener {
 	}
 
     public function onQuit(PlayerQuitEvent $event){
-        $player = $event->getPlayer();
-        $items = $player->getInventory()->getContents();
-        foreach($items as $target){
-            if($this->cosmeticItem($target)){
-                $player->getInventory()->remove($target);
-            }
+        if($this->main->cosmeticItemSupport){
+            $player = $event->getPlayer();
+            $item = Item::get($this->main->cosmeticItemType);
+            $item->getCustomName($this->main->cosmeticName);
+            $item->getLore($this->main->cosmeticDes);
+            $player->getInventory()->removeItem($item);
         }
         $name = $player->getName();
 
@@ -178,20 +186,19 @@ class EventListener implements Listener {
         //Back
         if($iname == "§l§4<< Back") {
 
-            $item1 = Item::get(0, 0 , 1);
-            $inv->setItem(0, $item1);
-            $inv->setItem(8, $item1);
-
-            $item2 = Item::get($this->main->cosmeticItemType);
-            $item2->setCustomName($this->main->cosmeticName);
-            $item2->setLore($this->main->cosmeticDes);
 			$slot = $this->main->config->getNested("Cosmetic.Slot");
-			$player->getInventory()->setItem($slot,$item2,true);
+            $item = Item::get(0, 0 , 1);
+            $inv->setItem($slot+1, $item);
+
+            $item1 = Item::get($this->main->cosmeticItemType);
+            $item1->setCustomName($this->main->cosmeticName);
+            $item1->setLore($this->main->cosmeticDes);
+			$player->getInventory()->setItem($slot,$item1,true);
 
         }
 
         if($this->main->cosmeticItemSupport){
-            if($this->cosmeticItem($item)){
+            if($item->getCustomName() == $this->main->cosmeticName && $item->getId() == $this->main->cosmeticItemType && $item->getLore() == $this->main->cosmeticDes){
                 $this->getMain()->getForms()->menuForm($player);
             }
         }

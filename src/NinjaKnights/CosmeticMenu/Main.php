@@ -75,8 +75,8 @@ class Main extends PluginBase implements Listener {
 	public $tntCooldownTime = [ ];
 	public $lsCooldownTime = [ ];
 	public $lsCooldown = [ ];
-	public $sbCooldown = [ ];
-	public $sbCooldownTime = [ ];
+	public $lCooldown = [ ];
+	public $lCooldownTime = [ ];
 
 	public $particle1 = array("Rain Cloud");
 	public $particle2 = array("Flame Rings");
@@ -171,8 +171,8 @@ class Main extends PluginBase implements Listener {
 	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
         switch($cmd->getName()) {
 			case "cosmetics":
-				if($sender->hasPermission("cosmetics.cmd")){
-					if($this->main->cosmeticCommandSupport){
+				if($sender->hasPermission("cosmetic.cmd")){
+					if($this->cosmeticCommandSupport){
 						$this->getForms()->menuForm($sender);
 					}
 				} else {

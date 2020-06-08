@@ -25,3 +25,9 @@ Cosmetic:
 
   # Choose whether to prevent players from dropping or moving the cosmetic item
   Force-Slot: true
+
+
+Cooldown:
+  TnT-Launcher: 60
+  Lightning Stick: 60
+  Leaper: 60

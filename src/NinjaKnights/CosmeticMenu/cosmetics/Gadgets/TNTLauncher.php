@@ -60,7 +60,7 @@ class TNTLauncher implements Listener {
 					$tnt->setMotion($tnt->getMotion()->multiply(2));
 					$tnt->spawnTo($player);
 					$this->main->tntCooldown[$player->getName()] = $player->getName();
-					$time = "10";
+					$time = $this->main->config->getNested("Cooldown.TnT-Launcher");
 					$this->main->tntCooldownTime[$player->getName()] = $time;
 				} else {
 					$player->sendPopup("§cYou can't use the TNT-Launcher for another ".$this->main->tntCooldownTime[$player->getName()]." seconds.");
