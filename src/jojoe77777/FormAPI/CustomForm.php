@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace NinjaKnights\CosmeticMenu\libs\jojoe77777\FormAPI;
+namespace jojoe77777\FormAPI;
 
 class CustomForm extends Form {
 
