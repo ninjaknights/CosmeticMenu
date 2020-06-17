@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace jojoe77777\FormAPI;
+namespace NinjaKnights\CosmeticMenu\libs\jojoe77777\FormAPI;
 
 class ModalForm extends Form {
 
