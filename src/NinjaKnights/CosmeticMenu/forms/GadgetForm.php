@@ -3,7 +3,7 @@
 namespace NinjaKnights\CosmeticMenu\forms;
     
 use NinjaKnights\CosmeticMenu\Main;
-use NinjaKnights\CosmeticMenu\libs\jojoe77777\FormAPI\SimpleForm;
+use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\level\Level;
