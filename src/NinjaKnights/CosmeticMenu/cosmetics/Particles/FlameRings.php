@@ -2,13 +2,7 @@
 
 namespace NinjaKnights\CosmeticMenu\cosmetics\Particles;
 
-use pocketmine\level\Location;
-use pocketmine\level\Position;
-use pocketmine\plugin\PluginBase;
-use pocketmine\Player;
-use pocketmine\level\Level;
 use pocketmine\math\Vector3;
-use pocketmine\math\Vector2;
 use pocketmine\scheduler\Task as PluginTask;
 
 use pocketmine\level\particle\FlameParticle;

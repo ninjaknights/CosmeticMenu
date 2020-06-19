@@ -2,34 +2,19 @@
 
 namespace NinjaKnights\CosmeticMenu;
 
-use pocketmine\plugin\PluginBase;
 use pocketmine\Player;
-use pocketmine\Server;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\event\player\PlayerDeathEvent;
-use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerRespawnEvent; 
-use pocketmine\event\player\PlayerDropItemEvent;
-use pocketmine\event\player\PlayerExhaustEvent;
-use pocketmine\event\entity\EntityLevelChangeEvent;
-use pocketmine\event\inventory\InventoryPickupItemEvent;
 
-use pocketmine\block\Block;
-use pocketmine\level\Level;
 use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
-use pocketmine\item\ItemIds;
-use pocketmine\inventory\PlayerInventory;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\inventory\InventoryTransactionEvent;
 use pocketmine\inventory\transaction\action\DropItemAction;
 use pocketmine\inventory\transaction\action\SlotChangeAction;
-use pocketmine\entity\Effect;
-use pocketmine\entity\EffectInstance;
 
-use NinjaKnights\CosmeticMenu\forms\MainForm;
 use NinjaKnights\CosmeticMenu\Main;
 
 class EventListener implements Listener {
@@ -40,7 +25,7 @@ class EventListener implements Listener {
 		  $this->main = $main;
     }
 
-	private function cosmeticItem(Item $item) : bool{
+	private function isCosmeticItem(Item $item) : bool{
         if($this->main->cosmeticItemSupport){
             if($item->getCustomName() == $this->main->cosmeticName && $item->getId() == $this->main->cosmeticItemType && $item->getLore() == $this->main->cosmeticDes){
                 return true;
@@ -159,7 +144,7 @@ class EventListener implements Listener {
             foreach($transaction->getActions() as $action){
                 $item = $action->getSourceItem();
                 $source = $transaction->getSource();
-                if($source instanceof Player && $this->cosmeticItem($item)){
+                if($source instanceof Player && $this->isCosmeticItem($item)){
                     if($action instanceof SlotChangeAction || $action instanceof DropItemAction){
                         $event->setCancelled();
                     }

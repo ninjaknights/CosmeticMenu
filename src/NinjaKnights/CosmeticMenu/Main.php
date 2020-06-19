@@ -3,34 +3,18 @@
 namespace NinjaKnights\CosmeticMenu;
 
 use pocketmine\plugin\PluginBase;
-use pocketmine\Player;
-use pocketmine\Server;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\utils\Config;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 
-use pocketmine\block\Block;
-use pocketmine\level\Level;
-use pocketmine\level\Position;
-use pocketmine\level\Location;
-use pocketmine\item\Item;
-use pocketmine\item\ItemIds;
-use pocketmine\inventory\PlayerInventory;
-use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\event\inventory\InventoryTransactionEvent;
-use pocketmine\inventory\transaction\action\{SlotChangeAction,DropItemAction};
-
-use pocketmine\utils\Config;
-
-use NinjaKnights\CosmeticMenu\forms\MainForm;
 use NinjaKnights\CosmeticMenu\forms\GadgetForm;
-use NinjaKnights\CosmeticMenu\forms\ParticleForm;
+use NinjaKnights\CosmeticMenu\forms\MainForm;
 use NinjaKnights\CosmeticMenu\forms\MorphForm;
-use NinjaKnights\CosmeticMenu\forms\TrailForm;
+use NinjaKnights\CosmeticMenu\forms\ParticleForm;
 use NinjaKnights\CosmeticMenu\forms\SuitForm;
+use NinjaKnights\CosmeticMenu\forms\TrailForm;
 
 use NinjaKnights\CosmeticMenu\EventListener;
 use NinjaKnights\CosmeticMenu\Cooldown;
@@ -59,9 +43,7 @@ use NinjaKnights\CosmeticMenu\cosmetics\Suits\Frog;
 class Main extends PluginBase implements Listener {
 
 	public $world;
-    /**
-     * @var Forms
-     */
+	
 	private $forms;
 	private $gadgets;
 	private $particles;
@@ -85,7 +67,6 @@ class Main extends PluginBase implements Listener {
     public $particle7 = array("Witch Curse");
     public $particle8 = array("Blood Helix");
     public $particle9 = array("Emerald Twril");
-	public $particle10 = array("Test");
 	
 	public $trail1 = array("Flame Trail");
 	public $trail2 = array("Snow Trail");

@@ -5,11 +5,6 @@ namespace NinjaKnights\CosmeticMenu\forms;
 use NinjaKnights\CosmeticMenu\Main;
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\Player;
-use pocketmine\Server;
-use pocketmine\item\Item;
-use pocketmine\level\Level;
-use pocketmine\level\Position;
-use pocketmine\level\Location;
     
 class ParticleForm {
     
@@ -51,9 +46,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } else {
                             
@@ -75,9 +68,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         }
                             
@@ -108,9 +99,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } else {
 
@@ -132,9 +121,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         }
                     }
@@ -164,9 +151,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } else {
 
@@ -188,9 +173,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         }
                     }
@@ -222,9 +205,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } else {
 
@@ -246,9 +227,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } 
                     }
@@ -278,9 +257,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } else {
 
@@ -302,9 +279,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         }
                     }
@@ -334,9 +309,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } else {
 
@@ -358,9 +331,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } 
                     }
@@ -390,9 +361,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } else {
 
@@ -414,9 +383,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         }
                     }
@@ -446,9 +413,7 @@ class ParticleForm {
                                 unset($this->main->particle7[array_search($name, $this->main->particle7)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } else {
 
@@ -470,9 +435,7 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         }
                     }
@@ -502,9 +465,7 @@ class ParticleForm {
                                 unset($this->main->particle7[array_search($name, $this->main->particle7)]);
                             } elseif(in_array($name, $this->main->particle8)) {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         } else {
 
@@ -526,71 +487,13 @@ class ParticleForm {
                                 unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                             } elseif(in_array($name, $this->main->particle9)) {
                                 unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
+                            } 
 
                         }
                     }
                 break;
-                //Test
+
                 case 9:
-                    if($player->hasPermission("cosmetic.particles.test")){
-                        $name = $player->getName();
-                        
-                        if(!in_array($name, $this->getMain()->particle10)) {
-
-                            $this->getMain()->particle10[] = $name;
-
-                            if(in_array($name, $this->main->particle1)) {
-                                unset($this->main->particle1[array_search($name, $this->main->particle1)]);
-                            } elseif(in_array($name, $this->main->particle2)) {
-                                unset($this->main->particle2[array_search($name, $this->main->particle2)]);
-                            } elseif(in_array($name, $this->main->particle3)) {
-                                unset($this->main->particle3[array_search($name, $this->main->particle3)]);
-                            } elseif(in_array($name, $this->main->particle4)) {
-                                unset($this->main->particle4[array_search($name, $this->main->particle4)]);
-                            } elseif(in_array($name, $this->main->particle5)) {
-                                unset($this->main->particle5[array_search($name, $this->main->particle5)]);
-                            } elseif(in_array($name, $this->main->particle6)) {
-                                unset($this->main->particle6[array_search($name, $this->main->particle6)]);
-                            } elseif(in_array($name, $this->main->particle7)) {
-                                unset($this->main->particle7[array_search($name, $this->main->particle7)]);
-                            } elseif(in_array($name, $this->main->particle8)) {
-                                unset($this->main->particle8[array_search($name, $this->main->particle8)]);
-                            } elseif(in_array($name, $this->main->particle9)) {
-                                unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            }
-
-                        } else {
-
-                            if(in_array($name, $this->main->particle1)) {
-                                unset($this->main->particle1[array_search($name, $this->main->particle1)]);
-                            } elseif(in_array($name, $this->main->particle2)) {
-                                unset($this->main->particle2[array_search($name, $this->main->particle2)]);
-                            } elseif(in_array($name, $this->main->particle3)) {
-                                unset($this->main->particle3[array_search($name, $this->main->particle3)]);
-                            } elseif(in_array($name, $this->main->particle4)) {
-                                unset($this->main->particle4[array_search($name, $this->main->particle4)]);
-                            } elseif(in_array($name, $this->main->particle5)) {
-                                unset($this->main->particle5[array_search($name, $this->main->particle5)]);
-                            } elseif(in_array($name, $this->main->particle6)) {
-                                unset($this->main->particle6[array_search($name, $this->main->particle6)]);
-                            } elseif(in_array($name, $this->main->particle7)) {
-                                unset($this->main->particle7[array_search($name, $this->main->particle7)]);
-                            } elseif(in_array($name, $this->main->particle8)) {
-                                unset($this->main->particle8[array_search($name, $this->main->particle8)]);
-                            } elseif(in_array($name, $this->main->particle9)) {
-                                unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                            } elseif(in_array($name, $this->main->particle10)) {
-                                unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                            }
-
-                        }
-                    }
-                break;
-
-                case 10:
                     $name = $player->getName();
                     
                     if(in_array($name, $this->main->particle1)) {
@@ -611,12 +514,10 @@ class ParticleForm {
                         unset($this->main->particle8[array_search($name, $this->main->particle8)]);
                     } elseif(in_array($name, $this->main->particle9)) {
                         unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                    } elseif(in_array($name, $this->main->particle10)) {
-                        unset($this->main->particle10[array_search($name, $this->main->particle10)]);
-                    }
+                    } 
                 break;
 
-                case 11:
+                case 10:
                     $this->getMain()->getForms()->menuForm($player);
                 break;
             }
@@ -633,7 +534,6 @@ class ParticleForm {
         $form->addButton("Wicth Curse");
         $form->addButton("Blood Helix\nNot Working for now");//must change
         $form->addButton("Emerald Twirl");
-        $form->addButton("Not Added");
         $form->addButton("Clear");
         $form->addButton("§l§8<< Back");
         $form->sendToPlayer($player);

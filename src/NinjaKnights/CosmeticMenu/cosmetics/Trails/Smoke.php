@@ -2,13 +2,8 @@
 
 namespace NinjaKnights\CosmeticMenu\cosmetics\Trails;
 
-use pocketmine\level\Location;
-use pocketmine\level\Position;
-use pocketmine\Player;
-use pocketmine\level\Level;
 use pocketmine\level\particle\SmokeParticle;
 use pocketmine\math\Vector3;
-use pocketmine\math\Vector2;
 use pocketmine\scheduler\Task;
 
 use NinjaKnights\CosmeticMenu\Main;

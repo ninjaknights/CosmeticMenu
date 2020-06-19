@@ -3,8 +3,6 @@
 namespace NinjaKnights\CosmeticMenu;
 
 use pocketmine\scheduler\Task;
-use pocketmine\Player;
-use pocketmine\Server;
 
 class Cooldown extends Task {
 

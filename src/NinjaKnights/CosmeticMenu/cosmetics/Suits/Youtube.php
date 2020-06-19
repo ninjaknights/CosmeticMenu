@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace NinjaKnights\CosmeticMenu\cosmetics\Suits;
     
-use NinjaKnights\CosmeticMenu\Main;
 use pocketmine\item\Armor;
 use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
-use pocketmine\Player;
-use pocketmine\level\Location;
-use pocketmine\level\Position;
-use pocketmine\level\Level;
-use pocketmine\math\Vector3;
-use pocketmine\math\Vector2;
 use pocketmine\scheduler\Task;
 use pocketmine\utils\Color;
+
+use NinjaKnights\CosmeticMenu\Main;
 
 class Youtube extends Task {
 

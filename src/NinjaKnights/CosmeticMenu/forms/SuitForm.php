@@ -5,11 +5,8 @@ namespace NinjaKnights\CosmeticMenu\forms;
 use NinjaKnights\CosmeticMenu\Main;
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\Player;
-use pocketmine\Server;
 use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
-use pocketmine\entity\Effect;
-use pocketmine\entity\EffectInstance;
     
 class SuitForm {
     

@@ -3,13 +3,9 @@
 namespace NinjaKnights\CosmeticMenu\cosmetics\Gadgets;
 
 use pocketmine\entity\Entity;
-use pocketmine\Player;
-use pocketmine\entity\PrimedTNT;
-use pocketmine\event\entity\EntityExplodeEvent;
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\item\Item;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\FloatTag;
