@@ -103,7 +103,7 @@ class Main extends PluginBase implements Listener {
 
 		$this->loadPlugins();
 		$this->loadFormClass();
-		
+
 		$configPath = $this->getDataFolder()."config.yml";
 		$this->saveDefaultConfig();
 		$this->config = new Config($configPath, Config::YAML);
@@ -142,7 +142,7 @@ class Main extends PluginBase implements Listener {
 		$this->trails = new TrailForm($this);
 		$this->suits = new SuitForm($this);
 	}
-	
+
 	private function loadPlugins() : void {
 
 	}
