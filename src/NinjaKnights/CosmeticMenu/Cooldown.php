@@ -6,12 +6,12 @@ use pocketmine\scheduler\Task;
 
 class Cooldown extends Task {
 
-	private $main;
+    private $main;
 
     public function __construct(Main $main) {
-		  $this->main = $main;
+            $this->main = $main;
     }
-  
+
     public function onRun($tick) {
         foreach($this->main->tntCooldown as $player) {
             if($this->main->tntCooldownTime[$player] <= 0) {

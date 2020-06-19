@@ -43,7 +43,7 @@ use NinjaKnights\CosmeticMenu\cosmetics\Suits\Frog;
 class Main extends PluginBase implements Listener {
 
 	public $world;
-	
+
 	private $forms;
 	private $gadgets;
 	private $particles;
@@ -61,22 +61,22 @@ class Main extends PluginBase implements Listener {
 	public $particle1 = array("Rain Cloud");
 	public $particle2 = array("Flame Rings");
 	public $particle3 = array("Blizzard Aura");
-    public $particle4 = array("Cupid's Love");
-    public $particle5 = array("Bullet Helix");
-    public $particle6 = array("Conduit Halo");
-    public $particle7 = array("Witch Curse");
-    public $particle8 = array("Blood Helix");
-    public $particle9 = array("Emerald Twril");
-	
+	public $particle4 = array("Cupid's Love");
+	public $particle5 = array("Bullet Helix");
+	public $particle6 = array("Conduit Halo");
+	public $particle7 = array("Witch Curse");
+	public $particle8 = array("Blood Helix");
+	public $particle9 = array("Emerald Twril");
+
 	public $trail1 = array("Flame Trail");
 	public $trail2 = array("Snow Trail");
 	public $trail3 = array("Heart Trail");
 	public $trail4 = array("Smoke Trail ");
-	
+
 	public $suit1 = array("Suit");
 	public $suit2 = array("Suit");
 
-    public function onEnable() {
+	public function onEnable() {
 		$this->getServer()->getPluginManager()->registerEvents($this,$this);
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 		$this->getServer()->getPluginManager()->registerEvents(new GadgetsEvents($this), $this);
@@ -105,32 +105,32 @@ class Main extends PluginBase implements Listener {
 		$this->loadFormClass();
 		
 		$configPath = $this->getDataFolder()."config.yml";
-        $this->saveDefaultConfig();
+		$this->saveDefaultConfig();
 		$this->config = new Config($configPath, Config::YAML);
 		$this->config->getAll();
-        $version = $this->config->get("Version");
-        $this->pluginVersion = $this->getDescription()->getVersion();
-        if($version < "2.1"){
-            $this->getLogger()->warning("You have updated CosmeticMenu to v".$this->pluginVersion." but have a config from v$version! Please delete your old config for new features to be enabled and to prevent unwanted errors!");
-            $this->getServer()->getPluginManager()->disablePlugin($this);
-        }
+		$version = $this->config->get("Version");
+		$this->pluginVersion = $this->getDescription()->getVersion();
+		if($version < "2.1"){
+			$this->getLogger()->warning("You have updated CosmeticMenu to v".$this->pluginVersion." but have a config from v$version! Please delete your old config for new features to be enabled and to prevent unwanted errors!");
+			$this->getServer()->getPluginManager()->disablePlugin($this);
+		}
 
 		if($this->config->getNested("Cosmetic.Enabled")){
 			$this->cosmeticItemSupport = true;
 			$this->cosmeticName = (str_replace("&", "§", $this->config->getNested("Cosmetic.Name")));
-            $this->cosmeticDes = [str_replace("&", "§", $this->config->getNested("Cosmetic.Des"))];
+			$this->cosmeticDes = [str_replace("&", "§", $this->config->getNested("Cosmetic.Des"))];
 			$this->cosmeticItemType = $this->config->getNested("Cosmetic.Item");
-            $this->cosmeticForceSlot = $this->config->getNested("Cosmetic.Force-Slot");
-        } else{
-            $this->cosmeticItemSupport = false;
-            $this->getLogger()->info("The Cosmetic Item is disabled in the config.");
-        }
+			$this->cosmeticForceSlot = $this->config->getNested("Cosmetic.Force-Slot");
+		} else{
+			$this->cosmeticItemSupport = false;
+			$this->getLogger()->info("The Cosmetic Item is disabled in the config.");
+		}
 
 		if($this->config->getNested("Command")){
 			$this->cosmeticCommandSupport = true;
 		} else {
 			$this->cosmeticCommandSupport = false;
-            $this->getLogger()->info("The Cosmetic Command is disabled in the config.");
+			$this->getLogger()->info("The Cosmetic Command is disabled in the config.");
 		}
 	}
 
@@ -141,14 +141,14 @@ class Main extends PluginBase implements Listener {
 		$this->morphs = new MorphForm($this);
 		$this->trails = new TrailForm($this);
 		$this->suits = new SuitForm($this);
-    }
+	}
 	
 	private function loadPlugins() : void {
 
 	}
 
 	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
-        switch($cmd->getName()) {
+		switch($cmd->getName()) {
 			case "cosmetics":
 				if($sender->hasPermission("cosmetic.cmd")){
 					if($this->cosmeticCommandSupport){
@@ -157,33 +157,33 @@ class Main extends PluginBase implements Listener {
 				} else {
 					$sender->sendMessage("You don't have permission to use this command.");
 				}
-            break;
-        }
-        return true;
-    }
+			break;
+		}
+		return true;
+	}
 
 	function getMain() : Main {
-        return $this;
+		return $this;
 	}
-	
+
 	function getForms() : MainForm {
-        return $this->forms;
+		return $this->forms;
 	}
-	
+
 	function getGadgets() : GadgetForm {
-        return $this->gadgets;
+		return $this->gadgets;
 	}
 	function getParticles() : ParticleForm {
-        return $this->particles;
+		return $this->particles;
 	}
 	function getMorphs() : MorphForm {
-        return $this->morphs;
+		return $this->morphs;
 	}
 	function getTrails() : TrailForm {
-        return $this->trails;
+		return $this->trails;
 	}
 	function getSuits() : SuitForm {
-        return $this->suits;
-    }
+		return $this->suits;
+	}
 
 }
