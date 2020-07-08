@@ -122,8 +122,6 @@ class EventListener implements Listener {
 			unset($this->main->particle8[array_search($name, $this->main->particle8)]);
 		} elseif(in_array($name, $this->main->particle9)) {
 			unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-		} elseif(in_array($name, $this->main->particle10)) {
-			unset($this->main->particle10[array_search($name, $this->main->particle10)]);
 		}
 
 		//Trails
