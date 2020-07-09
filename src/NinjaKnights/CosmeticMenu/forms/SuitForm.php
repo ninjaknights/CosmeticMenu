@@ -32,7 +32,7 @@ class SuitForm {
                         if(!in_array($name, $this->getMain()->suit1)) {
 
                             $player->removeAllEffects();
-                            $this->main->getSuits()->setSkin($player, "youtube", ".png", "youtube");
+                            $this->main->getSuits()->setSkin($player, "youtube", "suits", "youtube");
                             $this->getMain()->suit1[] = $name;
                             
                             if(in_array($name, $this->main->suit2)) {

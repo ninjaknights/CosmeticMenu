@@ -17,7 +17,7 @@ use NinjaKnights\CosmeticMenu\forms\SuitForm;
 use NinjaKnights\CosmeticMenu\forms\TrailForm;
 
 use NinjaKnights\CosmeticMenu\EventListener;
-use NinjaKnights\CosmeticMenu\util\ChangeSkinToSuit;
+use NinjaKnights\CosmeticMenu\skin\ChangeSkinToSuit;
 use NinjaKnights\CosmeticMenu\Cooldown;
 
 use NinjaKnights\CosmeticMenu\cosmetics\Gadgets\GadgetsEvents;
@@ -192,7 +192,7 @@ class Main extends PluginBase implements Listener {
 		return $this->suits;
 	}
 
-	function getSuits(): ChangeSkinToSuit{
+	function getSuits(): ChangeSkinToSuit {
         return $this->getsuits;
     }
 

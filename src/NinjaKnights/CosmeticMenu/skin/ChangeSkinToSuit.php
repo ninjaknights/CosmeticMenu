@@ -1,6 +1,6 @@
 <?php
 
-namespace NinjaKnights\CosmeticMenu\util;
+namespace NinjaKnights\CosmeticMenu\skin;
 
 use NinjaKnights\CosmeticMenu\Main;
 use pocketmine\event\Listener;
@@ -12,9 +12,9 @@ class ChangeSkinToSuit implements Listener {
         $this->main = $main;
     }
 
-    public function setSkin($player, string $file, string $ex, string $geo) {
+    public function setSkin($player, string $pic, string $json, string $geo) {
         $skin = $player->getSkin();
-        $path = $this->main->getDataFolder() . $file . $ex;
+        $path = $this->main->getDataFolder() . $pic . ".png";
         $img = @imagecreatefrompng($path);
         $skinbytes = "";
         $s = (int)@getimagesize($path)[1];
@@ -32,7 +32,7 @@ class ChangeSkinToSuit implements Listener {
 
         @imagedestroy($img);
 
-        $player->setSkin(new Skin($skin->getSkinId(), $skinbytes, "", "geometry." . $geo, file_get_contents($this->main->getDataFolder() . "suits.json")));
+        $player->setSkin(new Skin($skin->getSkinId(), $skinbytes, "", "geometry." . $geo, file_get_contents($this->main->getDataFolder() . $json . ".json")));
         $player->sendSkin();
     }
 }
