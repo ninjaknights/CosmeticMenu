@@ -23,31 +23,31 @@ class MainForm {
             switch($result) {
                 case 0:
                     if($player->hasPermission("cosmetic.gadgets")){
-                        $this->getMain()->getGadgets()->openGadgets($player);
+                        $this->getMain()->getGadgetForm()->openGadgets($player);
                     } 
                 break;
 
                 case 1:
                     if($player->hasPermission("cosmetic.particles")){
-                        $this->getMain()->getParticles()->openParticles($player);
+                        $this->getMain()->getParticleForm()->openParticles($player);
                     }
                 break;
 
                 case 2:
                     if($player->hasPermission("cosmetic.suits")){
-                        $this->getMain()->getSuits()->openSuits($player);
+                        $this->getMain()->getSuitForm()->openSuits($player);
                     }
                 break;
 
                 case 3:
                     if($player->hasPermission("cosmetic.trails")){
-                        $this->getMain()->getTrails()->openTrails($player);
+                        $this->getMain()->getTrailForm()->openTrails($player);
                     }
                 break;
 
                 case 4:
                     if($player->hasPermission("cosmetic.morphs")){
-                        $this->getMain()->getMorphs()->openMorphs($player);
+                        $this->getMain()->getMorphForm()->openMorphs($player);
                     }
                 break;
             }

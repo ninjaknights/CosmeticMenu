@@ -3,13 +3,14 @@
 namespace NinjaKnights\CosmeticMenu\cosmetics\Particles;
 
 use pocketmine\math\Vector3;
-use pocketmine\scheduler\Task as PluginTask;
+use pocketmine\scheduler\Task;
 
-use pocketmine\level\particle\FlameParticle;
+use pocketmine\level\particle\GenericParticle;
+use pocketmine\level\particle\Particle;
 
 use NinjaKnights\CosmeticMenu\Main;
 
-class FlameRings extends PluginTask {
+class FlameRings extends Task {
 	
 	public function __construct(Main $main) {
         $this->main = $main;
@@ -30,9 +31,9 @@ class FlameRings extends PluginTask {
                 $b = sin(deg2rad($this->r/0.04))* $size;
                 $c = cos(deg2rad($this->r/0.04))* 0.6;
                 $d = sin(deg2rad($this->r/0.04))* 0.6;
-                $level->addParticle(new FlameParticle(new Vector3($x + $a, $y + $c + $d + 1.2, $z + $b)));
-                $level->addParticle(new FlameParticle(new Vector3($x - $b, $y + $c + $d + 1.2, $z - $a)));
-                $this->r++;               
+                $level->addParticle(new GenericParticle(new Vector3($x + $a, $y + $c + $d + 1.2, $z + $b), Particle::TYPE_FLAME));
+				$level->addParticle(new GenericParticle(new Vector3($x - $b, $y + $c + $d + 1.2, $z - $a), Particle::TYPE_FLAME));
+				$this->r++;               
             }  
         }
     }    

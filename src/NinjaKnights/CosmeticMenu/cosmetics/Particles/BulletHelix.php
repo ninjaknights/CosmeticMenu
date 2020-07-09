@@ -3,13 +3,14 @@
 namespace NinjaKnights\CosmeticMenu\cosmetics\Particles;
 
 use pocketmine\math\Vector3;
-use pocketmine\scheduler\Task as PluginTask;
+use pocketmine\scheduler\Task;
 
-use NinjaKnights\CosmeticMenu\particleeffects\Bullet;
+use pocketmine\level\particle\GenericParticle;
+use pocketmine\level\particle\Particle;
 
 use NinjaKnights\CosmeticMenu\Main;
 
-class BulletHelix extends PluginTask {
+class BulletHelix extends Task {
 	
 	public function __construct(Main $main) {
         $this->main = $main;
@@ -29,8 +30,8 @@ class BulletHelix extends PluginTask {
                 $a = cos(deg2rad($this->r/0.09))* $size;
                 $b = sin(deg2rad($this->r/0.09))* $size;
                 $c = cos(deg2rad($this->r/0.3))* $size;
-                $level->addParticle(new Bullet(new Vector3($x - $a, $y + $c + 1.4, $z - $b)));
-                $level->addParticle(new Bullet(new Vector3($x + $a, $y + $c + 1.4, $z + $b)));
+                $level->addParticle(new GenericParticle(new Vector3($x - $a, $y + $c + 1.4, $z - $b), Particle::TYPE_SHULKER_BULLET));
+                $level->addParticle(new GenericParticle(new Vector3($x + $a, $y + $c + 1.4, $z + $b), Particle::TYPE_SHULKER_BULLET));
                 $this->r++; 
             } 
         }

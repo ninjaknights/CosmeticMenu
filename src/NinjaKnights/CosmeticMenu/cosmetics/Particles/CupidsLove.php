@@ -3,13 +3,14 @@
 namespace NinjaKnights\CosmeticMenu\cosmetics\Particles;
 
 use pocketmine\math\Vector3;
-use pocketmine\scheduler\Task as PluginTask;
+use pocketmine\scheduler\Task;
 
-use pocketmine\level\particle\HeartParticle;
+use pocketmine\level\particle\GenericParticle;
+use pocketmine\level\particle\Particle;
 
 use NinjaKnights\CosmeticMenu\Main;
 
-class CupidsLove extends PluginTask {
+class CupidsLove extends Task {
 	
 	public function __construct(Main $main) {
         $this->main = $main;
@@ -29,8 +30,8 @@ class CupidsLove extends PluginTask {
                 $a = cos(deg2rad($this->r/0.09))* $size;
                 $b = sin(deg2rad($this->r/0.09))* $size;
                 $c = sin(deg2rad($this->r/0.2))* $size;
-                $level->addParticle(new HeartParticle(new Vector3($x - $a, $y + $c + 1.4, $z - $b)));
-                $this->r++; 
+                $level->addParticle(new GenericParticle(new Vector3($x - $a, $y + $c + 1.4, $z - $b), Particle::TYPE_HEART));
+				$this->r++; 
             } 	
         }
     }

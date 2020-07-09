@@ -3,6 +3,7 @@
 namespace NinjaKnights\CosmeticMenu\forms;
     
 use NinjaKnights\CosmeticMenu\Main;
+use NinjaKnights\CosmeticMenu\EventListener;
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\Player;
 use pocketmine\item\Item;
@@ -31,6 +32,7 @@ class SuitForm {
                         if(!in_array($name, $this->getMain()->suit1)) {
 
                             $player->removeAllEffects();
+                            $this->main->getSuits()->setSkin($player, "youtube", ".png", "youtube");
                             $this->getMain()->suit1[] = $name;
                             
                             if(in_array($name, $this->main->suit2)) {
@@ -38,16 +40,9 @@ class SuitForm {
                             }
 
                         } else {
+                            $player->setSkin(EventListener::$skin[$name]);
+                            $player->sendSkin();
 
-                            $player->removeAllEffects();
-                            $armors = [
-                                ItemFactory::get(Item::AIR),
-                                ItemFactory::get(Item::AIR),
-                                ItemFactory::get(Item::AIR),
-                                ItemFactory::get(Item::AIR)
-                            ];
-
-                            $player->getArmorInventory()->setContents($armors);
                             if(in_array($name, $this->main->suit1)) {
                                 unset($this->main->suit1[array_search($name, $this->main->suit1)]);
                             }elseif(in_array($name, $this->main->suit2)) {
@@ -66,6 +61,7 @@ class SuitForm {
                         if(!in_array($name, $this->getMain()->suit2)) {
 
                             $player->removeAllEffects();
+                            $this->main->getSuits()->setSkin($player, "frog", ".png", "frog");
                             $this->getMain()->suit2[] = $name;
                             
                             if(in_array($name, $this->main->suit1)) {
@@ -73,16 +69,11 @@ class SuitForm {
                             }
 
                         } else {
+                            $player->setSkin(EventListener::$skin[$name]);
+                            $player->sendSkin();
 
                             $player->removeAllEffects();
-                            $armors = [
-                                ItemFactory::get(Item::AIR),
-                                ItemFactory::get(Item::AIR),
-                                ItemFactory::get(Item::AIR),
-                                ItemFactory::get(Item::AIR)
-                            ];
 
-                            $player->getArmorInventory()->setContents($armors);
                             if(in_array($name, $this->main->suit1)) {
                                 unset($this->main->suit1[array_search($name, $this->main->suit1)]);
                             }elseif(in_array($name, $this->main->suit2)) {
@@ -94,16 +85,10 @@ class SuitForm {
                     }
                 break;
 				
-				case 2:
-                    $player->removeAllEffects();
-                    $armors = [
-                        ItemFactory::get(Item::AIR),
-                        ItemFactory::get(Item::AIR),
-                        ItemFactory::get(Item::AIR),
-                        ItemFactory::get(Item::AIR)
-                    ];
-                    $player->getArmorInventory()->setContents($armors);
+                case 2:
                     $name = $player->getName();
+                    $player->removeAllEffects();
+                   
                     if(in_array($name, $this->main->suit1)) {
                         unset($this->main->suit1[array_search($name, $this->main->suit1)]);
                     }elseif(in_array($name, $this->main->suit2)) {

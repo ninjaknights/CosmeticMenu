@@ -7,6 +7,8 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerRespawnEvent; 
+use pocketmine\event\player\PlayerChangeSkinEvent;
+
 
 use pocketmine\item\Item;
 use pocketmine\item\ItemFactory;
@@ -20,6 +22,8 @@ use NinjaKnights\CosmeticMenu\Main;
 class EventListener implements Listener {
 
 	private $main;
+
+	public static $skin = [];
 
 	public function __construct(Main $main) {
 			$this->main = $main;
@@ -39,11 +43,11 @@ class EventListener implements Listener {
 	}
 
 	public function onJoin(PlayerJoinEvent $event){
+		$player = $event->getPlayer();
 		if($this->main->cosmeticItemSupport){
 			$world = $this->main->config->get("WorldName");
 			$this->main->reloadConfig();
 
-			$player = $event->getPlayer();
 			$air = Item::get(0, 0 , 1);
 			$item = Item::get($this->main->cosmeticItemType);
 			$item->setCustomName($this->main->cosmeticName);
@@ -56,6 +60,7 @@ class EventListener implements Listener {
 				$player->getInventory()->setItem($slot,$item,false);
 			}
 		}
+        self::$skin[$player->getName()] = $player->getSkin();
 	}
 
 	public function onRespawn(PlayerRespawnEvent $event){
@@ -79,8 +84,8 @@ class EventListener implements Listener {
 	}
 
 	public function onQuit(PlayerQuitEvent $event){
+		$player = $event->getPlayer();
 		if($this->main->cosmeticItemSupport){
-			$player = $event->getPlayer();
 			$item = Item::get($this->main->cosmeticItemType);
 			$item->getCustomName($this->main->cosmeticName);
 			$item->getLore($this->main->cosmeticDes);
@@ -88,53 +93,21 @@ class EventListener implements Listener {
 		}
 		$name = $player->getName();
 
+		unset(self::$skin[$name]);
+
 		//Suits
 		$player->removeAllEffects();
-		$armors = [
-			ItemFactory::get(Item::AIR),
-			ItemFactory::get(Item::AIR),
-			ItemFactory::get(Item::AIR),
-			ItemFactory::get(Item::AIR)
-		];
-		$player->getArmorInventory()->setContents($armors);
 		if(in_array($name, $this->main->suit1)) {
 			unset($this->main->suit1[array_search($name, $this->main->suit1)]);
 		}elseif(in_array($name, $this->main->suit2)) {
 			unset($this->main->suit2[array_search($name, $this->main->suit2)]);
 		}
-
-		//Particles          
-		if(in_array($name, $this->main->particle1)) {
-			unset($this->main->particle1[array_search($name, $this->main->particle1)]);
-		} elseif(in_array($name, $this->main->particle2)) {
-			unset($this->main->particle2[array_search($name, $this->main->particle2)]);
-		} elseif(in_array($name, $this->main->particle3)) {
-			unset($this->main->particle3[array_search($name, $this->main->particle3)]);
-		} elseif(in_array($name, $this->main->particle4)) {
-			unset($this->main->particle4[array_search($name, $this->main->particle4)]);
-		} elseif(in_array($name, $this->main->particle5)) {
-			unset($this->main->particle5[array_search($name, $this->main->particle5)]);
-		} elseif(in_array($name, $this->main->particle6)) {
-			unset($this->main->particle6[array_search($name, $this->main->particle6)]);
-		} elseif(in_array($name, $this->main->particle7)) {
-			unset($this->main->particle7[array_search($name, $this->main->particle7)]);
-		} elseif(in_array($name, $this->main->particle8)) {
-			unset($this->main->particle8[array_search($name, $this->main->particle8)]);
-		} elseif(in_array($name, $this->main->particle9)) {
-			unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-		}
-
-		//Trails
-		if(in_array($name, $this->main->trail1)) {
-			unset($this->main->trail1[array_search($name, $this->main->trail1)]);
-		} elseif(in_array($name, $this->main->trail2)) {
-			unset($this->main->trail2[array_search($name, $this->main->trail2)]);
-		} elseif(in_array($name, $this->main->trail3)) {
-			unset($this->main->trail3[array_search($name, $this->main->trail3)]);
-		} elseif(in_array($name, $this->main->trail4)) {
-			unset($this->main->trail4[array_search($name, $this->main->trail4)]);
-		}
 	}
+
+	public function onChangeSkin(PlayerChangeSkinEvent $event): void {
+        $player = $event->getPlayer();
+        self::$skin[$player->getName()] = $player->getSkin();
+    }
 
 	public function onInventoryTransaction(InventoryTransactionEvent $event){
 		if($this->main->cosmeticItemSupport && $this->main->cosmeticForceSlot){

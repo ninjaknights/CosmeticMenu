@@ -3,13 +3,14 @@
 namespace NinjaKnights\CosmeticMenu\cosmetics\Particles;
 
 use pocketmine\math\Vector3;
-use pocketmine\scheduler\Task as PluginTask;
+use pocketmine\scheduler\Task;
 
-use pocketmine\level\particle\HappyVillagerParticle;
+use pocketmine\level\particle\GenericParticle;
+use pocketmine\level\particle\Particle;
 
 use NinjaKnights\CosmeticMenu\Main;
 
-class EmeraldTwirl extends PluginTask {
+class EmeraldTwirl extends Task {
 	
 	public function __construct(Main $main) {
         $this->main = $main;
@@ -24,7 +25,7 @@ class EmeraldTwirl extends PluginTask {
             $x = $player->getX();
             $y = $player->getY();
             $z = $player->getZ();
-            if(in_array($name, $this->main->particle9)) {
+            if(in_array($name, $this->main->particle8)) {
 				if($this->r < 0){
 					$this->r++;
 					return true;
@@ -33,7 +34,7 @@ class EmeraldTwirl extends PluginTask {
 		   	    $a = cos(deg2rad($this->r/0.09))* $size;
 				$b = sin(deg2rad($this->r/0.09))* $size;
 				$c = sin(deg2rad($this->r/0.2))* $size;
-				$level->addParticle(new HappyVillagerParticle(new Vector3($x - $a, $y + $c + 1.4, $z - $b)));
+				$level->addParticle(new GenericParticle(new Vector3($x - $a, $y + $c + 1.4, $z - $b), Particle::TYPE_VILLAGER_HAPPY));
 				$this->r++;
             } 	
         }

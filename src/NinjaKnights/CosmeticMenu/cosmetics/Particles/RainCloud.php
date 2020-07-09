@@ -3,14 +3,14 @@
 namespace NinjaKnights\CosmeticMenu\cosmetics\Particles;
 
 use pocketmine\math\Vector3;
-use pocketmine\scheduler\Task as PluginTask;
+use pocketmine\scheduler\Task;
 
-use pocketmine\level\particle\MobSpawnParticle;
-use pocketmine\level\particle\SplashParticle;
+use pocketmine\level\particle\GenericParticle;
+use pocketmine\level\particle\Particle;
 
 use NinjaKnights\CosmeticMenu\Main;
 
-class RainCloud extends PluginTask {
+class RainCloud extends Task {
 	
 	public function __construct(Main $main) {
         $this->main = $main;
@@ -34,18 +34,19 @@ class RainCloud extends PluginTask {
                 $b = sin(deg2rad($this->r/0.04))* 0.5;
                 $c = cos(deg2rad($this->r/0.04))* 0.8;
                 $d = sin(deg2rad($this->r/0.04))* 0.8;
-                $level->addParticle(new MobSpawnParticle(new Vector3($x - $a, $y + 3, $z - $b)));
-                $level->addParticle(new MobSpawnParticle(new Vector3($x - $b, $y + 3, $z - $a)));
-        
-                $level->addParticle(new SplashParticle(new Vector3($x - $a, $y + 2.3, $z - $b)));
-                $level->addParticle(new SplashParticle(new Vector3($x - $b, $y + 2.3, $z - $a)));
-        
-                $level->addParticle(new MobSpawnParticle(new Vector3($x - $c, $y + 3, $z - $d)));
-                $level->addParticle(new MobSpawnParticle(new Vector3($x - $d, $y + 3, $z - $c)));
-        
-                $level->addParticle(new MobSpawnParticle(new Vector3($x, $y + 3, $z)));
-                $level->addParticle(new SplashParticle(new Vector3($x, $y + 2.3, $z)));
-        
+
+                $level->addParticle(new GenericParticle(new Vector3($x - $a, $y + 3, $z - $b), Particle::TYPE_EVAPORATION ));
+				$level->addParticle(new GenericParticle(new Vector3($x - $b, $y + 3, $z - $a), Particle::TYPE_EVAPORATION ));
+                
+                $level->addParticle(new GenericParticle(new Vector3($x - $a, $y + 2.3, $z - $b), Particle::TYPE_WATER_SPLASH));
+				$level->addParticle(new GenericParticle(new Vector3($x - $b, $y + 2.3, $z - $a), Particle::TYPE_WATER_SPLASH));
+                
+                $level->addParticle(new GenericParticle(new Vector3($x + $c, $y + 3, $z + $d), Particle::TYPE_EVAPORATION ));
+				$level->addParticle(new GenericParticle(new Vector3($x + $c, $y + 3, $z + $d), Particle::TYPE_EVAPORATION ));
+                
+                $level->addParticle(new GenericParticle(new Vector3($x, $y + 3, $z), Particle::TYPE_EVAPORATION ));
+				$level->addParticle(new GenericParticle(new Vector3($x, $y + 2.3, $z), Particle::TYPE_WATER_SPLASH));
+				
                 $this->r++;
             } 	
         }

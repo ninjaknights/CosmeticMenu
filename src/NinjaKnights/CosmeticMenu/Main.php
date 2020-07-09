@@ -17,13 +17,13 @@ use NinjaKnights\CosmeticMenu\forms\SuitForm;
 use NinjaKnights\CosmeticMenu\forms\TrailForm;
 
 use NinjaKnights\CosmeticMenu\EventListener;
+use NinjaKnights\CosmeticMenu\util\ChangeSkinToSuit;
 use NinjaKnights\CosmeticMenu\Cooldown;
 
 use NinjaKnights\CosmeticMenu\cosmetics\Gadgets\GadgetsEvents;
 use NinjaKnights\CosmeticMenu\cosmetics\Gadgets\TNTLauncher;
 
 use NinjaKnights\CosmeticMenu\cosmetics\Particles\BlizzardAura;
-use NinjaKnights\CosmeticMenu\cosmetics\Particles\BloodHelix;
 use NinjaKnights\CosmeticMenu\cosmetics\Particles\BulletHelix;
 use NinjaKnights\CosmeticMenu\cosmetics\Particles\ConduitHalo;
 use NinjaKnights\CosmeticMenu\cosmetics\Particles\CupidsLove;
@@ -65,8 +65,7 @@ class Main extends PluginBase implements Listener {
 	public $particle5 = array("Bullet Helix");
 	public $particle6 = array("Conduit Halo");
 	public $particle7 = array("Witch Curse");
-	public $particle8 = array("Blood Helix");
-	public $particle9 = array("Emerald Twril");
+	public $particle8 = array("Emerald Twril");
 
 	public $trail1 = array("Flame Trail");
 	public $trail2 = array("Snow Trail");
@@ -76,13 +75,20 @@ class Main extends PluginBase implements Listener {
 	public $suit1 = array("Suit");
 	public $suit2 = array("Suit");
 
+	//For Suits
+    private $getsuits;
+
 	public function onEnable() {
+		foreach(["youtube.png", "suits.json"] as $file) {
+			$this->saveResource($file);
+		}
 		$this->getServer()->getPluginManager()->registerEvents($this,$this);
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+		$this->getServer()->getPluginManager()->registerEvents(new ChangeSkinToSuit($this), $this);
+		$this->getsuits = new ChangeSkinToSuit($this);
 		$this->getServer()->getPluginManager()->registerEvents(new GadgetsEvents($this), $this);
 		$this->getServer()->getPluginManager()->registerEvents(new TNTLauncher($this), $this);
 		$this->getScheduler()->scheduleRepeatingTask(new BlizzardAura($this), 3);
-		$this->getScheduler()->scheduleRepeatingTask(new BloodHelix($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new BulletHelix($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new ConduitHalo($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new CupidsLove($this), 3);
@@ -109,9 +115,9 @@ class Main extends PluginBase implements Listener {
 		$this->config = new Config($configPath, Config::YAML);
 		$this->config->getAll();
 		$version = $this->config->get("Version");
-		$this->pluginVersion = $this->getDescription()->getVersion();
-		if($version < "2.1"){
-			$this->getLogger()->warning("You have updated CosmeticMenu to v".$this->pluginVersion." but have a config from v$version! Please delete your old config for new features to be enabled and to prevent unwanted errors!");
+		$pluginVersion = $this->getDescription()->getVersion();
+		if($version < $pluginVersion){
+			$this->getLogger()->warning("You have updated CosmeticMenu to v$pluginVersion but have a config from v$version! Please delete your old config for new features to be enabled and to prevent unwanted errors!");
 			$this->getServer()->getPluginManager()->disablePlugin($this);
 		}
 
@@ -170,20 +176,24 @@ class Main extends PluginBase implements Listener {
 		return $this->forms;
 	}
 
-	function getGadgets() : GadgetForm {
+	function getGadgetForm() : GadgetForm {
 		return $this->gadgets;
 	}
-	function getParticles() : ParticleForm {
+	function getParticleForm() : ParticleForm {
 		return $this->particles;
 	}
-	function getMorphs() : MorphForm {
+	function getMorphForm() : MorphForm {
 		return $this->morphs;
 	}
-	function getTrails() : TrailForm {
+	function getTrailForm() : TrailForm {
 		return $this->trails;
 	}
-	function getSuits() : SuitForm {
+	function getSuitForm() : SuitForm {
 		return $this->suits;
 	}
+
+	function getSuits(): ChangeSkinToSuit{
+        return $this->getsuits;
+    }
 
 }
