@@ -26,9 +26,9 @@ class ParticleForm {
                     if($player->hasPermission("cosmetic.particles.raincloud")){
                         $name = $player->getName();
                         
-                        if(!in_array($name, $this->getMain()->particle1)) {
+                        if(!in_array($name, $this->main->particle1)) {
 
-                            $this->getMain()->particle1[] = $name;
+                            $this->main->particle1[] = $name;
 
                             if(in_array($name, $this->main->particle2)) {
                                 unset($this->main->particle2[array_search($name, $this->main->particle2)]);
@@ -75,9 +75,9 @@ class ParticleForm {
                     if($player->hasPermission("cosmetic.particles.flamingring")){
                         $name = $player->getName();
                         
-                        if(!in_array($name, $this->getMain()->particle2)) {
+                        if(!in_array($name, $this->main->particle2)) {
 
-                            $this->getMain()->particle2[] = $name;
+                            $this->main->particle2[] = $name;
 
                             if(in_array($name, $this->main->particle1)) {
                                 unset($this->main->particle1[array_search($name, $this->main->particle1)]);
@@ -120,12 +120,12 @@ class ParticleForm {
                 break;
                 //Blizzard Aura
                 case 2:
-                    if($player->hasPermission("cosmetic.particles.snowaura")){
+                    if($player->hasPermission("cosmetic.particles.blizzardaura")){
                         $name = $player->getName();
                         
-                        if(!in_array($name, $this->getMain()->particle3)) {
+                        if(!in_array($name, $this->main->particle3)) {
 
-                            $this->getMain()->particle3[] = $name;
+                            $this->main->particle3[] = $name;
 
                             if(in_array($name, $this->main->particle1)) {
                                 unset($this->main->particle1[array_search($name, $this->main->particle1)]);
@@ -171,9 +171,9 @@ class ParticleForm {
                     if($player->hasPermission("cosmetic.particles.cupidslove")){
                         $name = $player->getName();
                         
-                        if(!in_array($name, $this->getMain()->particle4)) {
+                        if(!in_array($name, $this->main->particle4)) {
 
-                            $this->getMain()->particle4[] = $name;
+                            $this->main->particle4[] = $name;
 
                             if(in_array($name, $this->main->particle1)) {
                                 unset($this->main->particle1[array_search($name, $this->main->particle1)]);
@@ -221,9 +221,9 @@ class ParticleForm {
                     if($player->hasPermission("cosmetic.particles.bullethelix")){
                         $name = $player->getName();
                         
-                        if(!in_array($name, $this->getMain()->particle5)) {
+                        if(!in_array($name, $this->main->particle5)) {
 
-                            $this->getMain()->particle5[] = $name;
+                            $this->main->particle5[] = $name;
 
                             if(in_array($name, $this->main->particle1)) {
                                 unset($this->main->particle1[array_search($name, $this->main->particle1)]);
@@ -269,9 +269,9 @@ class ParticleForm {
                     if($player->hasPermission("cosmetic.particles.conduithalo")){
                         $name = $player->getName();
                         
-                        if(!in_array($name, $this->getMain()->particle6)) {
+                        if(!in_array($name, $this->main->particle6)) {
 
-                            $this->getMain()->particle6[] = $name;
+                            $this->main->particle6[] = $name;
 
                             if(in_array($name, $this->main->particle1)) {
                                 unset($this->main->particle1[array_search($name, $this->main->particle1)]);
@@ -317,9 +317,9 @@ class ParticleForm {
                     if($player->hasPermission("cosmetic.particles.witchcurse")){
                         $name = $player->getName();
                         
-                        if(!in_array($name, $this->getMain()->particle7)) {
+                        if(!in_array($name, $this->main->particle7)) {
 
-                            $this->getMain()->particle7[] = $name;
+                            $this->main->particle7[] = $name;
 
                             if(in_array($name, $this->main->particle1)) {
                                 unset($this->main->particle1[array_search($name, $this->main->particle1)]);
@@ -365,9 +365,9 @@ class ParticleForm {
                     if($player->hasPermission("cosmetic.particles.emeraldtwirl")){
                         $name = $player->getName();
                         
-                        if(!in_array($name, $this->getMain()->particle8)) {
+                        if(!in_array($name, $this->main->particle8)) {
 
-                            $this->getMain()->particle8[] = $name;
+                            $this->main->particle8[] = $name;
 
                             if(in_array($name, $this->main->particle1)) {
                                 unset($this->main->particle1[array_search($name, $this->main->particle1)]);
@@ -434,29 +434,41 @@ class ParticleForm {
                 break;
 
                 case 9:
-                    $this->getMain()->getForms()->menuForm($player);
+                    $this->main->getForms()->menuForm($player);
                 break;
             }
         });
            
         $form->setTitle("Particles");
-        $form->setContent("Pick One");
-        $form->addButton("Rain Cloud");
-        $form->addButton("Flame Rings");
-        $form->addButton("Blizzard Aura");
-        $form->addButton("Cupid's Love");
-        $form->addButton("Bullet Helix");
-        $form->addButton("Conduit Aura");
-        $form->addButton("Wicth Curse");
-        $form->addButton("Emerald Twirl");
-        $form->addButton("Clear");
-        $form->addButton("§l§8<< Back");
+        $form->setContent($this->main->particleFormContent);
+        if($this->main->raincloud){
+            $form->addButton("Rain Cloud",0,"",0);
+        }
+        if($this->main->flamerings){
+            $form->addButton("Flame Rings",0,"",1);
+        }
+        if($this->main->blizzardaura){
+            $form->addButton("Blizzard Aura",0,"",2);
+        }
+        if($this->main->cupidslove){
+            $form->addButton("Cupid's Love",0,"",3);
+        }
+        if($this->main->bullethelix){
+            $form->addButton("Bullet Helix",0,"",4);
+        }
+        if($this->main->conduitaura){
+            $form->addButton("Conduit Aura",0,"",5);
+        }
+        if($this->main->witchcurse){
+            $form->addButton("Wicth Curse",0,"",6);
+        }
+        if($this->main->emeraldtwirl){
+            $form->addButton("Emerald Twirl",0,"",7);
+        }
+        $form->addButton("Clear",0,"",8);
+        $form->addButton("§l§8<< Back",0,"",9);
         $form->sendToPlayer($player);
         return $form;
-    }
-
-    function getMain() : Main {
-        return $this->main;
     }
 
 }

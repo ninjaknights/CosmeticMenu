@@ -1,0 +1,6 @@
+Morphs:
+  Enable: true
+  Form-Content: "Pick one"
+
+Zombie:
+  Enable: true

@@ -33,22 +33,20 @@ class MorphForm {
                 break;
 
                 case 2:
-                    $this->getMain()->getForms()->menuForm($player);    
+                    $this->main->getForms()->menuForm($player);    
                 break;
             }
         });
 
         $form->setTitle("Morphs");
-        $form->setContent("Pick One");
-        $form->addButton("Zombie");
-        $form->addButton("Remove");
-        $form->addButton("§l§8<< Back");
+        $form->setContent($this->main->morphFormContent);
+        if($this->main->zombie){
+            $form->addButton("Zombie",0,"",0);
+        }
+        $form->addButton("Remove",0,"",1);
+        $form->addButton("§l§8<< Back",0,"",2);
         $form->sendToPlayer($player);
         return $form;
-    }
-
-    function getMain() : Main {
-        return $this->main;
     }
 
 }

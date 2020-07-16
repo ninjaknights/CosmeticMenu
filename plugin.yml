@@ -8,3 +8,65 @@ description: A CosmeticMenu plugin for server lobbys!
 commands:
   cosmetics:
     description: "CosmeticMenu Command"
+
+permissions:
+  cosmetic.all:
+    default: op
+    description: Permission for all CosmeticMenu features
+    children:
+      cosmetic.item:
+        description: Permission to access through the item
+        default: true
+      cosmetic.cmd:
+        description: Permission for /cosmetics
+        default: true
+      cosmetic.gadgets:
+        default: op
+      cosmetic.particles:
+        default: op
+      cosmetic.suits:
+        default: op
+      cosmetic.hats:
+        default: op
+      cosmetic.trails:
+        default: op
+      cosmetic.morphs:
+        default: op
+      cosmetic.gadgets.tntlauncher:
+        default: op
+      cosmetic.gadgets.lightningstick:
+        default: op
+      cosmetic.gadgets.leaper:
+        default: op
+      cosmetic.particles.raincloud:
+        default: op
+      cosmetic.particles.flamingring:
+        default: op
+      cosmetic.particles.blizzardaura:
+        default: op
+      cosmetic.particles.cupidslove:
+        default: op
+      cosmetic.particles.bullethelix:
+        default: op
+      cosmetic.particles.conduithalo:
+        default: op
+      cosmetic.particles.witchcurse:
+        default: op
+      cosmetic.particles.emeraldtwirl:
+        default: op
+      cosmetic.suits.youtube:
+        default: op
+      cosmetic.suits.frog:
+        default: op
+      cosmetic.hats.tv:
+        default: op
+      cosmetic.trails.flame:
+        default: op
+      cosmetic.trails.snow:
+        default: op
+      cosmetic.trails.heart:
+        default: op
+      cosmetic.trails.smoke:
+        default: op
+      cosmetic.morphs.zombie:
+        default: op

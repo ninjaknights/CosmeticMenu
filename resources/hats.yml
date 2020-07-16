@@ -1,0 +1,6 @@
+Hats:
+  Enable: true
+  Form-Content: "Pick one"
+
+TV-Hat:
+  Enable: true

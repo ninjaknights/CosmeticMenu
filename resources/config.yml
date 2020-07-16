@@ -9,10 +9,12 @@ Command: true
 #Settings for the cosmetic item
 Cosmetic:
   # Choose if you want the Cosmetic Item to be enabled or not
-  Enabled: true
+  Enable: true
 
   # Choose the name of the cosmetic item name
   Name: "CosmeticMenu"
+
+  Form-Content: "Select a Cosemtic"
 
   # Choose the name of the cosmetic item description 
   Des: "Click Me"

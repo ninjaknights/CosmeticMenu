@@ -77,23 +77,24 @@ class GadgetForm {
                 break;
 
                 case 3:
-                    $this->getMain()->getForms()->menuForm($player);
+                    $this->main->getForms()->menuForm($player);
                 break;
             }
         });
            
         $form->setTitle("Gadgets");
-        $form->setContent("Pick One");
-        $form->addButton("TNT-Launcher");
-        $form->addButton("Lightning Stick");
-        $form->addButton("Leaper");
-        $form->addButton("§l§8<< Back");
+        $form->setContent($this->main->gadgetFormContent);
+        if($this->main->tntlauncher){
+            $form->addButton("TNT-Launcher",0,"",0);
+        }
+        if($this->main->lightningstick){
+            $form->addButton("Lightning Stick",0,"",1);
+        }
+        if($this->main->leaper){
+            $form->addButton("Leaper",0,"",2);
+        }
+        $form->addButton("§l§8<< Back",0,"",3);
         $form->sendToPlayer($player);
         return $form;
     }
-
-     function getMain() : Main {
-        return $this->main;
-    }
-
 }

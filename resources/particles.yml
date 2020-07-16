@@ -1,0 +1,27 @@
+Particles:
+  Enable: true
+  Form-Content: "Pick One"
+
+Rain-Cloud:
+  Enable: true
+
+Flame-Rings:
+  Enable: true
+
+Blizzard-Aura:
+  Enable: true
+
+Cupids-Love:
+  Enable: true
+
+Bullet-Helix: 
+  Enable: true
+
+Conduit-Aura:
+  Enable: true
+
+Witch-Curse:
+  Enable: true
+
+Emerald-Twirl:
+  Enable: true

@@ -25,9 +25,9 @@ class TrailForm {
                     if($player->hasPermission("cosmetic.trails.flame")){
                         $name = $player->getName();
     
-                        if(!in_array($name, $this->getMain()->trail1)) {
+                        if(!in_array($name, $this->main->trail1)) {
                     
-                            $this->getMain()->trail1[] = $name;
+                            $this->main->trail1[] = $name;
                             
                             if(in_array($name, $this->main->trail2)) {
                                 unset($this->main->trail2[array_search($name, $this->main->trail2)]);
@@ -160,25 +160,29 @@ class TrailForm {
                 break;
 
                 case 5:
-                    $this->getMain()->getForms()->menuForm($player);
+                    $this->main->getForms()->menuForm($player);
                 break;
             }
         });
            
         $form->setTitle("Trails");
-        $form->setContent("Pick One");
-        $form->addButton("Flame Trail");
-        $form->addButton("Snow Trail");
-        $form->addButton("Heart Trail");
-        $form->addButton("Smoke Trail");
-        $form->addButton("Clear");
-        $form->addButton("§l§8<< Back");
+        $form->setContent($this->main->trailFormContent);
+        if($this->main->flametrail){
+            $form->addButton("Flame Trail",0,"",0);
+        }
+        if($this->main->snowtrail){
+            $form->addButton("Snow Trail",0,"",1);
+        }
+        if($this->main->hearttrail){
+            $form->addButton("Heart Trail",0,"",2);
+        }
+        if($this->main->smoketrail){
+            $form->addButton("Smoke Trail",0,"",3);
+        }
+        $form->addButton("Clear",0,"",4);
+        $form->addButton("§l§8<< Back",0,"",5);
         $form->sendToPlayer($player);
         return $form;
-    }
-
-    function getMain() : Main {
-        return $this->main;
     }
 
 }

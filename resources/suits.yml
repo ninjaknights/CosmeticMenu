@@ -1,0 +1,9 @@
+Suits:
+  Enable: true
+  Form-Content: "Pick One"
+
+Youtube-Suit:
+  Enable: true
+
+Frog-Suit:
+  Enable: true

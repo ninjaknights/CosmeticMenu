@@ -1,0 +1,15 @@
+Trails:
+  Enable: true
+  Form-Content: "Pick one"
+
+Flame-Trail:
+  Enable: true
+
+Snow-Trail:
+  Enable: true
+
+Heart-Trail:
+  Enable: true
+
+Smoke-Trail:
+  Enable: true

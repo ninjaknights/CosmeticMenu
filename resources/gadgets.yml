@@ -1,0 +1,12 @@
+Gadgets:
+  Enable: true
+  Form-Content: "Pick One"
+
+TNT-Launcher:
+  Enable: true
+
+Lightning-Stick:
+  Enable: true
+
+Leaper: 
+  Enable: true

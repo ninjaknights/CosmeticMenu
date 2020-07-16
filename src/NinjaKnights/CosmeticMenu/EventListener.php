@@ -22,8 +22,6 @@ class EventListener implements Listener {
 
 	private $main;
 
-	public static $skin = [];
-
 	public function __construct(Main $main) {
 			$this->main = $main;
 	}
@@ -34,7 +32,7 @@ class EventListener implements Listener {
 				return true;
 			}
 			$in = $item->getCustomName();
-			if($in == "TNT-Launcher" || $in == "Lightning Stick" || $in == "Leaper" || $in == "§l§8<< Back") {
+			if($in == "TNT-Launcher" || $in == "Lightning Stick" || $in == "Leaper" || $in == "§l§4<< Back") {
 				return true;
 			}
 		}
@@ -59,7 +57,11 @@ class EventListener implements Listener {
 				$player->getInventory()->setItem($slot,$item,false);
 			}
 		}
-        self::$skin[$player->getName()] = $player->getSkin();
+
+		$name = $player->getName();
+        $skin = $player->getSkin();
+        $saveSkin = $this->main->saveSkin();
+        $saveSkin->saveSkin($skin, $name);
 	}
 
 	public function onRespawn(PlayerRespawnEvent $event){
@@ -92,21 +94,20 @@ class EventListener implements Listener {
 		}
 		$name = $player->getName();
 
-		unset(self::$skin[$name]);
-
 		//Suits
-		$player->removeAllEffects();
 		if(in_array($name, $this->main->suit1)) {
 			unset($this->main->suit1[array_search($name, $this->main->suit1)]);
 		}elseif(in_array($name, $this->main->suit2)) {
 			unset($this->main->suit2[array_search($name, $this->main->suit2)]);
 		}
-	}
 
-	public function onChangeSkin(PlayerChangeSkinEvent $event): void {
-        $player = $event->getPlayer();
-        self::$skin[$player->getName()] = $player->getSkin();
-    }
+		//Hats
+		if(in_array($name, $this->main->hat1)) {
+			unset($this->main->hat1[array_search($name, $this->main->hat1)]);
+		}elseif(in_array($name, $this->main->hat2)) {
+			unset($this->main->hat2[array_search($name, $this->main->hat2)]);
+		}
+	}
 
 	public function onInventoryTransaction(InventoryTransactionEvent $event){
 		if($this->main->cosmeticItemSupport && $this->main->cosmeticForceSlot){
@@ -152,12 +153,10 @@ class EventListener implements Listener {
 
 		if($this->main->cosmeticItemSupport){
 			if($item->getCustomName() == $this->main->cosmeticName && $item->getId() == $this->main->cosmeticItemType && $item->getLore() == $this->main->cosmeticDes){
-				$this->getMain()->getForms()->menuForm($player);
+				if($player->hasPermission("cosmetic.item")){
+					$this->main->getForms()->menuForm($player);
+				}
 			}
 		}
-	}
-
-	function getMain() : Main {
-		return $this->main;
 	}
 }
