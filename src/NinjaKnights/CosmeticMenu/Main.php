@@ -67,7 +67,7 @@ class Main extends PluginBase implements Listener {
 	public $particle3 = array("Blizzard Aura");
 	public $particle4 = array("Cupid's Love");
 	public $particle5 = array("Bullet Helix");
-	public $particle6 = array("Conduit Halo");
+	public $particle6 = array("Conduit Aura");
 	public $particle7 = array("Witch Curse");
 	public $particle8 = array("Emerald Twril");
 

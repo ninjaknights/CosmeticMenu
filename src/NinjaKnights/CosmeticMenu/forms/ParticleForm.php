@@ -266,7 +266,7 @@ class ParticleForm {
                 break;
                 //Conduit Halo
                 case 5:
-                    if($player->hasPermission("cosmetic.particles.conduithalo")){
+                    if($player->hasPermission("cosmetic.particles.conduitaura")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->particle6)) {

@@ -48,7 +48,7 @@ permissions:
         default: op
       cosmetic.particles.bullethelix:
         default: op
-      cosmetic.particles.conduithalo:
+      cosmetic.particles.conduitaura:
         default: op
       cosmetic.particles.witchcurse:
         default: op
