@@ -16,10 +16,10 @@ permissions:
     children:
       cosmetic.item:
         description: Permission to access through the item
-        default: true
+        default: op
       cosmetic.cmd:
         description: Permission for /cosmetics
-        default: true
+        default: op
       cosmetic.gadgets:
         default: op
       cosmetic.particles:
@@ -59,6 +59,8 @@ permissions:
       cosmetic.suits.frog:
         default: op
       cosmetic.hats.tv:
+        default: op
+      cosmetic.hats.melon:
         default: op
       cosmetic.trails.flame:
         default: op

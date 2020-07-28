@@ -21,13 +21,15 @@ class saveRes
         }
         
         //suits
-        foreach(["skins/suits/youtube.json", "skins/suits/youtube.png"] as $suits) {
-			$this->main->saveResource($suits);
+        foreach(["youtube", "frog"] as $suits) {
+            $this->main->saveResource("skins/suits/". $suits . ".png");
+            $this->main->saveResource("skins/suits/". $suits . ".json");
         }
         
         //hats
-        foreach(["skins/hats/tv.json", "skins/hats/tv.png"] as $hats) {
-			$this->main->saveResource($hats);
+        foreach(["tv", "melon"] as $hats) {
+            $this->main->saveResource("skins/hats/". $hats . ".png");
+            $this->main->saveResource("skins/hats/". $hats . ".json");
 		}
     }
     

@@ -428,9 +428,7 @@ class ParticleForm {
                         unset($this->main->particle7[array_search($name, $this->main->particle7)]);
                     } elseif(in_array($name, $this->main->particle8)) {
                         unset($this->main->particle8[array_search($name, $this->main->particle8)]);
-                    } elseif(in_array($name, $this->main->particle9)) {
-                        unset($this->main->particle9[array_search($name, $this->main->particle9)]);
-                    } 
+                    }
                 break;
 
                 case 9:

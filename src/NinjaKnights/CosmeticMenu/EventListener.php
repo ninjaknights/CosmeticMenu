@@ -41,27 +41,34 @@ class EventListener implements Listener {
 
 	public function onJoin(PlayerJoinEvent $event){
 		$player = $event->getPlayer();
+		$player->removeAllEffects();
 		if($this->main->cosmeticItemSupport){
-			$world = $this->main->config->get("WorldName");
-			$this->main->reloadConfig();
+			if($player->hasPermission("cosmetic.item")){
+				$this->main->reloadConfig();
+				$world = $this->main->config->get("WorldName");
 
-			$air = Item::get(0, 0 , 1);
-			$item = Item::get($this->main->cosmeticItemType);
-			$item->setCustomName($this->main->cosmeticName);
-			$item->setLore($this->main->cosmeticDes);
-			$slot = $this->main->config->getNested("Cosmetic.Slot");
-			if($this->main->getServer()->getLevelByName($world)) {
-				$player->getInventory()->setItem($slot+1,$air,true);
-				$player->getInventory()->setItem($slot,$item,true);
+				$air = Item::get(0, 0 , 1);
+				$item = Item::get($this->main->cosmeticItemType);
+				$item->setCustomName($this->main->cosmeticName);
+				$item->setLore($this->main->cosmeticDes);
+				$slot = $this->main->config->getNested("Cosmetic.Slot");
+				if($this->main->getServer()->getLevelByName($world)){
+					$player->getInventory()->setItem($slot+1,$air,true);
+					$player->getInventory()->setItem($slot,$item,true);
+				} else {
+					$player->getInventory()->setItem($slot,$item,false);
+				}
 			} else {
-				$player->getInventory()->setItem($slot,$item,false);
+				$air = Item::get(0, 0 , 1);
+				$slot = $this->main->config->getNested("Cosmetic.Slot");
+				$player->getInventory()->setItem($slot,$air,true);
 			}
 		}
 
 		$name = $player->getName();
-        $skin = $player->getSkin();
-        $saveSkin = $this->main->saveSkin();
-        $saveSkin->saveSkin($skin, $name);
+		$skin = $player->getSkin();
+		$saveSkin = $this->main->saveSkin();
+		$saveSkin->saveSkin($skin, $name);
 	}
 
 	public function onRespawn(PlayerRespawnEvent $event){
@@ -107,6 +114,15 @@ class EventListener implements Listener {
 		}elseif(in_array($name, $this->main->hat2)) {
 			unset($this->main->hat2[array_search($name, $this->main->hat2)]);
 		}
+		$player->removeAllEffects();
+	}
+
+	public function onChangeSkin(PlayerChangeSkinEvent $event) {
+		$player = $event->getPlayer();
+		$name = $player->getName();
+		$skin = $player->getSkin();
+		$saveSkin = $this->main->saveSkin();
+		$saveSkin->saveSkin($skin, $name);
 	}
 
 	public function onInventoryTransaction(InventoryTransactionEvent $event){

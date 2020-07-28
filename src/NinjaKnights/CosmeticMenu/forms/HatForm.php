@@ -31,6 +31,8 @@ class HatForm {
                         
                         if(!in_array($name, $this->main->hat1)) {
 
+                            $this->unsetSuits($player);
+
                             $this->main->setSkin()->setSkin($player, "tv", "hats");
                             $this->main->hat1[] = $name;
                             
@@ -39,31 +41,40 @@ class HatForm {
                             }
 
                         } else {
-                            $this->resetSkin($player);
+                            $this->unsetHats($player);
+                        }
+                        
+                    }
+                break;
+                //Melon Hat
+                case 1:
+                    if($player->hasPermission("cosmetic.hats.melon")){
+                        $name = $player->getName();
+                        
+                        if(!in_array($name, $this->main->hat2)) {
 
+                            $this->unsetSuits($player);
+
+                            $this->main->setSkin()->setSkin($player, "melon", "hats");
+                            $this->main->hat2[] = $name;
+                            
                             if(in_array($name, $this->main->hat1)) {
                                 unset($this->main->hat1[array_search($name, $this->main->hat1)]);
-                            }elseif(in_array($name, $this->main->hat2)) {
-                                unset($this->main->hat2[array_search($name, $this->main->hat2)]);
                             }
 
+                        } else {
+                            $this->unsetHats($player);
                         }
                         
                     }
                 break;
 				
-                case 1:
-                    $name = $player->getName();
-                    $this->resetSkin($player);
-                   
-                    if(in_array($name, $this->main->hat1)) {
-                        unset($this->main->hat1[array_search($name, $this->main->hat1)]);
-                    }elseif(in_array($name, $this->main->hat2)) {
-                        unset($this->main->hat2[array_search($name, $this->main->hat2)]);
-                    }
+                case 2:
+                    $this->unsetHats($player);
+                    $this->unsetSuits($player);
 				break;
 				
-				case 2:
+				case 3:
                     $this->main->getForms()->menuForm($player);   
                 break;
             }
@@ -73,8 +84,11 @@ class HatForm {
         if($this->main->tvhat){
             $form->addButton("TV Hat",0,"",0);
         }
-        $form->addButton("Clear",0,"",1);
-        $form->addButton("§l§8<< Back",0,"",2);
+        if($this->main->melonhat){
+            $form->addButton("Melon Hat",0,"",1);
+        }
+        $form->addButton("Clear",0,"",2);
+        $form->addButton("§l§8<< Back",0,"",3);
         $form->sendToPlayer($player);
         return $form;
     }
@@ -84,6 +98,29 @@ class HatForm {
         $player->sendPopup("§aReset to original skin successfull");
         $reset = $this->main->resetSkin();
         $reset->setSkin($player);
+    }
+
+    public function unsetHats(Player $player){
+        $name = $player->getName();
+        $this->resetSkin($player);
+       
+        if(in_array($name, $this->main->hat1)) {
+            unset($this->main->hat1[array_search($name, $this->main->hat1)]);
+        }elseif(in_array($name, $this->main->hat2)) {
+            unset($this->main->hat2[array_search($name, $this->main->hat2)]);
+        }
+        $player->removeAllEffects();
+    }
+
+    public function unsetSuits(Player $player){
+        $name = $player->getName();
+       
+        if(in_array($name, $this->main->suit1)) {
+            unset($this->main->suit1[array_search($name, $this->main->suit1)]);
+        }elseif(in_array($name, $this->main->suit2)) {
+            unset($this->main->suit2[array_search($name, $this->main->suit2)]);
+        }
+        $player->removeAllEffects();
     }
 
 }

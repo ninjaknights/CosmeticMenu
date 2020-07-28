@@ -31,6 +31,7 @@ class SuitForm {
                         
                         if(!in_array($name, $this->main->suit1)) {
 
+                            $this->unsetHats($player);
                             $this->main->setSkin()->setSuitSkin($player, "youtube", "suits");
                             $this->main->suit1[] = $name;
                             
@@ -39,14 +40,7 @@ class SuitForm {
                             }
 
                         } else {
-                            $this->resetSkin($player);
-
-                            if(in_array($name, $this->main->suit1)) {
-                                unset($this->main->suit1[array_search($name, $this->main->suit1)]);
-                            }elseif(in_array($name, $this->main->suit2)) {
-                                unset($this->main->suit2[array_search($name, $this->main->suit2)]);
-                            }
-
+                            $this->unsetSuits($player);
                         }
                         
                     }
@@ -58,8 +52,8 @@ class SuitForm {
                         
                         if(!in_array($name, $this->main->suit2)) {
 
-                            $player->removeAllEffects();
-                            $this->main->getSuits()->setSkin($player, "frog", "suits", "frog");
+                            $this->unsetHats($player);
+                            $this->main->setSkin()->setSuitSkin($player, "frog", "suits");
                             $this->main->suit2[] = $name;
                             
                             if(in_array($name, $this->main->suit1)) {
@@ -67,31 +61,15 @@ class SuitForm {
                             }
 
                         } else {
-                            $player->setSkin(EventListener::$skin[$name]);
-                            $player->sendSkin();
-
-                            $player->removeAllEffects();
-
-                            if(in_array($name, $this->main->suit1)) {
-                                unset($this->main->suit1[array_search($name, $this->main->suit1)]);
-                            }elseif(in_array($name, $this->main->suit2)) {
-                                unset($this->main->suit2[array_search($name, $this->main->suit2)]);
-                            }
-
+                            $this->unsetSuits($player);
                         }
                         
                     }
                 break;
 				
                 case 2:
-                    $name = $player->getName();
-                    $this->resetSkin($player);
-                   
-                    if(in_array($name, $this->main->suit1)) {
-                        unset($this->main->suit1[array_search($name, $this->main->suit1)]);
-                    }elseif(in_array($name, $this->main->suit2)) {
-                        unset($this->main->suit2[array_search($name, $this->main->suit2)]);
-                    }
+                    $this->unsetSuits($player);
+                    $this->unsetHats($player);
 				break;
 				
 				case 3:
@@ -118,6 +96,29 @@ class SuitForm {
         $player->sendPopup("§aReset to original skin successfull");
         $reset = $this->main->resetSkin();
         $reset->setSkin($player);
+    }
+
+    public function unsetSuits(Player $player){
+        $name = $player->getName();
+        $this->resetSkin($player);
+       
+        if(in_array($name, $this->main->suit1)) {
+            unset($this->main->suit1[array_search($name, $this->main->suit1)]);
+        }elseif(in_array($name, $this->main->suit2)) {
+            unset($this->main->suit2[array_search($name, $this->main->suit2)]);
+        }
+        $player->removeAllEffects();
+    }
+
+    public function unsetHats(Player $player){
+        $name = $player->getName();
+       
+        if(in_array($name, $this->main->hat1)) {
+            unset($this->main->hat1[array_search($name, $this->main->hat1)]);
+        }elseif(in_array($name, $this->main->hat2)) {
+            unset($this->main->hat2[array_search($name, $this->main->hat2)]);
+        }
+        $player->removeAllEffects();
     }
 
 }

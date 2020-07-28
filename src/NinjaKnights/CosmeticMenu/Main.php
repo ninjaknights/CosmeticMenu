@@ -76,13 +76,12 @@ class Main extends PluginBase implements Listener {
 	public $trail3 = array("Heart Trail");
 	public $trail4 = array("Smoke Trail ");
 
-	public $suit1 = array("Suit");
-	public $suit2 = array("Suit");
+	public $suit1 = array("YouTube Suit");
+	public $suit2 = array("Frog Suit");
 
-	public $hat1 = array("Hat");
-	public $hat2 = array("Hat");
+	public $hat1 = array("TV Hat");
+	public $hat2 = array("Melon Hat");
 
-	//For Suits
 	private $setskin;
 	private $saveskin;
 	private $resetskin;
@@ -105,7 +104,7 @@ class Main extends PluginBase implements Listener {
 		$version = $this->config->get("Version");
 		$pluginVersion = $this->getDescription()->getVersion();
 		if($version < $pluginVersion){
-			$this->getLogger()->warning("You have updated CosmeticMenu to v$pluginVersion but have a config from v$version! Please delete your old config for new features to be enabled and to prevent unwanted errors!");
+			$this->getLogger()->warning("You have updated CosmeticMenu to v$pluginVersion but your config is from v$version! Please delete your old config for new features to be enabled and to prevent errors!");
 			$this->getServer()->getPluginManager()->disablePlugin($this);
 		}
 
@@ -205,6 +204,9 @@ class Main extends PluginBase implements Listener {
 			$this->hatFormContent = $this->hatconfig->getNested("Hats.Form-Content");
 			if($this->tvhat = $this->hatconfig->getNested("TV-Hat.Enable")){
 				$this->tvhat = true;
+			}
+			if($this->melonhat = $this->hatconfig->getNested("Melon-Hat.Enable")){
+				$this->melonhat = true;
 			}
 		} else {
 			$this->hatSupport = false;
@@ -336,6 +338,6 @@ class Main extends PluginBase implements Listener {
 	}
 	function resetSkin(): resetSkin {
         return $this->resetskin;
-    }
+	}
 
 }

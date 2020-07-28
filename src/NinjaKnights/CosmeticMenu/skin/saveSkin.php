@@ -53,7 +53,7 @@ class saveSkin
     {
         $size = strlen($skinData);
         if (!$this->validateSize((int)$size)) {
-            $this->main->getServer()->broadcastMessage("An error occur on Clothes plugin, id: 1");
+            $this->main->getServer()->broadcastMessage("An error occur on CosmeticMenu plugin, id: 1");
             return null;
         }
         $width = $this->skin_widght_map[$size];
@@ -61,7 +61,7 @@ class saveSkin
         $skinPos = 0;
         $image = imagecreatetruecolor($width, $height);
         if ($image === false) {
-            $this->main->getServer()->broadcastMessage("An error occur on Clothes plugin,id: 2");
+            $this->main->getServer()->broadcastMessage("An error occur on CosmeticMenu plugin,id: 2");
             return null;
         }
 
