@@ -10,9 +10,10 @@ Our Discord: https://discord.gg/PsMYb6Q
 
 ## Permissions
 
-| `All the permissions ` | `cosmetic.all` |
-| `The Item` | `cosmetic.item` |
-| `The Command` | `cosmetic.cmd` |
+| All the permissions | `cosmetic.all` |  
+| --- | --- |
+| `The Item` | `cosmetic.item` |  
+| `The Command` | `cosmetic.cmd` |  
 
 | Gadgets | `cosmetic.gadgets` |
 | --- | --- |
