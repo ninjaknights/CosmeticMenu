@@ -46,8 +46,4 @@ Our Discord: https://discord.gg/PsMYb6Q
 | `Heart Trail` | `cosmetic.trails.heart` |
 | `Smoke Trail` | `cosmetic.trails.smoke` |
 
-| Morphs | `cosmetic.morphs` |
-| --- | --- |
-| `Zombie Morph` | `cosmetic.morphs.zombie` |
-
 This is a updated plugin of the BoxOfDevs CosmeticMenu Plugin. Thanks to LittleBigMC and Ad5001 for starting this.
