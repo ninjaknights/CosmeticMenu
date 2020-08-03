@@ -4,6 +4,7 @@ branches:
 projects:
   CosmeticMenu:
     path: ""
+    icon: images/CM.png
     lint:
         phpstan: false
     libs:
