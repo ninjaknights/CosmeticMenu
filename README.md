@@ -1,12 +1,9 @@
 ![cosmeticmenu](images/cosmeticmenu.png)
 
 # CosmeticMenu
-Fun and Easy-to-Use Cosmetic plugin with gadgets, particles, trails, suits, hats and morphs. A Easy config and tons of permissions.
+Fun and Easy-to-Use Cosmetic plugin with gadgets, particles, trails, suits and hats. A Easy config and tons of permissions.
 
 Our Discord: https://discord.gg/PsMYb6Q
-
-## Plugins Required
- - MorphX
 
 ## Permissions
 
