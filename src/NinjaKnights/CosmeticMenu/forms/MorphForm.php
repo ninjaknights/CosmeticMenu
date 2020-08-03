@@ -24,12 +24,12 @@ class MorphForm {
             switch($result) {
                 case 0:
                     if($player->hasPermission("cosmetic.morphs.zombie")){
-                        Server::getInstance()->dispatchCommand($player, "morph zombie");
+                       
                     }
                 break;
 
                 case 1:
-                    Server::getInstance()->dispatchCommand($player, "morph remove");
+                    
                 break;
 
                 case 2:

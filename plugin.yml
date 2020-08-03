@@ -1,7 +1,8 @@
 name: CosmeticMenu
 main: NinjaKnights\CosmeticMenu\Main
 version: 2.2
-api: 3.13.0
+api: 3.0.0
+mcpe-protocol: [361, 388, 389, 390, 407]
 author: TheKnightGamer / Jean
 description: A CosmeticMenu plugin for server lobbys!
     
@@ -18,7 +19,7 @@ permissions:
         description: Permission to access through the item
         default: op
       cosmetic.cmd:
-        description: Permission for /cosmetics
+        description: Open the Cosmetic Form 
         default: op
       cosmetic.gadgets:
         default: op
