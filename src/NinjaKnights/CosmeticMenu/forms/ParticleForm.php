@@ -23,7 +23,7 @@ class ParticleForm {
             switch($result) {
                 //Rain Cloud
                 case 0:
-                    if($player->hasPermission("cosmetic.particles.raincloud")){
+                    if($player->hasPermission("cosmeticmenu.particles.raincloud")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->particle1)) {
@@ -72,7 +72,7 @@ class ParticleForm {
                 break;
                 //Flame Rings
                 case 1:
-                    if($player->hasPermission("cosmetic.particles.flamingring")){
+                    if($player->hasPermission("cosmeticmenu.particles.flamingring")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->particle2)) {
@@ -120,7 +120,7 @@ class ParticleForm {
                 break;
                 //Blizzard Aura
                 case 2:
-                    if($player->hasPermission("cosmetic.particles.blizzardaura")){
+                    if($player->hasPermission("cosmeticmenu.particles.blizzardaura")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->particle3)) {
@@ -168,7 +168,7 @@ class ParticleForm {
                 break;
                 //Cupid's Love
                 case 3:
-                    if($player->hasPermission("cosmetic.particles.cupidslove")){
+                    if($player->hasPermission("cosmeticmenu.particles.cupidslove")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->particle4)) {
@@ -218,7 +218,7 @@ class ParticleForm {
                 break;
                 //Bullet Helix
                 case 4:
-                    if($player->hasPermission("cosmetic.particles.bullethelix")){
+                    if($player->hasPermission("cosmeticmenu.particles.bullethelix")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->particle5)) {
@@ -266,7 +266,7 @@ class ParticleForm {
                 break;
                 //Conduit Halo
                 case 5:
-                    if($player->hasPermission("cosmetic.particles.conduitaura")){
+                    if($player->hasPermission("cosmeticmenu.particles.conduitaura")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->particle6)) {
@@ -314,7 +314,7 @@ class ParticleForm {
                 break;
                 //Witch Curse
                 case 6:
-                    if($player->hasPermission("cosmetic.particles.witchcurse")){
+                    if($player->hasPermission("cosmeticmenu.particles.witchcurse")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->particle7)) {
@@ -362,7 +362,7 @@ class ParticleForm {
                 break;
                 //Emerald Twirl
                 case 7:
-                    if($player->hasPermission("cosmetic.particles.emeraldtwirl")){
+                    if($player->hasPermission("cosmeticmenu.particles.emeraldtwirl")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->particle8)) {

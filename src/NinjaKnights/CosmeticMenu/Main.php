@@ -108,10 +108,11 @@ class Main extends PluginBase implements Listener {
 			$this->getServer()->getPluginManager()->disablePlugin($this);
 		}
 
+		$this->cosmeticName = (str_replace("&", "§", $this->config->getNested("Cosmetic.Name")));
+		$this->cosmeticFormContent = (str_replace("&", "§", $this->config->getNested("Cosmetic.Form-Content")));
+		//Cosmetic Item Support
 		if($this->config->getNested("Cosmetic.Enable")){
 			$this->cosmeticItemSupport = true;
-			$this->cosmeticName = (str_replace("&", "§", $this->config->getNested("Cosmetic.Name")));
-			$this->cosmeticFormContent = (str_replace("&", "§", $this->config->getNested("Cosmetic.Form-Content")));
 			$this->cosmeticDes = [str_replace("&", "§", $this->config->getNested("Cosmetic.Des"))];
 			$this->cosmeticItemType = $this->config->getNested("Cosmetic.Item");
 			$this->cosmeticForceSlot = $this->config->getNested("Cosmetic.Force-Slot");
@@ -119,7 +120,7 @@ class Main extends PluginBase implements Listener {
 			$this->cosmeticItemSupport = false;
 			$this->getLogger()->info("The Cosmetic Item is disabled in the config.");
 		}
-
+		//Cosmetic Command Support
 		if($this->config->getNested("Command")){
 			$this->cosmeticCommandSupport = true;
 		} else {
@@ -296,7 +297,7 @@ class Main extends PluginBase implements Listener {
 	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
 		switch($cmd->getName()) {
 			case "cosmetics":
-				if($sender->hasPermission("cosmetic.cmd")){
+				if($sender->hasPermission("cosmeticmenu.cmd")){
 					if($this->cosmeticCommandSupport){
 						$this->getForms()->menuForm($sender);
 					}

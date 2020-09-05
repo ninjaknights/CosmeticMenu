@@ -4,17 +4,17 @@ Version: 2.2
 #The world you want to add the Cosmetic item in
 WorldName: world
 
+# Choose the name of the cosmetic item name and the title of the main form
+Name: "CosmeticMenu"
+# The description of the Main Form
+Form-Content: "Select a Cosemtic"
+
 Command: true
 
 #Settings for the cosmetic item
 Cosmetic:
   # Choose if you want the Cosmetic Item to be enabled or not
   Enable: true
-
-  # Choose the name of the cosmetic item name
-  Name: "CosmeticMenu"
-
-  Form-Content: "Select a Cosemtic"
 
   # Choose the name of the cosmetic item description 
   Des: "Click Me"

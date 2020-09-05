@@ -23,7 +23,7 @@ class GadgetForm {
             }
             switch($result) {
                 case 0:
-                    if($player->hasPermission("cosmetic.gadgets.tntlauncher")){
+                    if($player->hasPermission("cosmeticmenu.gadgets.tntlauncher")){
                         $inv = $player->getInventory();
                         $slot = $this->main->config->getNested("Cosmetic.Slot");
                         $air = Item::get(0, 0 , 1);
@@ -41,7 +41,7 @@ class GadgetForm {
                 break;
 
                 case 1:
-                    if($player->hasPermission("cosmetic.gadgets.lightningstick")){
+                    if($player->hasPermission("cosmeticmenu.gadgets.lightningstick")){
                         $inv = $player->getInventory();
                         $slot = $this->main->config->getNested("Cosmetic.Slot");
                         $air = Item::get(0, 0 , 1);
@@ -59,7 +59,7 @@ class GadgetForm {
                 break;
 
                 case 2:
-                    if($player->hasPermission("cosmetic.gadgets.leaper")){
+                    if($player->hasPermission("cosmeticmenu.gadgets.leaper")){
                         $inv = $player->getInventory();
                         $slot = $this->main->config->getNested("Cosmetic.Slot");
                         $air = Item::get(0, 0 , 1);

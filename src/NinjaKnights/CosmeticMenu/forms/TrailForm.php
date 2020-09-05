@@ -22,7 +22,7 @@ class TrailForm {
             }
             switch($result) {
                 case 0:
-                    if($player->hasPermission("cosmetic.trails.flame")){
+                    if($player->hasPermission("cosmeticmenu.trails.flame")){
                         $name = $player->getName();
     
                         if(!in_array($name, $this->main->trail1)) {
@@ -53,7 +53,7 @@ class TrailForm {
                 break;
 
                 case 1:
-                    if($player->hasPermission("cosmetic.trails.snow")){
+                    if($player->hasPermission("cosmeticmenu.trails.snow")){
                         $name = $player->getName();
     
                         if(!in_array($name, $this->main->trail2)) {
@@ -84,7 +84,7 @@ class TrailForm {
                 break;
 
                 case 2:
-                    if($player->hasPermission("cosmetic.trails.heart")){
+                    if($player->hasPermission("cosmeticmenu.trails.heart")){
                         $name = $player->getName();
     
                         if(!in_array($name, $this->main->trail3)) {
@@ -115,7 +115,7 @@ class TrailForm {
                 break;
 
                 case 3:
-                    if($player->hasPermission("cosmetic.trails.smoke")){
+                    if($player->hasPermission("cosmeticmenu.trails.smoke")){
                         $name = $player->getName();
     
                         if(!in_array($name, $this->main->trail4)) {

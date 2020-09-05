@@ -26,7 +26,7 @@ class HatForm {
             switch($result) {
                 //TV Hat
                 case 0:
-                    if($player->hasPermission("cosmetic.hats.tv")){
+                    if($player->hasPermission("cosmeticmenu.hats.tv")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->hat1)) {
@@ -48,7 +48,7 @@ class HatForm {
                 break;
                 //Melon Hat
                 case 1:
-                    if($player->hasPermission("cosmetic.hats.melon")){
+                    if($player->hasPermission("cosmeticmenu.hats.melon")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->hat2)) {

@@ -23,7 +23,7 @@ class MorphForm {
             }
             switch($result) {
                 case 0:
-                    if($player->hasPermission("cosmetic.morphs.zombie")){
+                    if($player->hasPermission("cosmeticmenu.morphs.zombie")){
                        
                     }
                 break;

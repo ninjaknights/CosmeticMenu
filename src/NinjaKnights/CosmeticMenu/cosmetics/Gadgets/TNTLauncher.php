@@ -34,7 +34,7 @@ class TNTLauncher implements Listener {
 
         //TNT-Launcher
 		if($iname == "TNT-Launcher"){
-			if($player->hasPermission("cosmetic.gadgets.tntlauncher")) {
+			if($player->hasPermission("cosmeticmenu.gadgets.tntlauncher")) {
 				if(!isset($this->main->tntCooldown[$player->getName()])){
 					$nbt = new CompoundTag("", [
 						"Pos" => new ListTag("Pos", [

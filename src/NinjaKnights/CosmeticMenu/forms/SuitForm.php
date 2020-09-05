@@ -26,7 +26,7 @@ class SuitForm {
             switch($result) {
                 //Youtube Suit
                 case 0:
-                    if($player->hasPermission("cosmetic.suits.youtube")){
+                    if($player->hasPermission("cosmeticmenu.suits.youtube")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->suit1)) {
@@ -47,7 +47,7 @@ class SuitForm {
                 break;
                 //Frog Suit
                 case 1:
-                    if($player->hasPermission("cosmetic.suits.frog")){
+                    if($player->hasPermission("cosmeticmenu.suits.frog")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->suit2)) {

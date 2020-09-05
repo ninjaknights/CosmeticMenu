@@ -43,7 +43,7 @@ class EventListener implements Listener {
 		$player = $event->getPlayer();
 		$player->removeAllEffects();
 		if($this->main->cosmeticItemSupport){
-			if($player->hasPermission("cosmetic.item")){
+			if($player->hasPermission("cosmeticmenu.item")){
 				$this->main->reloadConfig();
 				$world = $this->main->config->get("WorldName");
 
@@ -169,7 +169,7 @@ class EventListener implements Listener {
 
 		if($this->main->cosmeticItemSupport){
 			if($item->getCustomName() == $this->main->cosmeticName && $item->getId() == $this->main->cosmeticItemType && $item->getLore() == $this->main->cosmeticDes){
-				if($player->hasPermission("cosmetic.item")){
+				if($player->hasPermission("cosmeticmenu.item")){
 					$this->main->getForms()->menuForm($player);
 				}
 			}

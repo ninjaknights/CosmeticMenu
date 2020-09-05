@@ -33,7 +33,7 @@ class GadgetsEvents implements Listener {
 
 		//Lightning Stick
 		if($iname == "Lightning Stick") {
-        	if($player->hasPermission("cosmetic.gadgets.lightningstick")) {	
+        	if($player->hasPermission("cosmeticmenu.gadgets.lightningstick")) {	
 				if(!isset($this->main->lsCooldown[$player->getName()])){		
 					$block = $event->getBlock();
 					$lightning = new AddActorPacket();
@@ -57,7 +57,7 @@ class GadgetsEvents implements Listener {
 		}
         //Leaper
         if($iname == "Leaper") {
-			if($player->hasPermission("cosmetic.gadgets.leaper")) {
+			if($player->hasPermission("cosmeticmenu.gadgets.leaper")) {
 				if(!isset($this->main->lCooldown[$player->getName()])){
 				
 					$yaw = $player->yaw;
