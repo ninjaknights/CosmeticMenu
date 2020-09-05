@@ -7,43 +7,43 @@ Our Discord: https://discord.gg/PsMYb6Q
 
 ## Permissions
 
-| All the permissions | `cosmetic.all` |  
+| All the permissions | `cosmeticmenu.all` |  
 | --- | --- |
-| `The Item` | `cosmetic.item` |  
-| `The Command` | `cosmetic.cmd` |  
+| `The Item` | `cosmeticmenu.item` |  
+| `The Command` | `cosmeticmenu.cmd` |  
 
-| Gadgets | `cosmetic.gadgets` |
+| Gadgets | `cosmeticmenu.gadgets` |
 | --- | --- |
-| `TNT Launcher` | `cosmetic.gadgets.tntlauncher` |
-| `Lightning Stick` | `cosmetic.gadgets.lightningstick` |
-| `Leaper` | `cosmetic.gadgets.leaper` |
+| `TNT Launcher` | `cosmeticmenu.gadgets.tntlauncher` |
+| `Lightning Stick` | `cosmeticmenu.gadgets.lightningstick` |
+| `Leaper` | `cosmeticmenu.gadgets.leaper` |
 
-| Particles | `cosmetic.particles` |
+| Particles | `cosmeticmenu.particles` |
 | --- | --- |
-| `Rain Cloud` | `cosmetic.particles.raincloud` |
-| `Flaming Ring` | `cosmetic.particles.flamingring` |
-| `Snow Aura` | `cosmetic.particles.snowaura` |
-| `Cupid's Love` | `cosmetic.particles.cupidslove` |
-| `Bullet Helix` | `cosmetic.particles.bullethelix` |
-| `Conduit Aura` | `cosmetic.particles.conduithalo` |
-| `Wicth Curse` | `cosmetic.particles.witchcurse` |
-| `Emerald Twirl` | `cosmetic.particles.emeraldtwirl` |
+| `Rain Cloud` | `cosmeticmenu.particles.raincloud` |
+| `Flaming Ring` | `cosmeticmenu.particles.flamingring` |
+| `Snow Aura` | `cosmeticmenu.particles.snowaura` |
+| `Cupid's Love` | `cosmeticmenu.particles.cupidslove` |
+| `Bullet Helix` | `cosmeticmenu.particles.bullethelix` |
+| `Conduit Aura` | `cosmeticmenu.particles.conduithalo` |
+| `Wicth Curse` | `cosmeticmenu.particles.witchcurse` |
+| `Emerald Twirl` | `cosmeticmenu.particles.emeraldtwirl` |
 
-| Suits | `cosmetic.suits` |
+| Suits | `cosmeticmenu.suits` |
 | --- | --- |
-| `Youtube Suit` | `cosmetic.suits.youtube` |
-| `Frog Suit` | `cosmetic.suits.frog` |
+| `Youtube Suit` | `cosmeticmenu.suits.youtube` |
+| `Frog Suit` | `cosmeticmenu.suits.frog` |
 
-| Hats | `cosmetic.hats` |
+| Hats | `cosmeticmenu.hats` |
 | --- | --- |
-| `TV Hat` | `cosmetic.hats.tv` |
-| `Melon Hat` | `cosmetic.hats.melon` |
+| `TV Hat` | `cosmeticmenu.hats.tv` |
+| `Melon Hat` | `cosmeticmenu.hats.melon` |
 
-| Trails | `cosmetic.trails` |
+| Trails | `cosmeticmenu.trails` |
 | --- | --- |
-| `Flame Trail` | `cosmetic.trails.flame` |
-| `Snow Trail` | `cosmetic.trails.snow` |
-| `Heart Trail` | `cosmetic.trails.heart` |
-| `Smoke Trail` | `cosmetic.trails.smoke` |
+| `Flame Trail` | `cosmeticmenu.trails.flame` |
+| `Snow Trail` | `cosmeticmenu.trails.snow` |
+| `Heart Trail` | `cosmeticmenu.trails.heart` |
+| `Smoke Trail` | `cosmeticmenu.trails.smoke` |
 
 This is a updated plugin of the BoxOfDevs CosmeticMenu Plugin. Thanks to LittleBigMC and Ad5001 for starting this.
