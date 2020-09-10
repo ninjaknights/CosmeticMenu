@@ -108,8 +108,8 @@ class Main extends PluginBase implements Listener {
 			$this->getServer()->getPluginManager()->disablePlugin($this);
 		}
 
-		$this->cosmeticName = (str_replace("&", "§", $this->config->getNested("Cosmetic.Name")));
-		$this->cosmeticFormContent = (str_replace("&", "§", $this->config->getNested("Cosmetic.Form-Content")));
+		$this->cosmeticName = (str_replace("&", "§", $this->config->getNested("Name")));
+		$this->cosmeticFormContent = (str_replace("&", "§", $this->config->getNested("Form-Content")));
 		//Cosmetic Item Support
 		if($this->config->getNested("Cosmetic.Enable")){
 			$this->cosmeticItemSupport = true;
