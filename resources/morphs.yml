@@ -1,6 +1,8 @@
-Morphs:
-  Enable: false  
-  Form-Content: "Pick one"
+Enable: true
+#Name of the button and title of the Particle Menu
+Name: "Morphs"
+# Description of Particle Menu
+Form-Content: "Pick One"
 
 Zombie:
   Enable: true

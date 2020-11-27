@@ -15,43 +15,44 @@ class MainForm {
     }
     
     public function menuForm($player) {
+        $particlecfg = $this->main->particlecfg;
         $form = new SimpleForm(function (Player $player, $data) {
         $result = $data;
             if($result === null) {
                 return true;
             }
             switch($result) {
-                case 0:
+                /*case 0:
                     if($player->hasPermission("cosmeticmenu.gadgets")){
                         $this->main->getGadgetForm()->openGadgets($player);
                     } 
-                break;
+                break;*/
 
-                case 1:
+                case 0:
                     if($player->hasPermission("cosmeticmenu.particles")){
                         $this->main->getParticleForm()->openParticles($player);
                     }
                 break;
 
-                case 2:
+                case 1:
                     if($player->hasPermission("cosmeticmenu.suits")){
                         $this->main->getSuitForm()->openSuits($player);
                     }
                 break;
 
-                case 3:
+                case 2:
                     if($player->hasPermission("cosmeticmenu.hats")){
                         $this->main->getHatForm()->openHats($player);
                     }
                 break;
 
-                case 4:
+                case 3:
                     if($player->hasPermission("cosmeticmenu.trails")){
                         $this->main->getTrailForm()->openTrails($player);
                     }
                 break;
 
-                case 5:
+                case 4:
                     if($player->hasPermission("cosmeticmenu.morphs")){
                         $this->main->getMorphForm()->openMorphs($player);
                     }
@@ -59,25 +60,37 @@ class MainForm {
             }
         });
            
-        $form->setTitle($this->main->cosmeticName);
+        $form->setTitle($this->main->config->getNested("Name"));
         $form->setContent($this->main->cosmeticFormContent);
-        if($this->main->gadgetSupport){
-            $form->addButton("§l§8Gadgets\n§r§7Click to Open",0,"",0);
+        //Particles
+        $particlecfg = $this->main->particlecfg;
+        if($particlecfg->getNested("Enable")){
+            $this->particleSupport = true;
+            $form->addButton($particlecfg->getNested("Name"),0,"",0);
         }
-        if($this->main->particleSupport){
-            $form->addButton("§l§8Particles\n§r§7Click to Open",0,"",1);
+        //Suits
+        $suitcfg = $this->main->suitcfg;
+        if($suitcfg->getNested("Enable")){
+            $this->suitSupport = true;
+            $form->addButton($suitcfg->getNested("Name"),0,"",1);
         }
-        if($this->main->suitSupport){
-            $form->addButton("§l§8Suits\n§r§7Click to Open",0,"",2);
+        //Hats
+        $hatcfg = $this->main->hatcfg;
+        if($hatcfg->getNested("Enable")){
+            $this->hatSupport = true;
+            $form->addButton($hatcfg->getNested("Name"),0,"",2);
         }
-        if($this->main->hatSupport){
-            $form->addButton("§l§8Hats\n§r§7Click to Open",0,"",3);
+        //Trails
+        $trailcfg = $this->main->trailcfg;
+        if($trailcfg->getNested("Enable")){
+            $this->trailSupport = true;
+            $form->addButton($trailcfg->getNested("Name"),0,"",3);
         }
-        if($this->main->trailSupport){
-            $form->addButton("§l§8Trails\n§r§7Click to Open",0,"",4);
-        }
-        if($this->main->morphSupport){
-            $form->addButton("§l§8Morphs\n§r§7Click to Open",0,"",5);
+        //Morphs
+        $morphcfg = $this->main->morphcfg;
+        if($morphcfg->getNested("Enable")){
+            $this->morphSupport = true;
+            $form->addButton($morphcfg->getNested("Name"),0,"",4);
         }
         $form->sendToPlayer($player);
     }

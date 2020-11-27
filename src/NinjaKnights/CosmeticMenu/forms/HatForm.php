@@ -79,12 +79,17 @@ class HatForm {
                 break;
             }
         });
-        $form->setTitle("Hats");
-        $form->setContent($this->main->hatFormContent);
-        if($this->main->tvhat){
+        $hatcfg = $this->main->hatcfg;
+        $form->setTitle($hatcfg->getNested("Name"));
+        $form->setContent($hatcfg->getNested("Form-Content"));
+
+        if($hatcfg->getNested("TV-Hat.Enable")){
+            $this->hatSupport = true;
             $form->addButton("TV Hat",0,"",0);
         }
-        if($this->main->melonhat){
+
+        if($hatcfg->getNested("Melon-Hat.Enable")){
+            $this->hatSupport = true;
             $form->addButton("Melon Hat",0,"",1);
         }
         $form->addButton("Clear",0,"",2);

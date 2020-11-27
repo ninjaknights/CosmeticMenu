@@ -44,23 +44,7 @@ use NinjaKnights\CosmeticMenu\cosmetics\Trails\Smoke;
 use NinjaKnights\CosmeticMenu\cosmetics\Suits\Youtube;
 use NinjaKnights\CosmeticMenu\cosmetics\Suits\Frog;
 
-class Main extends PluginBase implements Listener {
-
-	public $world;
-
-	private $forms;
-	private $gadgets;
-	private $particles;
-	private $morphs;
-	private $trails;
-	private $suits;
-
-	public $tntCooldown = [ ];
-	public $tntCooldownTime = [ ];
-	public $lsCooldownTime = [ ];
-	public $lsCooldown = [ ];
-	public $lCooldown = [ ];
-	public $lCooldownTime = [ ];
+class Main extends PluginBase {
 
 	public $particle1 = array("Rain Cloud");
 	public $particle2 = array("Flame Rings");
@@ -82,12 +66,7 @@ class Main extends PluginBase implements Listener {
 	public $hat1 = array("TV Hat");
 	public $hat2 = array("Melon Hat");
 
-	private $setskin;
-	private $saveskin;
-	private $resetskin;
-
 	public function onEnable() {
-		$this->getServer()->getPluginManager()->registerEvents($this,$this);
 
 		$this->loadEvents();
 		$this->loadTasks();
@@ -100,7 +79,6 @@ class Main extends PluginBase implements Listener {
 		$configPath = $this->getDataFolder()."config.yml";
 		$this->saveDefaultConfig();
 		$this->config = new Config($configPath, Config::YAML);
-		$this->config->getAll();
 		$version = $this->config->get("Version");
 		$pluginVersion = $this->getDescription()->getVersion();
 		if($version < $pluginVersion){
@@ -128,127 +106,16 @@ class Main extends PluginBase implements Listener {
 			$this->getLogger()->info("The Cosmetic Command is disabled in the config.");
 		}
 
-		$gadgetPath = $this->getDataFolder()."gadgets.yml";
-		$this->gadgetconfig = new Config($gadgetPath, Config::YAML);
-		$this->gadgetconfig->getAll();
-		if($this->gadgetconfig->getNested("Gadgets.Enable")){
-			$this->gadgetSupport = true;
-			$this->gadgetFormContent = $this->gadgetconfig->getNested("Gadgets.Form-Content");
-			if($this->tntlauncher = $this->gadgetconfig->getNested("TNT-Launcher.Enable")){
-				$this->tntlauncher = true;
-			}
-			if($this->lightningstick = $this->gadgetconfig->getNested("Lightning-Stick.Enable")){
-				$this->lightningstick = true;
-			}
-			if($this->leaper = $this->gadgetconfig->getNested("Leaper.Enable")){
-				$this->leaper = true;
-			}
-		} else {
-			$this->gadgetSupport = false;
-		}
-
-		$particlePath = $this->getDataFolder()."particles.yml";
-		$this->particleconfig = new Config($particlePath, Config::YAML);
-		$this->particleconfig->getAll();
-		if($this->particleconfig->getNested("Particles.Enable")){
-			$this->particleSupport = true;
-			$this->particleFormContent = $this->particleconfig->getNested("Particles.Form-Content");
-			if($this->raincloud = $this->particleconfig->getNested("Rain-Cloud.Enable")){
-				$this->raincloud = true;
-			}
-			if($this->flamerings = $this->particleconfig->getNested("Flame-Rings.Enable")){
-				$this->flamerings = true;
-			}
-			if($this->blizzardaura = $this->particleconfig->getNested("Blizzard-Aura.Enable")){
-				$this->blizzardaura = true;
-			}
-			if($this->cupidslove = $this->particleconfig->getNested("Cupids-Love.Enable")){
-				$this->cupidslove = true;
-			}
-			if($this->bullethelix = $this->particleconfig->getNested("Bullet-Helix.Enable")){
-				$this->bullethelix = true;
-			}
-			if($this->conduitaura = $this->particleconfig->getNested("Conduit-Aura.Enable")){
-				$this->conduitaura = true;
-			}
-			if($this->witchcurse = $this->particleconfig->getNested("Witch-Curse.Enable")){
-				$this->witchcurse = true;
-			}
-			if($this->emeraldtwirl = $this->particleconfig->getNested("Emerald-Twirl.Enable")){
-				$this->emeraldtwirl = true;
-			}
-		} else {
-			$this->particleSupport = false;
-		}
-
-		$suitPath = $this->getDataFolder()."suits.yml";
-		$this->suitconfig = new Config($suitPath, Config::YAML);
-		$this->suitconfig->getAll();
-		if($this->suitconfig->getNested("Suits.Enable")){
-			$this->suitSupport = true;
-			$this->suitFormContent = $this->suitconfig->getNested("Suits.Form-Content");
-			if($this->youtubesuit = $this->suitconfig->getNested("Youtube-Suit.Enable")){
-				$this->youtubesuit = true;
-			}
-			if($this->frogsuit = $this->suitconfig->getNested("Frog-Suit.Enable")){
-				$this->frogsuit = true;
-			}
-		} else {
-			$this->suitSupport = false;
-		}
-
-		$hatPath = $this->getDataFolder()."hats.yml";
-		$this->hatconfig = new Config($hatPath, Config::YAML);
-		$this->hatconfig->getAll();
-		if($this->hatconfig->getNested("Hats.Enable")){
-			$this->hatSupport = true;
-			$this->hatFormContent = $this->hatconfig->getNested("Hats.Form-Content");
-			if($this->tvhat = $this->hatconfig->getNested("TV-Hat.Enable")){
-				$this->tvhat = true;
-			}
-			if($this->melonhat = $this->hatconfig->getNested("Melon-Hat.Enable")){
-				$this->melonhat = true;
-			}
-		} else {
-			$this->hatSupport = false;
-		}
-
-		$trailPath = $this->getDataFolder()."trails.yml";
-		$this->trailconfig = new Config($trailPath, Config::YAML);
-		$this->trailconfig->getAll();
-		if($this->trailconfig->getNested("Trails.Enable")){
-			$this->trailSupport = true;
-			$this->trailFormContent = $this->trailconfig->getNested("Trails.Form-Content");
-			if($this->flametrail = $this->trailconfig->getNested("Flame-Trail.Enable")){
-				$this->flametrail = true;
-			}
-			if($this->snowtrail = $this->trailconfig->getNested("Snow-Trail.Enable")){
-				$this->snowtrail = true;
-			}
-			if($this->hearttrail = $this->trailconfig->getNested("Heart-Trail.Enable")){
-				$this->hearttrail = true;
-			}
-			if($this->smoketrail = $this->trailconfig->getNested("Smoke-Trail.Enable")){
-				$this->smoketrail = true;
-			}
-
-		} else {
-			$this->trailSupport = false;
-		}
-
-		$morphPath = $this->getDataFolder()."morphs.yml";
-		$this->morphconfig = new Config($morphPath, Config::YAML);
-		$this->morphconfig->getAll();
-		if($this->morphconfig->getNested("Morphs.Enable")){
-			$this->morphSupport = true;
-			$this->morphFormContent = $this->morphconfig->getNested("Morphs.Form-Content");
-			if($this->zombie = $this->morphconfig->getNested("Zombie.Enable")){
-				$this->zombie = true;
-			}
-		} else {
-			$this->morphSupport = false;
-		}
+		$this->initConfig();
 		
+	}
+
+	private function initConfig() : void {
+		$this->particlecfg = new Config($this->getDataFolder()."particles.yml", Config::YAML);
+		$this->suitcfg = new Config($this->getDataFolder()."suits.yml", Config::YAML);
+		$this->trailcfg = new Config($this->getDataFolder()."trails.yml", Config::YAML);
+		$this->hatcfg = new Config($this->getDataFolder()."hats.yml", Config::YAML);
+		$this->morphcfg = new Config($this->getDataFolder()."morphs.yml", Config::YAML);
 	}
 
 	private function loadFormClass() : void {
@@ -288,25 +155,8 @@ class Main extends PluginBase implements Listener {
 		$this->getScheduler()->scheduleRepeatingTask(new Heart($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new Smoke($this), 3);
 
-		$this->getScheduler()->scheduleRepeatingTask(new Cooldown($this), 20);
-
 		$this->getScheduler()->scheduleRepeatingTask(new Youtube($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new Frog($this), 3);
-	}
-
-	public function onCommand(CommandSender $sender, Command $cmd, string $label, array $args) : bool {
-		switch($cmd->getName()) {
-			case "cosmetics":
-				if($sender->hasPermission("cosmeticmenu.cmd")){
-					if($this->cosmeticCommandSupport){
-						$this->getForms()->menuForm($sender);
-					}
-				} else {
-					$sender->sendMessage("You don't have permission to use this command.");
-				}
-			break;
-		}
-		return true;
 	}
 
 	function getForms() : MainForm {

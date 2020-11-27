@@ -1,6 +1,8 @@
-Hats:
-  Enable: true
-  Form-Content: "Pick one"
+Enable: true
+#Name of the button and title of the Particle Menu
+Name: "Hats"
+# Description of Particle Menu
+Form-Content: "Pick One"
 
 TV-Hat:
   Enable: true

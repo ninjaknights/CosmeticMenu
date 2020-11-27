@@ -1,6 +1,8 @@
-Suits:
-  Enable: true
-  Form-Content: "Pick One"
+Enable: true
+#Name of the button and title of the Suit Menu
+Name: "Suits"
+# Description of Suit Menu
+Form-Content: "Pick One"
 
 Youtube-Suit:
   Enable: true

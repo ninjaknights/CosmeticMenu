@@ -1,6 +1,8 @@
-Particles:
-  Enable: true
-  Form-Content: "Pick One"
+Enable: true
+#Name of the button and title of the Particle Menu
+Name: "Particles"
+# Description of Particle Menu
+Form-Content: "Pick One"
 
 Rain-Cloud:
   Enable: true

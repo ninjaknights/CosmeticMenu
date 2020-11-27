@@ -37,10 +37,12 @@ class MorphForm {
                 break;
             }
         });
+        $morphcfg = $this->main->morphcfg;
+        $form->setTitle($morphcfg->getNested("Name"));
+        $form->setContent($morphcfg->getNested("Form-Content"));
 
-        $form->setTitle("Morphs");
-        $form->setContent($this->main->morphFormContent);
-        if($this->main->zombie){
+        if($morphcfg->getNested("Zombie.Enable")){
+            $this->morphSupport = true;
             $form->addButton("Zombie",0,"",0);
         }
         $form->addButton("Remove",0,"",1);

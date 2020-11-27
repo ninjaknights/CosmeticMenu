@@ -436,31 +436,47 @@ class ParticleForm {
                 break;
             }
         });
-           
-        $form->setTitle("Particles");
-        $form->setContent($this->main->particleFormContent);
-        if($this->main->raincloud){
+        $particlecfg = $this->main->particlecfg;   
+        $form->setTitle($particlecfg->getNested("Name"));
+        $form->setContent($particlecfg->getNested("Form-Content"));
+        
+        if($particlecfg->getNested("Rain-Cloud.Enable")){
+            $this->particleSupport = true;
             $form->addButton("Rain Cloud",0,"",0);
         }
-        if($this->main->flamerings){
+
+        if($particlecfg->getNested("Flame-Rings.Enable")){
+            $this->particleSupport = true;
             $form->addButton("Flame Rings",0,"",1);
         }
-        if($this->main->blizzardaura){
+
+        if($particlecfg->getNested("Blizzard-Aura.Enable")){
+            $this->particleSupport = true;
             $form->addButton("Blizzard Aura",0,"",2);
         }
-        if($this->main->cupidslove){
+
+        if($particlecfg->getNested("Cupids-Love.Enable")){
+            $this->particleSupport = true;
             $form->addButton("Cupid's Love",0,"",3);
         }
-        if($this->main->bullethelix){
+
+        if($particlecfg->getNested("Bullet-Helix.Enable")){
+            $this->particleSupport = true;
             $form->addButton("Bullet Helix",0,"",4);
         }
-        if($this->main->conduitaura){
+
+        if($particlecfg->getNested("Conduit-Aura.Enable")){
+            $this->particleSupport = true;
             $form->addButton("Conduit Aura",0,"",5);
         }
-        if($this->main->witchcurse){
-            $form->addButton("Wicth Curse",0,"",6);
+        
+        if($particlecfg->getNested("Witch-Curse.Enable")){
+            $this->particleSupport = true;
+            $form->addButton("Witch Curse",0,"",6);
         }
-        if($this->main->emeraldtwirl){
+        
+        if($particlecfg->getNested("Emerald Twirl.Enable")){
+            $this->particleSupport = true;
             $form->addButton("Emerald Twirl",0,"",7);
         }
         $form->addButton("Clear",0,"",8);

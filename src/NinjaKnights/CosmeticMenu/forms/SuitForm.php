@@ -77,12 +77,17 @@ class SuitForm {
                 break;
             }
         });
-        $form->setTitle("Suits");
-        $form->setContent($this->main->suitFormContent);
-        if($this->main->youtubesuit){
+        $suitcfg = $this->main->suitcfg;
+        $form->setTitle($suitcfg->getNested("Name"));
+        $form->setContent($suitcfg->getNested("Form-Content"));
+        
+        if($suitcfg->getNested("Youtube-Suit.Enable")){
+            $this->suitSupport = true;
             $form->addButton("Youtube Suit",0,"",0);
         }
-        if($this->main->frogsuit){
+
+        if($suitcfg->getNested("Frog-Suit.Enable")){
+            $this->suitSupport = true;
             $form->addButton("Frog Suit",0,"",1);
         }
 		$form->addButton("Clear",0,"",2);

@@ -148,11 +148,6 @@ class EventListener implements Listener {
 		$inv = $player->getInventory();
 		$block = $player->getLevel()->getBlock($player->floor()->subtract(0, 1));
 
-		if($block->getId() === 0) {
-			$player->sendPopup("§cPlease wait");
-			return true;
-		}
-
 		//Back
 		if($iname == "§l§4<< Back") {
 

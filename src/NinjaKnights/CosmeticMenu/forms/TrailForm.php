@@ -164,19 +164,27 @@ class TrailForm {
                 break;
             }
         });
-           
-        $form->setTitle("Trails");
-        $form->setContent($this->main->trailFormContent);
-        if($this->main->flametrail){
+        $trailcfg = $this->main->trailcfg;
+        $form->setTitle($trailcfg->getNested("Name"));
+        $form->setContent($trailcfg->getNested("Form-Content"));
+
+        if($trailcfg->getNested("Flame-Trail.Enable")){
+            $this->trailSupport = true;
             $form->addButton("Flame Trail",0,"",0);
         }
-        if($this->main->snowtrail){
+
+        if($trailcfg->getNested("Snow-Trail.Enable")){
+            $this->trailSupport = true;
             $form->addButton("Snow Trail",0,"",1);
         }
-        if($this->main->hearttrail){
+
+        if($trailcfg->getNested("Heart-Trail.Enable")){
+            $this->trailSupport = true;
             $form->addButton("Heart Trail",0,"",2);
         }
-        if($this->main->smoketrail){
+
+        if($trailcfg->getNested("Smoke-Trail.Enable")){
+            $this->trailSupport = true;
             $form->addButton("Smoke Trail",0,"",3);
         }
         $form->addButton("Clear",0,"",4);
