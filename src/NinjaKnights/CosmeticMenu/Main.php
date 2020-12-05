@@ -3,11 +3,7 @@
 namespace NinjaKnights\CosmeticMenu;
 
 use pocketmine\plugin\PluginBase;
-use pocketmine\event\Listener;
 use pocketmine\utils\Config;
-
-use pocketmine\command\CommandSender;
-use pocketmine\command\Command;
 
 use NinjaKnights\CosmeticMenu\forms\GadgetForm;
 use NinjaKnights\CosmeticMenu\forms\MainForm;
@@ -18,7 +14,6 @@ use NinjaKnights\CosmeticMenu\forms\HatForm;
 use NinjaKnights\CosmeticMenu\forms\TrailForm;
 
 use NinjaKnights\CosmeticMenu\EventListener;
-use NinjaKnights\CosmeticMenu\Cooldown;
 use NinjaKnights\CosmeticMenu\util\saveRes;
 use NinjaKnights\CosmeticMenu\skin\setSkin;
 use NinjaKnights\CosmeticMenu\skin\saveSkin;
@@ -29,6 +24,7 @@ use NinjaKnights\CosmeticMenu\cosmetics\Gadgets\TNTLauncher;
 
 use NinjaKnights\CosmeticMenu\cosmetics\Particles\BlizzardAura;
 use NinjaKnights\CosmeticMenu\cosmetics\Particles\BulletHelix;
+use NinjaKnights\CosmeticMenu\cosmetics\Particles\BloodHelix;
 use NinjaKnights\CosmeticMenu\cosmetics\Particles\ConduitHalo;
 use NinjaKnights\CosmeticMenu\cosmetics\Particles\CupidsLove;
 use NinjaKnights\CosmeticMenu\cosmetics\Particles\EmeraldTwirl;
@@ -44,6 +40,8 @@ use NinjaKnights\CosmeticMenu\cosmetics\Trails\Smoke;
 use NinjaKnights\CosmeticMenu\cosmetics\Suits\Youtube;
 use NinjaKnights\CosmeticMenu\cosmetics\Suits\Frog;
 
+use NinjaKnights\CosmeticMenu\command\CosmeticCommand;
+
 class Main extends PluginBase {
 
 	public $particle1 = array("Rain Cloud");
@@ -54,6 +52,7 @@ class Main extends PluginBase {
 	public $particle6 = array("Conduit Aura");
 	public $particle7 = array("Witch Curse");
 	public $particle8 = array("Emerald Twril");
+	public $particle9 = array("Blood Helix");
 
 	public $trail1 = array("Flame Trail");
 	public $trail2 = array("Snow Trail");
@@ -66,6 +65,11 @@ class Main extends PluginBase {
 	public $hat1 = array("TV Hat");
 	public $hat2 = array("Melon Hat");
 
+	public function onLoad() {
+		$commands = [new CosmeticCommand($this)];
+        $this->getServer()->getCommandMap()->registerAll("cosmetic", $commands);
+	}
+
 	public function onEnable() {
 
 		$this->loadEvents();
@@ -75,6 +79,7 @@ class Main extends PluginBase {
 
 		$saveRes = new saveRes($this);
 		$saveRes->saveRes();
+		$this->initConfig();
 
 		$configPath = $this->getDataFolder()."config.yml";
 		$this->saveDefaultConfig();
@@ -105,8 +110,6 @@ class Main extends PluginBase {
 			$this->cosmeticCommandSupport = false;
 			$this->getLogger()->info("The Cosmetic Command is disabled in the config.");
 		}
-
-		$this->initConfig();
 		
 	}
 
@@ -149,6 +152,7 @@ class Main extends PluginBase {
 		$this->getScheduler()->scheduleRepeatingTask(new FlameRings($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new RainCloud($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new WitchCurse($this), 3);
+		$this->getScheduler()->scheduleRepeatingTask(new BloodHelix($this), 3);
 
 		$this->getScheduler()->scheduleRepeatingTask(new Flames($this), 3);
 		$this->getScheduler()->scheduleRepeatingTask(new Snow($this), 3);
