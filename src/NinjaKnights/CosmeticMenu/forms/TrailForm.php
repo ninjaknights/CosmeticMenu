@@ -167,25 +167,33 @@ class TrailForm {
         $trailcfg = $this->main->trailcfg;
         $form->setTitle($trailcfg->getNested("Name"));
         $form->setContent($trailcfg->getNested("Form-Content"));
-
+        $perm = "cosmeticmenu.trails.";
         if($trailcfg->getNested("Flame-Trail.Enable")){
             $this->trailSupport = true;
-            $form->addButton("Flame Trail",0,"",0);
+            if($player->hasPermission($perm ."flame")){
+                $form->addButton("Flame Trail",0,"",0);
+            }
         }
 
         if($trailcfg->getNested("Snow-Trail.Enable")){
             $this->trailSupport = true;
-            $form->addButton("Snow Trail",0,"",1);
+            if($player->hasPermission($perm ."snow")){
+                $form->addButton("Snow Trail",0,"",1);
+            }
         }
 
         if($trailcfg->getNested("Heart-Trail.Enable")){
             $this->trailSupport = true;
-            $form->addButton("Heart Trail",0,"",2);
+            if($player->hasPermission($perm ."heart")){
+                $form->addButton("Heart Trail",0,"",2);
+            }
         }
 
         if($trailcfg->getNested("Smoke-Trail.Enable")){
             $this->trailSupport = true;
-            $form->addButton("Smoke Trail",0,"",3);
+            if($player->hasPermission($perm ."smoke")){
+                $form->addButton("Smoke Trail",0,"",3);
+            }
         }
         $form->addButton("Clear",0,"",4);
         $form->addButton("§l§8<< Back",0,"",5);

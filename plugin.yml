@@ -2,7 +2,7 @@ name: CosmeticMenu
 main: NinjaKnights\CosmeticMenu\Main
 version: 2.4
 api: 3.0.0
-mcpe-protocol: [361, 388, 389, 390, 407, 408, 419]
+mcpe-protocol: [361, 388, 389, 390, 407, 408, 419, 422]
 author: TheKnightGamer / Jean
 description: A CosmeticMenu plugin for server lobbys!
     

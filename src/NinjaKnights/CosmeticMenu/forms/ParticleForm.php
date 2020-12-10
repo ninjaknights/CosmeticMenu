@@ -76,7 +76,7 @@ class ParticleForm {
                 break;
                 //Flame Rings
                 case 1:
-                    if($player->hasPermission("cosmeticmenu.particles.flamingring")){
+                    if($player->hasPermission("cosmeticmenu.particles.flamerings")){
                         $name = $player->getName();
                         
                         if(!in_array($name, $this->main->particle2)) {
@@ -524,50 +524,69 @@ class ParticleForm {
         $particlecfg = $this->main->particlecfg;   
         $form->setTitle($particlecfg->getNested("Name"));
         $form->setContent($particlecfg->getNested("Form-Content"));
-        
+        $perm = "cosmeticmenu.particles.";
+
         if($particlecfg->getNested("Rain-Cloud.Enable")){
             $this->particleSupport = true;
-            $form->addButton("Rain Cloud",0,"",0);
+            if($player->hasPermission($perm ."raincloud")){
+                $form->addButton("Rain Cloud",0,"",0);
+            }
         }
 
         if($particlecfg->getNested("Flame-Rings.Enable")){
             $this->particleSupport = true;
-            $form->addButton("Flame Rings",0,"",1);
+            if($player->hasPermission($perm ."flamerings")){
+                $form->addButton("Flame Rings",0,"",1);
+            }
         }
 
         if($particlecfg->getNested("Blizzard-Aura.Enable")){
             $this->particleSupport = true;
-            $form->addButton("Blizzard Aura",0,"",2);
+            if($player->hasPermission($perm ."blizzardaura")){
+                $form->addButton("Blizzard Aura",0,"",2);
+            }
         }
 
         if($particlecfg->getNested("Cupids-Love.Enable")){
             $this->particleSupport = true;
-            $form->addButton("Cupid's Love",0,"",3);
+            if($player->hasPermission($perm ."cupidslove")){
+                $form->addButton("Cupid's Love",0,"",3);
+            }
         }
 
         if($particlecfg->getNested("Bullet-Helix.Enable")){
             $this->particleSupport = true;
-            $form->addButton("Bullet Helix",0,"",4);
+            if($player->hasPermission($perm ."bullethelix")){
+                $form->addButton("Bullet Helix",0,"",4);
+            }
         }
 
         if($particlecfg->getNested("Conduit-Aura.Enable")){
             $this->particleSupport = true;
-            $form->addButton("Conduit Aura",0,"",5);
+            if($player->hasPermission($perm ."conduitaura")){
+                $form->addButton("Conduit Aura",0,"",5);
+            }
         }
         
         if($particlecfg->getNested("Witch-Curse.Enable")){
             $this->particleSupport = true;
-            $form->addButton("Witch Curse",0,"",6);
+            if($player->hasPermission($perm ."witchcurse")){
+                $form->addButton("Witch Curse",0,"",6);
+            }
         }
         
         if($particlecfg->getNested("Emerald-Twirl.Enable")){
             $this->particleSupport = true;
-            $form->addButton("Emerald Twirl",0,"",7);
+            if($player->hasPermission($perm ."emeraldtwirl")){
+                $form->addButton("Emerald Twirl",0,"",7);
+            }
         }
 
         if($particlecfg->getNested("Blood-Helix.Enable")){
             $this->particleSupport = true;
-            $form->addButton("Blood Helix",0,"",8);
+            if($player->hasPermission($perm ."bloodhelix")){
+                $form->addButton("Blood Helix",0,"",8);
+            }
         }
         $form->addButton("Clear",0,"",9);
         $form->addButton("§l§8<< Back",0,"",10);

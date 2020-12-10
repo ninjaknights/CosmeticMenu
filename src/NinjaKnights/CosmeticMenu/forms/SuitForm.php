@@ -80,15 +80,19 @@ class SuitForm {
         $suitcfg = $this->main->suitcfg;
         $form->setTitle($suitcfg->getNested("Name"));
         $form->setContent($suitcfg->getNested("Form-Content"));
-        
+        $perm = "cosmeticmenu.suits.";
         if($suitcfg->getNested("Youtube-Suit.Enable")){
             $this->suitSupport = true;
-            $form->addButton("Youtube Suit",0,"",0);
+            if($player->hasPermission($perm ."youtube")){
+                $form->addButton("Youtube Suit",0,"",0);
+            }
         }
 
         if($suitcfg->getNested("Frog-Suit.Enable")){
             $this->suitSupport = true;
-            $form->addButton("Frog Suit",0,"",1);
+            if($player->hasPermission($perm ."frog")){
+                $form->addButton("Frog Suit",0,"",1);
+            }
         }
 		$form->addButton("Clear",0,"",2);
 		$form->addButton("§l§8<< Back",0,"",3);

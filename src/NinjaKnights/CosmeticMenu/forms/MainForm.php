@@ -62,35 +62,46 @@ class MainForm {
            
         $form->setTitle($this->main->config->getNested("Name"));
         $form->setContent($this->main->cosmeticFormContent);
+        $perm = "cosmeticmenu.";
         //Particles
         $particlecfg = $this->main->particlecfg;
         if($particlecfg->getNested("Enable")){
             $this->particleSupport = true;
-            $form->addButton($particlecfg->getNested("Name"),0,"",0);
+            if($player->hasPermission($perm ."particles")){
+                $form->addButton($particlecfg->getNested("Name"),0,"",0);
+            }
         }
         //Suits
         $suitcfg = $this->main->suitcfg;
         if($suitcfg->getNested("Enable")){
             $this->suitSupport = true;
-            $form->addButton($suitcfg->getNested("Name"),0,"",1);
+            if($player->hasPermission($perm ."suits")){
+                $form->addButton($suitcfg->getNested("Name"),0,"",1);
+            }
         }
         //Hats
         $hatcfg = $this->main->hatcfg;
         if($hatcfg->getNested("Enable")){
             $this->hatSupport = true;
-            $form->addButton($hatcfg->getNested("Name"),0,"",2);
+            if($player->hasPermission($perm ."hats")){
+                $form->addButton($hatcfg->getNested("Name"),0,"",2);
+            }
         }
         //Trails
         $trailcfg = $this->main->trailcfg;
         if($trailcfg->getNested("Enable")){
             $this->trailSupport = true;
-            $form->addButton($trailcfg->getNested("Name"),0,"",3);
+            if($player->hasPermission($perm ."trails")){
+                $form->addButton($trailcfg->getNested("Name"),0,"",3);
+            }
         }
         //Morphs
         $morphcfg = $this->main->morphcfg;
         if($morphcfg->getNested("Enable")){
             $this->morphSupport = true;
-            $form->addButton($morphcfg->getNested("Name"),0,"",4);
+            if($player->hasPermission($perm ."morphs")){
+                $form->addButton($morphcfg->getNested("Name"),0,"",4);
+            }
         }
         $form->sendToPlayer($player);
     }

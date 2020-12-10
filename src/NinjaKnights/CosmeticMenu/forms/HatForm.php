@@ -82,15 +82,19 @@ class HatForm {
         $hatcfg = $this->main->hatcfg;
         $form->setTitle($hatcfg->getNested("Name"));
         $form->setContent($hatcfg->getNested("Form-Content"));
-
+        $perm = "cosmeticmenu.hats.";
         if($hatcfg->getNested("TV-Hat.Enable")){
             $this->hatSupport = true;
-            $form->addButton("TV Hat",0,"",0);
+            if($player->hasPermission($perm ."tv")){
+                $form->addButton("TV Hat",0,"",0);
+            }
         }
 
         if($hatcfg->getNested("Melon-Hat.Enable")){
             $this->hatSupport = true;
-            $form->addButton("Melon Hat",0,"",1);
+            if($player->hasPermission($perm ."melon")){
+                $form->addButton("Melon Hat",0,"",1);
+            }
         }
         $form->addButton("Clear",0,"",2);
         $form->addButton("§l§8<< Back",0,"",3);
